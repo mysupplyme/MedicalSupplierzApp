@@ -10,7 +10,7 @@
         
         .header { background: white; color: #1e40af; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit; }
         .logo img { height: 40px; }
         .logo span { font-size: 1.5rem; font-weight: bold; }
         .nav-links { display: flex; list-style: none; gap: 2rem; }
@@ -47,9 +47,9 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <div class="logo">
+            <a href="/" class="logo">
                 <img src="/images/logo/Medical Supplierz.png" alt="MedicalSupplierz">
-            </div>
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
@@ -142,8 +142,8 @@
             <div>
                 <h3>Contact Info</h3>
                 <p>📧 info@medicalsupplierz.com</p>
-                <p>📞 +1 (555) 123-4567</p>
-                <p>🏢 Medical District, Healthcare City</p>
+                <p>📞 +965 94941155</p>
+                <p>🏢 Block7, Street 72, Al-Ajeel Com Center, First Floor, Fahaheel, Ahmadi, Kuwait, 63007</p>
             </div>
         </div>
         <div class="footer-bottom">

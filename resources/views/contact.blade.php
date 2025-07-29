@@ -9,7 +9,7 @@
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .header { background: white; color: #1e40af; padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit; }
         .logo img { height: 40px; }
         .logo span { font-size: 1.5rem; font-weight: bold; }
         .nav-links { display: flex; list-style: none; gap: 2rem; }
@@ -33,9 +33,9 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <div class="logo">
+            <a href="/" class="logo">
                 <img src="/images/logo/Medical Supplierz.png" alt="MedicalSupplierz">
-            </div>
+            </a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/terms">Terms</a></li>
@@ -55,30 +55,27 @@
                 <div class="contact-item">
                     <strong>📧 Email:</strong><br>
                     General: info@medicalsupplierz.com<br>
-                    Support: support@medicalsupplierz.com<br>
-                    Legal: legal@medicalsupplierz.com
+                    Support: admin@medicalsupplierz.com<br>
                 </div>
                 
                 <div class="contact-item">
                     <strong>📞 Phone:</strong><br>
-                    Main: +1 (555) 123-4567<br>
-                    Support: +1 (555) 123-4568<br>
-                    Toll-free: 1-800-MED-CONF
+                    Support: +965 94941155<br>
+                    WhatsApp: +965 94089218
                 </div>
                 
                 <div class="contact-item">
                     <strong>🏢 Address:</strong><br>
                     MedicalSupplierz Inc.<br>
-                    123 Medical District<br>
-                    Healthcare City, HC 12345<br>
-                    United States
+                    Block7, Street 72, Al-Ajeel Com Center<br>
+                    First Floor, Fahaheel, Ahmadi<br>
+                    Kuwait, 63007
                 </div>
                 
                 <div class="contact-item">
                     <strong>🕒 Business Hours:</strong><br>
-                    Monday - Friday: 9:00 AM - 6:00 PM EST<br>
+                    Sunday - Thursday: 9:00 AM - 6:00 PM EST<br>
                     Saturday: 10:00 AM - 4:00 PM EST<br>
-                    Sunday: Closed
                 </div>
             </div>
             

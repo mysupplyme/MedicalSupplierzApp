@@ -9,7 +9,7 @@
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .header { background: white; color: #1e40af; padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit; }
         .logo img { height: 40px; }
         .logo span { font-size: 1.5rem; font-weight: bold; }
         .nav-links { display: flex; list-style: none; gap: 2rem; }
@@ -25,9 +25,9 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <div class="logo">
+            <a href="/" class="logo">
                 <img src="/images/logo/Medical Supplierz.png" alt="MedicalSupplierz">
-            </div>
+            </a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/contact">Contact</a></li>

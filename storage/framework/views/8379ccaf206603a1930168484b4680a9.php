@@ -55,30 +55,27 @@
                 <div class="contact-item">
                     <strong>📧 Email:</strong><br>
                     General: info@medicalsupplierz.com<br>
-                    Support: support@medicalsupplierz.com<br>
-                    Legal: legal@medicalsupplierz.com
+                    Support: admin@medicalsupplierz.com<br>
                 </div>
                 
                 <div class="contact-item">
                     <strong>📞 Phone:</strong><br>
-                    Main: +1 (555) 123-4567<br>
-                    Support: +1 (555) 123-4568<br>
-                    Toll-free: 1-800-MED-CONF
+                    Support: +965 94941155<br>
+                    WhatsApp: +965 94089218
                 </div>
                 
                 <div class="contact-item">
                     <strong>🏢 Address:</strong><br>
                     MedicalSupplierz Inc.<br>
-                    123 Medical District<br>
-                    Healthcare City, HC 12345<br>
-                    United States
+                    Block7, Street 72, Al-Ajeel Com Center<br>
+                    First Floor, Fahaheel, Ahmadi<br>
+                    Kuwait, 63007
                 </div>
                 
                 <div class="contact-item">
                     <strong>🕒 Business Hours:</strong><br>
-                    Monday - Friday: 9:00 AM - 6:00 PM EST<br>
+                    Sunday - Thursday: 9:00 AM - 6:00 PM EST<br>
                     Saturday: 10:00 AM - 4:00 PM EST<br>
-                    Sunday: Closed
                 </div>
             </div>
             
