@@ -50,8 +50,13 @@ class AuthController extends Controller
             'sub_specialty_id' => 'nullable|exists:categories,id',
         ]);
 
+        $nameParts = explode(' ', $request->name, 2);
+        $firstName = $nameParts[0];
+        $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
+        
         $client = Client::create([
-            'name' => $request->name,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'email' => $request->email,
             'phone' => $request->phone,
             'company' => $request->company,
