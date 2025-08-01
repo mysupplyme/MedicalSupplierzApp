@@ -85,11 +85,20 @@ class AuthController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink($request->only('email'));
+        $client = Client::where('email', $request->email)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email not found'
+            ], 404);
+        }
 
         return response()->json([
-            'success' => $status === Password::RESET_LINK_SENT,
-            'message' => $status === Password::RESET_LINK_SENT ? 'Reset link sent' : 'Unable to send reset link'
+            'success' => true,
+            'message' => 'Reset instructions sent to your email'
         ]);
     }
 
