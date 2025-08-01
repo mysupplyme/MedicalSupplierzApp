@@ -16,24 +16,24 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $client = Client::where('email', $request->email)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials'
+                'message' => 'Doctor not found'
             ], 401);
         }
-
-        $user = Auth::user();
-        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
             'data' => [
-                'user' => $user,
-                'token' => $token
+                'user' => $client,
+                'token' => 'simple-token-' . $client->id
             ]
         ]);
     }
@@ -43,11 +43,13 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients',
-            'phone' => 'required|string|max:20',
-            'company' => 'nullable|string|max:255',
-            'address' => 'nullable|string',
+            'mobile_number' => 'required|string|max:20',
+            'company_name_en' => 'nullable|string|max:150',
+            'workplace' => 'nullable|string',
             'specialty_id' => 'required|exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
+            'nationality' => 'nullable|exists:countries,id',
+            'residency' => 'nullable|exists:countries,id',
         ]);
 
         $nameParts = explode(' ', $request->name, 2);
@@ -55,15 +57,21 @@ class AuthController extends Controller
         $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
         
         $client = Client::create([
+            'uuid' => \Illuminate\Support\Str::uuid(),
+            'type' => 'buyer',
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'company' => $request->company,
-            'address' => $request->address,
+            'mobile_number' => $request->mobile_number,
+            'company_name_en' => $request->company_name_en,
+            'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
             'sub_specialty_id' => $request->sub_specialty_id,
+            'nationality' => $request->nationality,
+            'residency' => $request->residency,
             'buyer_type' => 'doctor',
+            'is_buyer' => 1,
+            'status' => 1,
         ]);
 
         return response()->json([
@@ -109,17 +117,17 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'string|max:255',
-            'phone' => 'string|max:20',
-            'specialty_id' => 'exists:specialties,id',
-            'sub_specialty_id' => 'nullable|exists:sub_specialties,id',
-            'residency_country_id' => 'exists:countries,id',
-            'nationality_country_id' => 'exists:countries,id',
+            'mobile_number' => 'string|max:20',
+            'specialty_id' => 'exists:categories,id',
+            'sub_specialty_id' => 'nullable|exists:categories,id',
+            'residency' => 'exists:countries,id',
+            'nationality' => 'exists:countries,id',
         ]);
 
         $user = $request->user();
         $user->update($request->only([
-            'name', 'phone', 'specialty_id', 'sub_specialty_id', 
-            'residency_country_id', 'nationality_country_id'
+            'name', 'mobile_number', 'specialty_id', 'sub_specialty_id', 
+            'residency', 'nationality'
         ]));
 
         return response()->json([
