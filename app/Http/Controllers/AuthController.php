@@ -131,41 +131,23 @@ class AuthController extends Controller
             'nationality' => 'exists:countries,id',
         ]);
 
-        $user = $request->user();
-        $user->update($request->only([
-            'name', 'mobile_number', 'specialty_id', 'sub_specialty_id', 
+        $client = $request->get('auth_user');
+        $client->update($request->only([
+            'mobile_number', 'specialty_id', 'sub_specialty_id', 
             'residency', 'nationality'
         ]));
 
         return response()->json([
             'success' => true,
-            'data' => $user->load(['specialty', 'subSpecialty', 'residencyCountry', 'nationalityCountry'])
+            'data' => $client
         ]);
     }
 
     public function changePassword(Request $request)
     {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = $request->user();
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Current password is incorrect'
-            ], 400);
-        }
-
-        $user->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-
         return response()->json([
             'success' => true,
-            'message' => 'Password changed successfully'
+            'message' => 'Password change not supported for this user type'
         ]);
     }
 }
