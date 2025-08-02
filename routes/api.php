@@ -31,7 +31,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 
 // Protected routes
-Route::group(function () {
+Route::middleware(['simple.auth'])->group(function () {
     // User management
     Route::post('/signout', [AuthController::class, 'logout']);
     Route::get('/get_profile', [AuthController::class, 'getProfile']);
