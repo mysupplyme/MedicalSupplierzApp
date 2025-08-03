@@ -112,11 +112,11 @@ class AuthController extends Controller
 
     public function getProfile(Request $request)
     {
-        $user = $request->user()->load(['specialty', 'subSpecialty', 'residencyCountry', 'nationalityCountry']);
+        $client = $request->get('auth_user');
         
         return response()->json([
             'success' => true,
-            'data' => $user
+            'data' => $client
         ]);
     }
 
