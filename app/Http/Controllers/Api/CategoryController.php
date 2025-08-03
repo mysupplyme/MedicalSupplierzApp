@@ -14,8 +14,7 @@ class CategoryController extends Controller
 {
     public function getCategories()
     {
-        $categories = Category::whereIn('title_en', ['conferences', 'workshops', 'webinars', 'expos'])
-            ->whereNull('category_id')
+        $categories = Category::whereIn('id', [3021, 3022])
             ->get();
         
         return response()->json([

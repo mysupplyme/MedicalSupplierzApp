@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Api\CommonController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CategoryListController;
 use App\Http\Controllers\Api\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,12 @@ Route::prefix('common')->group(function () {
     Route::get('/clients', [CategoryController::class, 'getClients']);
     Route::get('/doctors', [CategoryController::class, 'getDoctors']);
     Route::get('/subscription_packages', [SubscriptionController::class, 'getSubscriptionPackages']);
+});
+
+// Category Lists API
+Route::prefix('lists')->group(function () {
+    Route::get('/categories', [CategoryListController::class, 'index']);
+    Route::get('/categories/tree', [CategoryListController::class, 'tree']);
 });
 
 // Authentication routes
