@@ -41,7 +41,7 @@ class CategoryListController extends Controller
     
     public function tree()
     {
-        $categories = Category::whereNull('category_id')
+        $categories = Category::whereIn('id', [3021, 3022])
             ->with(['children.children'])
             ->get();
         
