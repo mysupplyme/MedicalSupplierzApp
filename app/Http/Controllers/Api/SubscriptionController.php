@@ -15,7 +15,7 @@ class SubscriptionController extends Controller
         $buyerType = $request->buyer_type ?: 'doctor';
         
         $subscriptions = BusinessSubscription::whereHas('subscriptionBuyerTypes', function($query) use ($buyerType) {
-            $query->where('buyer_type', $buyerType);
+            $query->where('buyer_type_id', 1); // 1 for doctor
         })->with('subscriptionBuyerTypes')->get();
         
         return response()->json([

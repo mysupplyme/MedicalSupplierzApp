@@ -11,6 +11,6 @@ class BusinessSubscription extends Model
     
     public function subscriptionBuyerTypes()
     {
-        return $this->hasMany(SubscriptionBuyerType::class, 'subscription_id');
+        return $this->hasMany(SubscriptionBuyerType::class, 'bussiness_subscription_id');
     }
 }
