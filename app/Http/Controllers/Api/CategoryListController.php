@@ -16,8 +16,8 @@ class CategoryListController extends Controller
         if ($request->has('parent_id')) {
             $query->where('category_id', $request->parent_id);
         } else {
-            // Get root categories (no parent)
-            $query->whereNull('category_id');
+            // Get only conferences and expos
+            $query->whereIn('id', [3021, 3022]);
         }
         
         // Search by keyword
