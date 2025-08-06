@@ -21,3 +21,7 @@ Route::get('/terms', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+
+Route::get('/doctor-register', function () {
+    return view('doctor-register');
+});

@@ -53,7 +53,7 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#download">Download</a></li>
+                <li><a href="/doctor-register">Register</a></li>
                 <li><a href="/terms">Terms</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
@@ -63,7 +63,7 @@
     <section class="hero" id="home">
         <h1>Medical Conferences & Workshops</h1>
         <p>Join thousands of healthcare professionals in advancing medical knowledge through our comprehensive platform for medical conferences, workshops, and continuing education.</p>
-        <a href="#download" class="cta-btn">Download App</a>
+        <a href="/doctor-register" class="cta-btn">Register as Doctor</a>
     </section>
 
     <section class="features" id="features">
