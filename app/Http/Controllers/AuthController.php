@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -98,10 +99,35 @@ class AuthController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Reset instructions sent to your email'
+        // Generate reset token
+        $resetToken = \Illuminate\Support\Str::random(60);
+        $client->update([
+            'reset_token' => $resetToken,
+            'reset_expired_at' => now()->addHours(1)
         ]);
+
+        // Send password reset email
+        $resetUrl = url('/reset-password?token=' . $resetToken . '&email=' . $client->email);
+        
+        try {
+            Mail::send('emails.password-reset', [
+                'client' => $client,
+                'resetUrl' => $resetUrl
+            ], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Password Reset Request - MedicalSupplierz');
+            });
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Reset instructions sent to your email'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send email. Please try again.'
+            ], 500);
+        }
     }
 
     public function logout(Request $request)
