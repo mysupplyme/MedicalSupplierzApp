@@ -209,4 +209,36 @@ class AuthController extends Controller
             'message' => 'Password changed successfully'
         ]);
     }
+    
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $client = Client::where('email', $request->email)
+                       ->where('reset_token', $request->token)
+                       ->where('reset_expired_at', '>', now())
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid or expired reset token'
+            ], 400);
+        }
+
+        $client->update([
+            'password' => Hash::make($request->password),
+            'reset_token' => null,
+            'reset_expired_at' => null
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password reset successfully. You can now login with your new password.'
+        ]);
+    }
 }

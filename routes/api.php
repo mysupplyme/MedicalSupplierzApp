@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Api\CommonController;
 use App\Http\Controllers\Api\CategoryController;
@@ -36,6 +37,10 @@ Route::prefix('lists')->group(function () {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+// Contact form
+Route::post('/contact', [ContactController::class, 'sendMessage']);
 
 // Protected routes
 Route::middleware(['simple.auth'])->group(function () {

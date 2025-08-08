@@ -81,7 +81,8 @@
             
             <div class="contact-form">
                 <h2>Send us a Message</h2>
-                <form>
+                <div id="message" class="message" style="display: none; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;"></div>
+                <form id="contact-form">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" required>
@@ -89,6 +90,10 @@
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone">
                     </div>
                     <div class="form-group">
                         <label>Subject</label>
@@ -103,5 +108,47 @@
             </div>
         </div>
     </div>
+    
+    <script>
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            const messageDiv = document.getElementById('message');
+            
+            if (result.success) {
+                messageDiv.textContent = result.message;
+                messageDiv.style.background = '#d1fae5';
+                messageDiv.style.color = '#065f46';
+                messageDiv.style.display = 'block';
+                e.target.reset();
+            } else {
+                messageDiv.textContent = result.message;
+                messageDiv.style.background = '#fee2e2';
+                messageDiv.style.color = '#991b1b';
+                messageDiv.style.display = 'block';
+            }
+        } catch (error) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = 'Network error. Please try again.';
+            messageDiv.style.background = '#fee2e2';
+            messageDiv.style.color = '#991b1b';
+            messageDiv.style.display = 'block';
+        }
+    });
+    </script>
 </body>
 </html>

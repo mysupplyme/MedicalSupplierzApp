@@ -29,3 +29,7 @@ Route::get('/contact', function () {
 Route::get('/doctor-register', function () {
     return view('doctor-register');
 });
+
+Route::get('/reset-password', function () {
+    return view('reset-password');
+});
