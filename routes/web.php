@@ -14,6 +14,10 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
+Route::get('/admin/doctors', function () {
+    return view('admin.doctors');
+});
+
 Route::get('/terms', function () {
     return view('terms');
 });

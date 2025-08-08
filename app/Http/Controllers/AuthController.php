@@ -43,6 +43,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients',
+            'password' => 'required|string|min:6',
             'mobile_number' => 'required|string|max:20',
             'company_name_en' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
@@ -62,6 +63,7 @@ class AuthController extends Controller
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $request->email,
+            'password' => Hash::make($request->password),
             'mobile_number' => $request->mobile_number,
             'company_name_en' => $request->company_name_en,
             'workplace' => $request->workplace,
