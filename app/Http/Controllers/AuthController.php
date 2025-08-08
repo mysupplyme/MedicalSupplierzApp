@@ -127,6 +127,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'string|max:255',
             'mobile_number' => 'string|max:20',
+            'company_name_en' => 'nullable|string|max:150',
+            'workplace' => 'nullable|string',
             'specialty_id' => 'exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
             'residency' => 'exists:countries,id',
@@ -134,10 +136,21 @@ class AuthController extends Controller
         ]);
 
         $client = $request->get('auth_user');
-        $client->update($request->only([
-            'mobile_number', 'specialty_id', 'sub_specialty_id', 
-            'residency', 'nationality'
-        ]));
+        
+        $updateData = $request->only([
+            'mobile_number', 'company_name_en', 'workplace',
+            'specialty_id', 'sub_specialty_id', 'residency', 'nationality'
+        ]);
+        
+        // Handle name field - split into first_name and last_name
+        if ($request->has('name')) {
+            $nameParts = explode(' ', $request->name, 2);
+            $updateData['first_name'] = $nameParts[0];
+            $updateData['last_name'] = isset($nameParts[1]) ? $nameParts[1] : '';
+        }
+        
+        $client->update($updateData);
+        $client->refresh();
 
         return response()->json([
             'success' => true,
