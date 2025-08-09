@@ -218,15 +218,27 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        $client = Client::where('email', $request->email)
-                       ->where('reset_token', $request->token)
-                       ->where('reset_expired_at', '>', now())
-                       ->first();
-
+        // Debug: Check if client exists with email
+        $client = Client::where('email', $request->email)->first();
         if (!$client) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid or expired reset token'
+                'message' => 'Email not found'
+            ], 400);
+        }
+
+        // Debug: Check token and expiry separately
+        if ($client->reset_token !== $request->token) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid reset token'
+            ], 400);
+        }
+
+        if (!$client->reset_expired_at || $client->reset_expired_at <= now()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Reset token has expired'
             ], 400);
         }
 
