@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    protected $fillable = ['uuid', 'type', 'first_name', 'last_name', 'company_name_en', 'company_name_ar', 'email', 'password', 'mobile_number', 'workplace', 'buyer_type', 'specialty_id', 'sub_specialty_id', 'nationality', 'residency', 'is_buyer', 'status'];
+    protected $fillable = ['uuid', 'type', 'first_name', 'last_name', 'company_name_en', 'company_name_ar', 'email', 'password', 'mobile_number', 'workplace', 'buyer_type', 'specialty_id', 'sub_specialty_id', 'nationality', 'residency', 'is_buyer', 'status', 'reset_token', 'reset_expired_at'];
     
     public function specialty()
     {
