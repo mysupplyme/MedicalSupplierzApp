@@ -60,14 +60,13 @@ class InAppPurchaseController extends Controller
         // Create subscription record
         $clientSubscription = ClientSubscription::create([
             'client_id' => $client->id,
-            'bussiness_subscription_id' => $subscription->id,
+            'subscription_id' => $subscription->id,
             'status' => 'active',
-            'start_date' => now(),
-            'end_date' => $subscription->type === 'year' ? now()->addYears($subscription->period) : now()->addMonths($subscription->period),
-            'price' => $subscription->cost,
+            'start_at' => now()->toDateString(),
+            'end_at' => $subscription->type === 'year' ? now()->addYears($subscription->period)->toDateString() : now()->addMonths($subscription->period)->toDateString(),
             'platform' => 'ios',
             'transaction_id' => $request->transaction_id,
-            'receipt_data' => $request->receipt_data
+            'receipt' => $request->receipt_data
         ]);
 
         return response()->json([
@@ -75,7 +74,7 @@ class InAppPurchaseController extends Controller
             'message' => 'Subscription activated successfully',
             'data' => [
                 'subscription_id' => $clientSubscription->id,
-                'expires_at' => $clientSubscription->end_date
+                'expires_at' => $clientSubscription->end_at
             ]
         ]);
     }
@@ -105,14 +104,13 @@ class InAppPurchaseController extends Controller
         // Create subscription record
         $clientSubscription = ClientSubscription::create([
             'client_id' => $client->id,
-            'bussiness_subscription_id' => $subscription->id,
+            'subscription_id' => $subscription->id,
             'status' => 'active',
-            'start_date' => now(),
-            'end_date' => $subscription->type === 'year' ? now()->addYears($subscription->period) : now()->addMonths($subscription->period),
-            'price' => $subscription->cost,
+            'start_at' => now()->toDateString(),
+            'end_at' => $subscription->type === 'year' ? now()->addYears($subscription->period)->toDateString() : now()->addMonths($subscription->period)->toDateString(),
             'platform' => 'android',
             'transaction_id' => $request->order_id,
-            'receipt_data' => $request->purchase_token
+            'receipt' => $request->purchase_token
         ]);
 
         return response()->json([
@@ -120,7 +118,7 @@ class InAppPurchaseController extends Controller
             'message' => 'Subscription activated successfully',
             'data' => [
                 'subscription_id' => $clientSubscription->id,
-                'expires_at' => $clientSubscription->end_date
+                'expires_at' => $clientSubscription->end_at
             ]
         ]);
     }
@@ -142,11 +140,11 @@ class InAppPurchaseController extends Controller
                     'id' => $sub->id,
                     'plan_name' => $sub->subscription->name_en,
                     'status' => $sub->status,
-                    'start_date' => $sub->start_date,
-                    'end_date' => $sub->end_date,
+                    'start_date' => $sub->start_at,
+                    'end_date' => $sub->end_at,
                     'is_active' => $sub->isActive(),
                     'platform' => $sub->platform,
-                    'price' => $sub->price
+                    'price' => $sub->subscription->cost
                 ];
             })
         ]);
@@ -159,7 +157,7 @@ class InAppPurchaseController extends Controller
         
         $activeSubscription = ClientSubscription::where('client_id', $client->id)
             ->where('status', 'active')
-            ->where('end_date', '>', now())
+            ->where('end_at', '>', now()->toDateString())
             ->with('subscription')
             ->first();
 
@@ -169,8 +167,8 @@ class InAppPurchaseController extends Controller
                 'has_active_subscription' => !!$activeSubscription,
                 'subscription' => $activeSubscription ? [
                     'plan_name' => $activeSubscription->subscription->name_en,
-                    'expires_at' => $activeSubscription->end_date,
-                    'days_remaining' => $activeSubscription->end_date->diffInDays(now())
+                    'expires_at' => $activeSubscription->end_at,
+                    'days_remaining' => now()->diffInDays($activeSubscription->end_at)
                 ] : null
             ]
         ]);
