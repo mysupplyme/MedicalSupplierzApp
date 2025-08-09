@@ -22,11 +22,14 @@ class InAppPurchaseController extends Controller
             'data' => $plans->map(function($plan) {
                 return [
                     'id' => $plan->id,
-                    'title' => $plan->title_en,
+                    'title' => $plan->name_en,
                     'description' => $plan->description_en,
-                    'price' => $plan->price,
-                    'duration' => $plan->duration_days,
-                    'features' => $plan->features_en ? json_decode($plan->features_en, true) : []
+                    'price' => $plan->cost,
+                    'duration' => $plan->period,
+                    'duration_type' => $plan->type, // 'month' or 'year'
+                    'ios_plan_id' => $plan->ios_plan_id,
+                    'android_plan_id' => $plan->android_plan_id,
+                    'status' => $plan->status
                 ];
             })
         ]);
@@ -60,8 +63,8 @@ class InAppPurchaseController extends Controller
             'bussiness_subscription_id' => $subscription->id,
             'status' => 'active',
             'start_date' => now(),
-            'end_date' => now()->addDays($subscription->duration_days),
-            'price' => $subscription->price,
+            'end_date' => $subscription->type === 'year' ? now()->addYears($subscription->period) : now()->addMonths($subscription->period),
+            'price' => $subscription->cost,
             'platform' => 'ios',
             'transaction_id' => $request->transaction_id,
             'receipt_data' => $request->receipt_data
@@ -105,8 +108,8 @@ class InAppPurchaseController extends Controller
             'bussiness_subscription_id' => $subscription->id,
             'status' => 'active',
             'start_date' => now(),
-            'end_date' => now()->addDays($subscription->duration_days),
-            'price' => $subscription->price,
+            'end_date' => $subscription->type === 'year' ? now()->addYears($subscription->period) : now()->addMonths($subscription->period),
+            'price' => $subscription->cost,
             'platform' => 'android',
             'transaction_id' => $request->order_id,
             'receipt_data' => $request->purchase_token
@@ -137,7 +140,7 @@ class InAppPurchaseController extends Controller
             'data' => $subscriptions->map(function($sub) {
                 return [
                     'id' => $sub->id,
-                    'plan_name' => $sub->subscription->title_en,
+                    'plan_name' => $sub->subscription->name_en,
                     'status' => $sub->status,
                     'start_date' => $sub->start_date,
                     'end_date' => $sub->end_date,
@@ -165,7 +168,7 @@ class InAppPurchaseController extends Controller
             'data' => [
                 'has_active_subscription' => !!$activeSubscription,
                 'subscription' => $activeSubscription ? [
-                    'plan_name' => $activeSubscription->subscription->title_en,
+                    'plan_name' => $activeSubscription->subscription->name_en,
                     'expires_at' => $activeSubscription->end_date,
                     'days_remaining' => $activeSubscription->end_date->diffInDays(now())
                 ] : null
