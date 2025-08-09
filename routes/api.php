@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CommonController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CategoryListController;
 use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\InAppPurchaseController;
 use Illuminate\Support\Facades\Route;
 
 // Public/Common routes (no authentication required)
@@ -60,4 +61,11 @@ Route::middleware(['simple.auth'])->group(function () {
     
     // Subscriptions
     Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+    
+    // In-App Purchases
+    Route::get('/subscription-plans', [InAppPurchaseController::class, 'getPlans']);
+    Route::post('/verify-ios-purchase', [InAppPurchaseController::class, 'verifyIosPurchase']);
+    Route::post('/verify-android-purchase', [InAppPurchaseController::class, 'verifyAndroidPurchase']);
+    Route::get('/my-subscriptions', [InAppPurchaseController::class, 'getMySubscriptions']);
+    Route::get('/subscription-status', [InAppPurchaseController::class, 'checkSubscriptionStatus']);
 });
