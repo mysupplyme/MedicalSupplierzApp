@@ -22,11 +22,11 @@ class InAppPurchaseController extends Controller
             'data' => $plans->map(function($plan) {
                 return [
                     'id' => $plan->id,
-                    'title' => $plan->title,
-                    'description' => $plan->description,
+                    'title' => $plan->title_en,
+                    'description' => $plan->description_en,
                     'price' => $plan->price,
-                    'duration' => $plan->duration, // in days
-                    'features' => json_decode($plan->features, true)
+                    'duration' => $plan->duration_days,
+                    'features' => $plan->features_en ? json_decode($plan->features_en, true) : []
                 ];
             })
         ]);
@@ -60,7 +60,7 @@ class InAppPurchaseController extends Controller
             'bussiness_subscription_id' => $subscription->id,
             'status' => 'active',
             'start_date' => now(),
-            'end_date' => now()->addDays($subscription->duration),
+            'end_date' => now()->addDays($subscription->duration_days),
             'price' => $subscription->price,
             'platform' => 'ios',
             'transaction_id' => $request->transaction_id,
@@ -105,7 +105,7 @@ class InAppPurchaseController extends Controller
             'bussiness_subscription_id' => $subscription->id,
             'status' => 'active',
             'start_date' => now(),
-            'end_date' => now()->addDays($subscription->duration),
+            'end_date' => now()->addDays($subscription->duration_days),
             'price' => $subscription->price,
             'platform' => 'android',
             'transaction_id' => $request->order_id,
@@ -137,7 +137,7 @@ class InAppPurchaseController extends Controller
             'data' => $subscriptions->map(function($sub) {
                 return [
                     'id' => $sub->id,
-                    'plan_name' => $sub->subscription->title,
+                    'plan_name' => $sub->subscription->title_en,
                     'status' => $sub->status,
                     'start_date' => $sub->start_date,
                     'end_date' => $sub->end_date,
@@ -165,7 +165,7 @@ class InAppPurchaseController extends Controller
             'data' => [
                 'has_active_subscription' => !!$activeSubscription,
                 'subscription' => $activeSubscription ? [
-                    'plan_name' => $activeSubscription->subscription->title,
+                    'plan_name' => $activeSubscription->subscription->title_en,
                     'expires_at' => $activeSubscription->end_date,
                     'days_remaining' => $activeSubscription->end_date->diffInDays(now())
                 ] : null
