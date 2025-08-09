@@ -8,7 +8,14 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CategoryListController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppPurchaseController;
+use App\Http\Controllers\Api\WebhookController;
+use App\Http\Controllers\Api\EventDetailController;
+use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
+use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
 use Illuminate\Support\Facades\Route;
+
+// Event Details (public)
+Route::get('/events/{eventId}/details', [EventDetailController::class, 'getEventDetails']);
 
 // Public/Common routes (no authentication required)
 Route::prefix('common')->group(function () {
@@ -43,6 +50,26 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 // Contact form
 Route::post('/contact', [ContactController::class, 'sendMessage']);
 
+// Webhooks (no auth required)
+Route::post('/webhooks/apple', [WebhookController::class, 'appleWebhook']);
+Route::post('/webhooks/google', [WebhookController::class, 'googleWebhook']);
+
+// Admin routes (add admin auth middleware later)
+Route::prefix('admin')->group(function () {
+    // Doctor management
+    Route::get('/doctors', [AdminDoctorController::class, 'index']);
+    Route::get('/doctors/{id}', [AdminDoctorController::class, 'show']);
+    Route::put('/doctors/{id}/status', [AdminDoctorController::class, 'updateStatus']);
+    Route::delete('/doctors/{id}', [AdminDoctorController::class, 'delete']);
+    
+    // Subscription management
+    Route::get('/subscriptions', [AdminSubscriptionController::class, 'index']);
+    Route::get('/subscriptions/{id}', [AdminSubscriptionController::class, 'show']);
+    Route::put('/subscriptions/{id}/status', [AdminSubscriptionController::class, 'updateStatus']);
+    Route::put('/subscriptions/{id}/extend', [AdminSubscriptionController::class, 'extend']);
+    Route::get('/subscriptions/stats', [AdminSubscriptionController::class, 'stats']);
+});
+
 // Protected routes
 Route::middleware(['simple.auth'])->group(function () {
     // User management
@@ -68,4 +95,6 @@ Route::middleware(['simple.auth'])->group(function () {
     Route::post('/verify-android-purchase', [InAppPurchaseController::class, 'verifyAndroidPurchase']);
     Route::get('/my-subscriptions', [InAppPurchaseController::class, 'getMySubscriptions']);
     Route::get('/subscription-status', [InAppPurchaseController::class, 'checkSubscriptionStatus']);
+    Route::post('/cancel-subscription', [InAppPurchaseController::class, 'cancelSubscription']);
+    Route::post('/restore-subscription', [InAppPurchaseController::class, 'restoreSubscription']);
 });

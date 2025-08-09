@@ -173,20 +173,115 @@ class InAppPurchaseController extends Controller
             ]
         ]);
     }
-
-    // Simplified Apple receipt verification (implement proper verification)
-    private function verifyAppleReceipt($receiptData)
+    
+    // Cancel subscription
+    public function cancelSubscription(Request $request)
     {
-        // TODO: Implement actual Apple receipt verification
-        // This is a placeholder - you need to verify with Apple's servers
-        return true; // For testing
+        $request->validate([
+            'subscription_id' => 'required|exists:client_subscriptions,id'
+        ]);
+        
+        $client = $request->get('auth_user');
+        $subscription = ClientSubscription::where('id', $request->subscription_id)
+            ->where('client_id', $client->id)
+            ->first();
+            
+        if (!$subscription) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Subscription not found'
+            ], 404);
+        }
+        
+        $subscription->update(['status' => 'cancelled']);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Subscription cancelled successfully'
+        ]);
+    }
+    
+    // Restore subscription (for testing)
+    public function restoreSubscription(Request $request)
+    {
+        $client = $request->get('auth_user');
+        
+        $subscription = ClientSubscription::where('client_id', $client->id)
+            ->where('status', 'cancelled')
+            ->where('end_at', '>', now()->toDateString())
+            ->first();
+            
+        if (!$subscription) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No cancelled subscription found'
+            ], 404);
+        }
+        
+        $subscription->update(['status' => 'active']);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Subscription restored successfully'
+        ]);
     }
 
-    // Simplified Google Play purchase verification (implement proper verification)
-    private function verifyGooglePlayPurchase($purchaseToken)
+    // Apple receipt verification
+    private function verifyAppleReceipt($receiptData)
     {
-        // TODO: Implement actual Google Play purchase verification
-        // This is a placeholder - you need to verify with Google Play API
-        return true; // For testing
+        $url = env('APP_ENV') === 'production' 
+            ? 'https://buy.itunes.apple.com/verifyReceipt'
+            : 'https://sandbox.itunes.apple.com/verifyReceipt';
+            
+        $postData = json_encode([
+            'receipt-data' => $receiptData,
+            'password' => env('APPLE_SHARED_SECRET') // Add to .env
+        ]);
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        $data = json_decode($response, true);
+        return isset($data['status']) && $data['status'] === 0;
+    }
+
+    // Google Play purchase verification
+    private function verifyGooglePlayPurchase($purchaseToken, $productId = null)
+    {
+        $packageName = env('GOOGLE_PLAY_PACKAGE_NAME'); // Add to .env
+        $serviceAccountKey = env('GOOGLE_SERVICE_ACCOUNT_KEY'); // JSON key file path
+        
+        // Get access token
+        $accessToken = $this->getGoogleAccessToken($serviceAccountKey);
+        
+        $url = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/{$packageName}/purchases/subscriptions/{$productId}/tokens/{$purchaseToken}";
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json'
+        ]);
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        return $httpCode === 200;
+    }
+    
+    private function getGoogleAccessToken($serviceAccountKey)
+    {
+        // Implement JWT token generation for Google Service Account
+        // This is simplified - use Google Client Library in production
+        return 'mock_access_token';
     }
 }

@@ -11,11 +11,23 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/admin', function () {
+    return view('admin.login');
+});
+
+Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
 
 Route::get('/admin/doctors', function () {
     return view('admin.doctors');
+});
+
+Route::get('/admin/doctors-management', function () {
+    return view('admin.doctors-management');
+});
+
+Route::get('/admin/subscriptions-management', function () {
+    return view('admin.subscriptions-management');
 });
 
 Route::get('/terms', function () {
