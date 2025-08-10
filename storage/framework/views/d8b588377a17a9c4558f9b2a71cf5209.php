@@ -217,4 +217,4 @@
         loadSubscriptions();
     </script>
 </body>
-</html>
+</html><?php /**PATH /var/www/html/events-ecommerce-admin/resources/views/admin/subscriptions-management.blade.php ENDPATH**/ ?>

@@ -47,8 +47,8 @@ class InAppPurchaseController extends Controller
         $client = $request->get('auth_user');
         $subscription = BusinessSubscription::find($request->subscription_id);
 
-        // Verify receipt with Apple (simplified)
-        $isValid = $this->verifyAppleReceipt($request->receipt_data);
+        // Verify transaction with Apple App Store Server API
+        $isValid = $this->verifyAppleReceipt($request->transaction_id);
         
         if (!$isValid) {
             return response()->json([
@@ -226,30 +226,99 @@ class InAppPurchaseController extends Controller
         ]);
     }
 
-    // Apple receipt verification
-    private function verifyAppleReceipt($receiptData)
+    // Apple receipt verification using App Store Server API
+    private function verifyAppleReceipt($transactionId)
     {
-        $url = env('APP_ENV') === 'production' 
-            ? 'https://buy.itunes.apple.com/verifyReceipt'
-            : 'https://sandbox.itunes.apple.com/verifyReceipt';
+        $jwt = $this->generateAppleJWT();
+        if (!$jwt) {
+            return false;
+        }
+        
+        $baseUrl = config('app.env') === 'production' 
+            ? 'https://api.storekit.itunes.apple.com'
+            : 'https://api.storekit-sandbox.itunes.apple.com';
             
-        $postData = json_encode([
-            'receipt-data' => $receiptData,
-            'password' => env('APPLE_SHARED_SECRET') // Add to .env
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "{$baseUrl}/inApps/v1/transactions/{$transactionId}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $jwt,
+            'Content-Type: application/json'
         ]);
         
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         
-        $data = json_decode($response, true);
-        return isset($data['status']) && $data['status'] === 0;
+        if ($httpCode === 200) {
+            $data = json_decode($response, true);
+            return isset($data['signedTransactionInfo']);
+        }
+        
+        return false;
+    }
+    
+    private function generateAppleJWT()
+    {
+        $keyId = config('services.apple.key_id');
+        $teamId = config('services.apple.team_id');
+        $bundleId = config('services.apple.bundle_id');
+        $privateKeyPath = config('services.apple.private_key_path');
+        
+        if (!$keyId || !$teamId || !$bundleId || !file_exists($privateKeyPath)) {
+            return null;
+        }
+        
+        $privateKey = file_get_contents($privateKeyPath);
+        
+        $header = [
+            'alg' => 'ES256',
+            'kid' => $keyId,
+            'typ' => 'JWT'
+        ];
+        
+        $payload = [
+            'iss' => $teamId,
+            'iat' => time(),
+            'exp' => time() + 3600,
+            'aud' => 'appstoreconnect-v1',
+            'bid' => $bundleId
+        ];
+        
+        $headerEncoded = base64url_encode(json_encode($header));
+        $payloadEncoded = base64url_encode(json_encode($payload));
+        
+        $signature = '';
+        openssl_sign($headerEncoded . '.' . $payloadEncoded, $signature, $privateKey, OPENSSL_ALGO_SHA256);
+        $signatureEncoded = base64url_encode($signature);
+        
+        return $headerEncoded . '.' . $payloadEncoded . '.' . $signatureEncoded;
+    }
+    
+    private function verifyWithAppStoreServerAPI($transactionId, $jwt)
+    {
+        $url = env('APP_ENV') === 'production'
+            ? "https://api.storekit.itunes.apple.com/inApps/v1/transactions/{$transactionId}"
+            : "https://api.storekit-sandbox.itunes.apple.com/inApps/v1/transactions/{$transactionId}";
+            
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $jwt,
+            'Content-Type: application/json'
+        ]);
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($httpCode === 200) {
+            $data = json_decode($response, true);
+            return isset($data['signedTransactionInfo']);
+        }
+        
+        return null;
     }
 
     // Google Play purchase verification
@@ -283,5 +352,18 @@ class InAppPurchaseController extends Controller
         // Implement JWT token generation for Google Service Account
         // This is simplified - use Google Client Library in production
         return 'mock_access_token';
+    }
+}
+
+// Helper function for base64url encoding
+if (!function_exists('base64url_encode')) {
+    function base64url_encode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+}
+
+if (!function_exists('base64url_decode')) {
+    function base64url_decode($data) {
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
     }
 }

@@ -12,7 +12,6 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = Client::where('buyer_type', 'doctor')
-            ->with(['subscriptions.subscription'])
             ->paginate(20);
 
         return response()->json([
@@ -30,7 +29,6 @@ class DoctorController extends Controller
     {
         $doctor = Client::where('id', $id)
             ->where('buyer_type', 'doctor')
-            ->with(['subscriptions.subscription'])
             ->first();
 
         if (!$doctor) {

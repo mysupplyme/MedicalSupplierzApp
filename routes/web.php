@@ -1,47 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/register', function () {
+    return view('doctor-register');
+})->name('register');
+
 Route::get('/admin', function () {
-    return view('admin.login');
-});
-
-Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
-});
-
-Route::get('/admin/doctors', function () {
-    return view('admin.doctors');
-});
-
-Route::get('/admin/doctors-management', function () {
-    return view('admin.doctors-management');
-});
-
-Route::get('/admin/subscriptions-management', function () {
-    return view('admin.subscriptions-management');
-});
-
-Route::get('/terms', function () {
-    return view('terms');
-});
+})->name('admin.dashboard');
 
 Route::get('/contact', function () {
     return view('contact');
-});
+})->name('contact');
 
-Route::get('/doctor-register', function () {
-    return view('doctor-register');
-});
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
 
-Route::get('/reset-password', function () {
-    return view('reset-password');
+// Test webhook endpoint
+Route::get('/test-webhook', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'Webhook endpoint is accessible',
+        'timestamp' => now()->toISOString()
+    ]);
 });

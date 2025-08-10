@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\WebhookController;
 use App\Http\Controllers\Api\EventDetailController;
 use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
+use App\Http\Controllers\Admin\SubscriptionPackageController;
 use Illuminate\Support\Facades\Route;
 
 // Event Details (public)
@@ -54,7 +55,7 @@ Route::post('/contact', [ContactController::class, 'sendMessage']);
 Route::post('/webhooks/apple', [WebhookController::class, 'appleWebhook']);
 Route::post('/webhooks/google', [WebhookController::class, 'googleWebhook']);
 
-// Admin routes (add admin auth middleware later)
+// Admin routes (no auth for now)
 Route::prefix('admin')->group(function () {
     // Doctor management
     Route::get('/doctors', [AdminDoctorController::class, 'index']);
@@ -67,7 +68,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/subscriptions/{id}', [AdminSubscriptionController::class, 'show']);
     Route::put('/subscriptions/{id}/status', [AdminSubscriptionController::class, 'updateStatus']);
     Route::put('/subscriptions/{id}/extend', [AdminSubscriptionController::class, 'extend']);
-    Route::get('/subscriptions/stats', [AdminSubscriptionController::class, 'stats']);
+    Route::get('/subscription-stats', [AdminSubscriptionController::class, 'stats']);
+    
+    // Package management
+    Route::get('/packages', [SubscriptionPackageController::class, 'index']);
+    Route::post('/packages', [SubscriptionPackageController::class, 'store']);
+    Route::get('/packages/{id}', [SubscriptionPackageController::class, 'show']);
+    Route::put('/packages/{id}', [SubscriptionPackageController::class, 'update']);
+    Route::delete('/packages/{id}', [SubscriptionPackageController::class, 'destroy']);
 });
 
 // Protected routes

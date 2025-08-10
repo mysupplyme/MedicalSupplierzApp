@@ -44,6 +44,7 @@
             <h3>Management</h3>
             <a href="/admin/doctors-management" class="btn">Manage Doctors</a>
             <a href="/admin/subscriptions-management" class="btn">Manage Subscriptions</a>
+            <a href="/admin/subscription-packages" class="btn">Manage Packages</a>
         </div>
         
         <div class="card">
