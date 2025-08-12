@@ -171,12 +171,12 @@
             const formData = {
                 name_en: document.getElementById('name_en').value,
                 description_en: document.getElementById('description_en').value,
-                cost: document.getElementById('cost').value,
-                period: document.getElementById('period').value,
+                cost: parseFloat(document.getElementById('cost').value),
+                period: parseInt(document.getElementById('period').value),
                 type: document.getElementById('type').value,
                 ios_plan_id: document.getElementById('ios_plan_id').value,
                 android_plan_id: document.getElementById('android_plan_id').value,
-                status: 'active'
+                status: true
             };
 
             const url = editingId ? `/api/admin/packages/${editingId}` : '/api/admin/packages';
@@ -186,9 +186,19 @@
                 method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
-            }).then(() => {
-                closeModal();
-                loadPackages();
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closeModal();
+                    loadPackages();
+                } else {
+                    alert('Error: ' + (data.message || 'Failed to save package'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to save package');
             });
         });
 
