@@ -24,6 +24,14 @@ Route::get('/admin/doctors-management', function () {
     return view('admin.doctors-management');
 })->name('admin.doctors-management');
 
+Route::get('/admin/subscriptions-management', function () {
+    return view('admin.subscriptions-management');
+})->name('admin.subscriptions-management');
+
+Route::get('/admin/subscription-packages', function () {
+    return view('admin.subscription-packages');
+})->name('admin.subscription-packages');
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');

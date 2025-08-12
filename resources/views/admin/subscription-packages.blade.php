@@ -1,284 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription Packages - Admin</title>
+    <title>Subscription Packages - {{ config('app.name') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .header { background: #1e40af; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
-        .card { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 2rem; }
-        .card-header { background: #f8fafc; padding: 1rem 2rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
-        .table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; word-wrap: break-word; }
-        .table th { background: #f8fafc; font-weight: bold; }
-        .table tr:hover { background: #f9fafb; }
-        .table th:nth-child(5), .table td:nth-child(5) { width: 120px; }
-        .table th:nth-child(6), .table td:nth-child(6) { width: 120px; }
-        .table th:nth-child(8), .table td:nth-child(8) { width: 140px; }
-        .btn { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 0.875rem; margin: 0 0.25rem; }
-        .btn-primary { background: #1e40af; color: white; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-secondary { background: #6b7280; color: white; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-        .modal-content { background: white; margin: 5% auto; padding: 2rem; width: 90%; max-width: 500px; border-radius: 8px; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 4px; }
-        .form-group textarea { height: 100px; resize: vertical; }
-        .form-actions { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; }
-        .status-active { background: #d1fae5; color: #065f46; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
-        .status-inactive { background: #fee2e2; color: #991b1b; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #007cba; color: white; padding: 20px; margin-bottom: 20px; }
+        .content { max-width: 1200px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 8px 16px; margin: 2px; border: none; cursor: pointer; }
+        .btn-primary { background: #007cba; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-danger { background: #dc3545; color: white; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ddd; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 50px auto; padding: 20px; width: 80%; max-width: 500px; }
+        .close { float: right; font-size: 28px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Subscription Packages</h1>
-        <div>
-            <a href="/admin/dashboard" class="btn btn-secondary">Dashboard</a>
-            <a href="/admin/subscriptions-management" class="btn btn-secondary">Subscriptions</a>
-        </div>
+        <p>Manage subscription plans and pricing</p>
     </div>
-
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h2>Manage Packages</h2>
-                <button class="btn btn-primary" onclick="openModal()">Add New Package</button>
-            </div>
-            
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                        <th>iOS ID</th>
-                        <th>Android ID</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="packagesTable">
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 2rem;">Loading packages...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    
+    <div class="content">
+        <button class="btn btn-success" onclick="openModal()">Add New Package</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Type</th>
+                    <th>iOS Plan ID</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="packages-table">
+                <tr>
+                    <td colspan="8">Loading packages...</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content">
-            <h3 id="modalTitle">Add New Package</h3>
-            <form id="packageForm">
-                <input type="hidden" id="packageId">
-                
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Add New Package</h2>
+            <form id="package-form">
                 <div class="form-group">
-                    <label for="name_en">Package Name</label>
-                    <input type="text" id="name_en" name="name_en" required>
+                    <label>Name (English):</label>
+                    <input type="text" id="name_en" required>
                 </div>
-                
                 <div class="form-group">
-                    <label for="description_en">Description</label>
-                    <textarea id="description_en" name="description_en"></textarea>
+                    <label>Description:</label>
+                    <textarea id="description_en"></textarea>
                 </div>
-                
                 <div class="form-group">
-                    <label for="period">Duration</label>
-                    <input type="number" id="period" name="period" min="1" required>
+                    <label>Price:</label>
+                    <input type="number" step="0.01" id="cost" required>
                 </div>
-                
                 <div class="form-group">
-                    <label for="type">Duration Type</label>
-                    <select id="type" name="type" required>
-                        <option value="month">Month(s)</option>
-                        <option value="year">Year(s)</option>
+                    <label>Duration:</label>
+                    <input type="number" id="period" required>
+                </div>
+                <div class="form-group">
+                    <label>Type:</label>
+                    <select id="type" required>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label for="cost">Price</label>
-                    <input type="number" id="cost" name="cost" min="0" required>
+                    <label>iOS Plan ID:</label>
+                    <input type="text" id="ios_plan_id">
                 </div>
-                
                 <div class="form-group">
-                    <label for="ios_plan_id">iOS In-App Purchase ID</label>
-                    <input type="text" id="ios_plan_id" name="ios_plan_id" placeholder="com.yourapp.subscription.monthly">
+                    <label>Android Plan ID:</label>
+                    <input type="text" id="android_plan_id">
                 </div>
-                
-                <div class="form-group">
-                    <label for="android_plan_id">Android In-App Purchase ID</label>
-                    <input type="text" id="android_plan_id" name="android_plan_id" placeholder="monthly_subscription">
-                </div>
-                
-                <div class="form-group">
-                    <label for="status">Status</label>
-                    <select id="status" name="status" required>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </select>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Package</button>
-                </div>
+                <button type="submit" class="btn btn-primary">Save Package</button>
             </form>
         </div>
     </div>
 
     <script>
-        let isEditing = false;
-        
-        async function loadPackages() {
-            try {
-                const response = await fetch('/api/admin/packages');
-                const result = await response.json();
-                
-                if (result.success) {
-                    displayPackages(result.data);
-                }
-            } catch (error) {
-                console.error('Error loading packages:', error);
-            }
+        let editingId = null;
+
+        // Load packages
+        function loadPackages() {
+            fetch('/api/admin/packages')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('packages-table');
+                    if (data.success && data.data.length > 0) {
+                        tbody.innerHTML = data.data.map(pkg => `
+                            <tr>
+                                <td>${pkg.id}</td>
+                                <td>${pkg.name_en}</td>
+                                <td>$${pkg.cost}</td>
+                                <td>${pkg.period}</td>
+                                <td>${pkg.type}</td>
+                                <td>${pkg.ios_plan_id || 'N/A'}</td>
+                                <td>${pkg.status}</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="editPackage(${pkg.id})">Edit</button>
+                                    <button class="btn btn-danger" onclick="deletePackage(${pkg.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="8">No packages found</td></tr>';
+                    }
+                });
         }
-        
-        function displayPackages(packages) {
-            const tbody = document.getElementById('packagesTable');
-            
-            if (packages.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No packages found.</td></tr>';
-                return;
-            }
-            
-            tbody.innerHTML = packages.map(pkg => `
-                <tr>
-                    <td>${pkg.id}</td>
-                    <td>${pkg.name_en}</td>
-                    <td>${pkg.period} ${pkg.type}(s)</td>
-                    <td>$${pkg.cost}</td>
-                    <td>${pkg.ios_plan_id || '-'}</td>
-                    <td>${pkg.android_plan_id || '-'}</td>
-                    <td><span class="status-${pkg.status ? 'active' : 'inactive'}">${pkg.status ? 'Active' : 'Inactive'}</span></td>
-                    <td>
-                        <button class="btn btn-primary" onclick="editPackage(${pkg.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deletePackage(${pkg.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
+
+        function openModal() {
+            document.getElementById('packageModal').style.display = 'block';
+            document.getElementById('modal-title').textContent = 'Add New Package';
+            document.getElementById('package-form').reset();
+            editingId = null;
         }
-        
-        function openModal(packageData = null) {
-            const modal = document.getElementById('packageModal');
-            const form = document.getElementById('packageForm');
-            const title = document.getElementById('modalTitle');
-            
-            if (packageData) {
-                isEditing = true;
-                title.textContent = 'Edit Package';
-                document.getElementById('packageId').value = packageData.id;
-                document.getElementById('name_en').value = packageData.name_en;
-                document.getElementById('description_en').value = packageData.description_en || '';
-                document.getElementById('period').value = packageData.period;
-                document.getElementById('type').value = packageData.type;
-                document.getElementById('cost').value = packageData.cost;
-                document.getElementById('ios_plan_id').value = packageData.ios_plan_id || '';
-                document.getElementById('android_plan_id').value = packageData.android_plan_id || '';
-                document.getElementById('status').value = packageData.status;
-            } else {
-                isEditing = false;
-                title.textContent = 'Add New Package';
-                form.reset();
-                document.getElementById('packageId').value = '';
-            }
-            
-            modal.style.display = 'block';
-        }
-        
+
         function closeModal() {
             document.getElementById('packageModal').style.display = 'none';
         }
-        
-        async function editPackage(packageId) {
-            try {
-                const response = await fetch(`/api/admin/packages/${packageId}`);
-                const result = await response.json();
-                
-                if (result.success) {
-                    openModal(result.data);
-                }
-            } catch (error) {
-                console.error('Error loading package:', error);
-            }
-        }
-        
-        async function deletePackage(packageId) {
-            if (!confirm('Are you sure you want to delete this package?')) return;
-            
-            try {
-                const response = await fetch(`/api/admin/packages/${packageId}`, {
-                    method: 'DELETE',
-                    headers: { 'Accept': 'application/json' }
+
+        function editPackage(id) {
+            fetch(`/api/admin/packages/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const pkg = data.data;
+                        document.getElementById('name_en').value = pkg.name_en;
+                        document.getElementById('description_en').value = pkg.description_en || '';
+                        document.getElementById('cost').value = pkg.cost;
+                        document.getElementById('period').value = pkg.period;
+                        document.getElementById('type').value = pkg.type;
+                        document.getElementById('ios_plan_id').value = pkg.ios_plan_id || '';
+                        document.getElementById('android_plan_id').value = pkg.android_plan_id || '';
+                        
+                        document.getElementById('modal-title').textContent = 'Edit Package';
+                        document.getElementById('packageModal').style.display = 'block';
+                        editingId = id;
+                    }
                 });
-                
-                const result = await response.json();
-                if (result.success) {
-                    loadPackages();
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error deleting package:', error);
+        }
+
+        function deletePackage(id) {
+            if (confirm('Are you sure you want to delete this package?')) {
+                fetch(`/api/admin/packages/${id}`, { method: 'DELETE' })
+                    .then(() => loadPackages());
             }
         }
-        
-        document.getElementById('packageForm').addEventListener('submit', async (e) => {
+
+        document.getElementById('package-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            data.status = parseInt(data.status);
-            data.period = parseInt(data.period);
-            data.cost = parseInt(data.cost);
-            
-            const packageId = document.getElementById('packageId').value;
-            const url = isEditing ? `/api/admin/packages/${packageId}` : '/api/admin/packages';
-            const method = isEditing ? 'PUT' : 'POST';
-            
-            try {
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                const result = await response.json();
-                if (result.success) {
-                    closeModal();
-                    loadPackages();
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error saving package:', error);
-            }
-        });
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('packageModal');
-            if (event.target === modal) {
+            const formData = {
+                name_en: document.getElementById('name_en').value,
+                description_en: document.getElementById('description_en').value,
+                cost: document.getElementById('cost').value,
+                period: document.getElementById('period').value,
+                type: document.getElementById('type').value,
+                ios_plan_id: document.getElementById('ios_plan_id').value,
+                android_plan_id: document.getElementById('android_plan_id').value,
+                status: 'active'
+            };
+
+            const url = editingId ? `/api/admin/packages/${editingId}` : '/api/admin/packages';
+            const method = editingId ? 'PUT' : 'POST';
+
+            fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            }).then(() => {
                 closeModal();
-            }
-        }
-        
+                loadPackages();
+            });
+        });
+
         // Load packages on page load
         loadPackages();
     </script>
