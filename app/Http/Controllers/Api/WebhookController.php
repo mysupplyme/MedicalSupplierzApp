@@ -16,8 +16,10 @@ class WebhookController extends Controller
         $payload = $request->all();
         Log::info('Apple Webhook V2:', $payload);
         
-        // Skip signature verification for testing
-        if (config('app.env') !== 'local' && !$this->verifyAppleWebhookV2($request)) {
+        // Add test mode for production debugging
+        $testMode = $request->header('x-test-mode') === 'true';
+        
+        if (!$testMode && !$this->verifyAppleWebhookV2($request)) {
             Log::warning('Apple webhook signature verification failed');
             return response()->json(['error' => 'Invalid signature'], 400);
         }

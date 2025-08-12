@@ -20,6 +20,10 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
 
+Route::get('/admin/doctors-management', function () {
+    return view('admin.doctors-management');
+})->name('admin.doctors-management');
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
