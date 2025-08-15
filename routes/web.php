@@ -16,6 +16,10 @@ Route::get('/register', function () {
     return view('doctor-register');
 })->name('register');
 
+Route::get('/doctor-register', function () {
+    return view('doctor-register');
+})->name('doctor-register');
+
 Route::get('/admin', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
