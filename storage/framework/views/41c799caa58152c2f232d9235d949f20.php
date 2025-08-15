@@ -132,4 +132,4 @@
         </div>
     </footer>
 </body>
-</html>
+</html><?php /**PATH /var/www/html/medicalsupplierz.app/resources/views/welcome.blade.php ENDPATH**/ ?>
