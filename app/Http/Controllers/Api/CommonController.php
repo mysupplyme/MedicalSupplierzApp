@@ -46,7 +46,25 @@ class CommonController extends Controller
 
     public function getNationalities()
     {
-        $countries = Country::all(['id', 'title_en as name', 'iso as code']);
+        $countries = Country::with('currencies')->get()->map(function($country) {
+            return [
+                'id' => $country->id,
+                'title' => $country->title_en,
+                'iso' => $country->iso,
+                'phone_prefix' => $country->phone_prefix,
+                'is_default' => $country->is_default ?? 0,
+                'flag' => 'https://medicalsupplierz.app/assets/flags/' . strtolower($country->iso) . '.png',
+                'currencies' => $country->currencies->map(function($currency) {
+                    return [
+                        'id' => $currency->id,
+                        'is_default' => $currency->is_default ?? 0,
+                        'rate' => $currency->rate ?? 1,
+                        'decimal_digits' => $currency->decimal_digits ?? 2,
+                        'code' => $currency->code
+                    ];
+                })
+            ];
+        });
         
         return response()->json([
             'success' => true,
