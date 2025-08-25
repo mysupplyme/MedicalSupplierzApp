@@ -46,25 +46,37 @@ class CommonController extends Controller
 
     public function getNationalities()
     {
-        $countries = Country::with('currencies')->get()->map(function($country) {
-            return [
-                'id' => $country->id,
-                'title' => $country->title_en,
-                'iso' => $country->iso,
-                'phone_prefix' => $country->phone_prefix,
-                'is_default' => $country->is_default ?? 0,
-                'flag' => 'https://medicalsupplierz.app/assets/flags/' . strtolower($country->iso) . '.png',
-                'currencies' => $country->currencies->map(function($currency) {
-                    return [
-                        'id' => $currency->id,
-                        'is_default' => $currency->is_default ?? 0,
-                        'rate' => $currency->rate ?? 1,
-                        'decimal_digits' => $currency->decimal_digits ?? 2,
-                        'code' => $currency->code
-                    ];
-                })
-            ];
-        });
+        $countries = Country::leftJoin('currencies', 'countries.currency_id', '=', 'currencies.id')
+            ->select(
+                'countries.id',
+                'countries.title_en as title',
+                'countries.iso',
+                'countries.phone_prefix',
+                'countries.is_default',
+                'currencies.id as currency_id',
+                'currencies.is_default as currency_is_default',
+                'currencies.rate',
+                'currencies.decimal_digits',
+                'currencies.code_en as currency_code'
+            )
+            ->get()
+            ->map(function($country) {
+                return [
+                    'id' => $country->id,
+                    'title' => $country->title,
+                    'iso' => $country->iso,
+                    'phone_prefix' => $country->phone_prefix,
+                    'is_default' => $country->is_default,
+                    'flag' => 'https://medicalsupplierz.app/assets/flags/' . strtolower($country->iso) . '.png',
+                    'currencies' => $country->currency_id ? [[
+                        'id' => $country->currency_id,
+                        'is_default' => $country->currency_is_default ?? 0,
+                        'rate' => $country->rate ?? 1,
+                        'decimal_digits' => $country->decimal_digits ?? 2,
+                        'code' => $country->currency_code
+                    ]] : []
+                ];
+            });
         
         return response()->json([
             'success' => true,

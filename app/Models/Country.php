@@ -9,7 +9,12 @@ class Country extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'phone_code', 'is_active'];
+    protected $fillable = ['title_en', 'title_ar', 'iso', 'phone_prefix', 'is_default', 'currency_id'];
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
 
     public function residencyUsers()
     {
