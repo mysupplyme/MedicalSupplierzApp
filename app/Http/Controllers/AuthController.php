@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -42,11 +43,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients',
             'password' => 'required|string|min:6',
             'mobile_number' => 'required|string|max:20',
-            'company_name_en' => 'nullable|string|max:150',
+            'country_code' => 'required|exists:countries,id',
+            'current_position' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'required|exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
@@ -54,9 +57,13 @@ class AuthController extends Controller
             'residency' => 'nullable|exists:countries,id',
         ]);
 
-        $nameParts = explode(' ', $request->name, 2);
-        $firstName = $nameParts[0];
-        $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
+        $firstName = $request->first_name;
+        $lastName = $request->last_name;
+        
+        // Get country phone prefix
+        $country = Country::find($request->country_code);
+        $phonePrefix = $country ? $country->phone_prefix : '';
+        $fullMobileNumber = '+' . ltrim($phonePrefix, '+') . $request->mobile_number;
         
         $client = Client::create([
             'uuid' => \Illuminate\Support\Str::uuid(),
@@ -65,8 +72,9 @@ class AuthController extends Controller
             'last_name' => $lastName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'mobile_number' => $request->mobile_number,
-            'company_name_en' => $request->company_name_en,
+            'mobile_number' => $fullMobileNumber,
+            'country_code' => $request->country_code,
+            'job_title' => $request->current_position,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
             'sub_specialty_id' => $request->sub_specialty_id,
@@ -141,6 +149,7 @@ class AuthController extends Controller
     public function getProfile(Request $request)
     {
         $client = $request->get('auth_user');
+        $client->load('countryCode:id,currency_id');
         
         return response()->json([
             'success' => true,
@@ -153,7 +162,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'string|max:255',
             'mobile_number' => 'string|max:20',
-            'company_name_en' => 'nullable|string|max:150',
+            'country_code' => 'exists:countries,id',
+            'current_position' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
@@ -164,9 +174,13 @@ class AuthController extends Controller
         $client = $request->get('auth_user');
         
         $updateData = $request->only([
-            'mobile_number', 'company_name_en', 'workplace',
+            'mobile_number', 'country_code', 'workplace',
             'specialty_id', 'sub_specialty_id', 'residency', 'nationality'
         ]);
+        
+        if ($request->has('current_position')) {
+            $updateData['job_title'] = $request->current_position;
+        }
         
         // Handle name field - split into first_name and last_name
         if ($request->has('name')) {

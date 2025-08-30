@@ -19,6 +19,9 @@
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 1rem; }
+        .form-row { display: flex; gap: 1rem; }
+        .form-row .form-group { flex: 1; margin-bottom: 1rem; }
+        .form-row .form-group.small { flex: 0 0 25%; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #1e40af; }
         .submit-btn { width: 100%; background: #10b981; color: white; padding: 0.75rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
         .submit-btn:hover { background: #059669; }
@@ -49,9 +52,16 @@
             <div id="error-msg" class="error-msg"></div>
             
             <form id="doctor-form">
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name">First Name *</label>
+                        <input type="text" id="first_name" name="first_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last_name">Last Name *</label>
+                        <input type="text" id="last_name" name="last_name" required>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -60,13 +70,32 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="mobile_number">Mobile Number *</label>
-                    <input type="tel" id="mobile_number" name="mobile_number" required>
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required minlength="6">
                 </div>
                 
                 <div class="form-group">
-                    <label for="company_name_en">Hospital/Clinic Name</label>
-                    <input type="text" id="company_name_en" name="company_name_en">
+                    <label for="confirm_password">Confirm Password *</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group small">
+                        <label for="country_code">Country Code *</label>
+                        <select id="country_code" name="country_code" required>
+                            <option value="">Select Country Code</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mobile_number">Mobile Number *</label>
+                        <input type="tel" id="mobile_number" name="mobile_number" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="current_position">Current Position</label>
+                    <input type="text" id="current_position" name="current_position">
                 </div>
                 
                 <div class="form-group">
@@ -126,8 +155,9 @@
                 const nationalities = await nationalitiesRes.json();
                 const nationalitySelect = document.getElementById('nationality');
                 if (nationalities.data) {
+                    nationalities.data.sort((a, b) => a.title.localeCompare(b.title));
                     nationalities.data.forEach(country => {
-                        nationalitySelect.innerHTML += `<option value="${country.id}">${country.title_en || country.name}</option>`;
+                        nationalitySelect.innerHTML += `<option value="${country.id}">${country.title}</option>`;
                     });
                 }
 
@@ -136,8 +166,22 @@
                 const residencies = await residenciesRes.json();
                 const residencySelect = document.getElementById('residency');
                 if (residencies.data) {
+                    residencies.data.sort((a, b) => (a.title_en || a.name).localeCompare(b.title_en || b.name));
                     residencies.data.forEach(country => {
                         residencySelect.innerHTML += `<option value="${country.id}">${country.title_en || country.name}</option>`;
+                    });
+                }
+
+                // Load country codes
+                const countryCodesRes = await fetch('/api/common/get_country_codes');
+                const countryCodes = await countryCodesRes.json();
+                const countryCodeSelect = document.getElementById('country_code');
+                if (countryCodes.data) {
+                    countryCodes.data.sort((a, b) => a.name.localeCompare(b.name));
+                    countryCodes.data.forEach((country, index) => {
+                        const isKuwait = country.name && country.name.toLowerCase().includes('kuwait');
+                        const option = `<option value="${country.id}" ${isKuwait ? 'selected' : ''}>${country.name} (${country.phone_code || country.phone_prefix})</option>`;
+                        countryCodeSelect.innerHTML += option;
                     });
                 }
             } catch (error) {

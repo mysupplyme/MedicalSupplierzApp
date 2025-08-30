@@ -65,7 +65,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="company_name_en">Hospital/Clinic Name</label>
+                    <label for="company_name_en">Current Position</label>
                     <input type="text" id="company_name_en" name="company_name_en">
                 </div>
                 
