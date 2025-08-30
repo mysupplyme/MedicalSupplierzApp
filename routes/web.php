@@ -44,6 +44,10 @@ Route::get('/terms', function () {
     return view('terms');
 })->name('terms');
 
+Route::get('/reset-password', function () {
+    return view('reset-password');
+})->name('password.reset');
+
 // Test webhook endpoint
 Route::get('/test-webhook', function () {
     return response()->json([
