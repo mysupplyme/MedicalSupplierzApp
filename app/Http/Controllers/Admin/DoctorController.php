@@ -11,7 +11,9 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = Client::where('buyer_type', 'doctor')
+        $doctors = Client::where('clients.buyer_type', 'doctor')
+            ->leftJoin('categories', 'clients.specialty_id', '=', 'categories.id')
+            ->select('clients.*', 'categories.title_en as specialty_name')
             ->paginate(20);
 
         return response()->json([

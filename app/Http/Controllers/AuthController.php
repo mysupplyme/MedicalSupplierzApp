@@ -49,7 +49,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'mobile_number' => 'required|string|max:20',
             'country_code' => 'required|exists:countries,id',
-            'current_position' => 'nullable|string|max:150',
+            'job_title' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'required|exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
@@ -74,7 +74,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
             'country_code' => $request->country_code,
-            'job_title' => $request->current_position,
+            'job_title' => $request->job_title,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
             'sub_specialty_id' => $request->sub_specialty_id,
@@ -163,7 +163,7 @@ class AuthController extends Controller
             'name' => 'string|max:255',
             'mobile_number' => 'string|max:20',
             'country_code' => 'exists:countries,id',
-            'current_position' => 'nullable|string|max:150',
+            'job_title' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
@@ -178,8 +178,8 @@ class AuthController extends Controller
             'specialty_id', 'sub_specialty_id', 'residency', 'nationality'
         ]);
         
-        if ($request->has('current_position')) {
-            $updateData['job_title'] = $request->current_position;
+        if ($request->has('job_title')) {
+            $updateData['job_title'] = $request->job_title;
         }
         
         // Handle name field - split into first_name and last_name

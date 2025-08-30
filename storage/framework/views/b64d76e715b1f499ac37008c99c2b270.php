@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Doctors Management - {{ config('app.name') }}</title>
+    <title>Doctors Management - <?php echo e(config('app.name')); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
@@ -86,4 +86,4 @@
         }
     </script>
 </body>
-</html>
+</html><?php /**PATH /var/www/html/medicalsupplierz.app/resources/views/admin/doctors-management.blade.php ENDPATH**/ ?>
