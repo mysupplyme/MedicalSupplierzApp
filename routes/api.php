@@ -53,11 +53,16 @@ Route::post('/contact', [ContactController::class, 'sendMessage']);
 
 // Terms and Conditions API
 Route::get('/terms-conditions', function() {
+    $termsContent = view('terms')->render();
+    $content = strip_tags($termsContent);
+    $content = preg_replace('/\s+/', ' ', trim($content));
+    
     return response()->json([
         'success' => true,
         'data' => [
             'title' => 'Terms and Conditions',
-            'url' => 'https://medicalsupplierz.app/terms',
+            'content' => $content,
+            'html_url' => 'https://medicalsupplierz.app/terms',
             'last_updated' => '2024-01-01'
         ]
     ]);
