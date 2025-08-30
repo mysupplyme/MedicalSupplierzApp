@@ -51,6 +51,18 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 // Contact form
 Route::post('/contact', [ContactController::class, 'sendMessage']);
 
+// Terms and Conditions
+Route::get('/terms-conditions', function() {
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'title' => 'Terms and Conditions',
+            'content' => 'Welcome to Medical Supplierz. By using our platform, you agree to these terms and conditions. Our platform connects medical suppliers with healthcare buyers globally. Users must provide accurate information and comply with applicable laws. We reserve the right to suspend accounts for violations. All transactions are between buyers and suppliers directly. Medical Supplierz is not responsible for product quality or delivery disputes. Users must maintain confidentiality of their account credentials. We may update these terms at any time. Continued use constitutes acceptance of updated terms.',
+            'last_updated' => '2024-01-01'
+        ]
+    ]);
+});
+
 // Webhooks (no auth required)
 Route::post('/webhooks/apple', [WebhookController::class, 'appleWebhook']);
 Route::post('/webhooks/google', [WebhookController::class, 'googleWebhook']);
