@@ -54,6 +54,7 @@ Route::post('/contact', [ContactController::class, 'sendMessage']);
 // Webhooks (no auth required)
 Route::post('/webhooks/apple', [WebhookController::class, 'appleWebhook']);
 Route::post('/webhooks/google', [WebhookController::class, 'googleWebhook']);
+Route::match(['get', 'post'], '/webhooks/whatsapp', [\App\Http\Controllers\Api\WhatsAppController::class, 'webhook']);
 
 // Admin routes (no auth for now)
 Route::prefix('admin')->group(function () {

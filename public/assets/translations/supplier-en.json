@@ -1,0 +1,1776 @@
+{
+    "lang": "اللغة العربية",
+    "dir": "ltr",
+    "generic": {
+        "b2b": "Buyer Products",
+        "b2c": "Retail Buyer Products",
+        "both": "Both",
+        "not_completed": "Not Completed Product",
+        "currency": "KWD",
+        "cancel_order_modal": {
+            "modal_title": "Cancel Reason Modal",
+            "reason": "Cancel Reason",
+            "save": "save",
+            "send": "Send",
+            "close": "Close"
+        },
+        "times": {
+            "all_time": "All Time",
+            "current_month": "Current Month",
+            "previous_month": "Previous Month",
+            "custom": "Custom"
+        },
+        "export": "Export",
+        "import": "Import",
+        "example": "Example",
+        "chat_with_my_supply": "Chat With My Supply",
+        "step": "Step",
+        "save": "save",
+        "period": "Period"
+    },
+    "actions": "Actions",
+    "nodata": "No Data Found",
+    "table": {
+        "filters": "Filters",
+        "reset": "Reset",
+        "cancel": "Cancel",
+        "columns": "Columns",
+        "clickable_rows": "Clickable Rows",
+        "visible": "visible",
+        "out of": "out of",
+        "per_page": "Per Page",
+        "select_all": "Select All",
+        "actions": "Actions",
+        "choose_date": "Choose date"
+    },
+    "filters": {
+        "submit": "Filter"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "products": "Products",
+        "suppliers": "Suppliers",
+        "avg_order": "Average Orders",
+        "lifetime_sales": "Lifetime Sales",
+        "kwd": "KWD",
+        "cards": {
+            "go_to": "Go To",
+            "first_cards": {
+                "title": "Sales",
+                "orders": "Orders",
+                "avg_order": "Average Order",
+                "total_commission": "Total Commission",
+                "net_sales": "Net Sales"
+            },
+            "sec_cards": {
+                "title": "Orders Statuses",
+                "complete_orders": "Complete Orders",
+                "pending_orders": "Pending Orders",
+                "canceled_orders": "Canceled Orders"
+            },
+            "third_cards": {
+                "title": "Returns",
+                "complete_returns": "Complete Returns",
+                "pending_returns": "Pending Returns"
+            },
+            "forth_cards": {
+                "title": "Financtials",
+                "paid_orders": "Paid Orders",
+                "unpaid_orders": "Unpaid Orders",
+                "received_money": "Received Money",
+                "un_received_money": "Unreceived Money",
+                "total_shipping_fee": "Total Shipping Fee",
+                "cash_box": "Cash Box"
+            }
+        },
+        "table": {
+            "tabs": {
+                "latest_orders": "Latest Orders",
+                "approved_products": "Approved Products",
+                "low_inventory_products": "Low Inventory Products",
+                "best_sellers": "Best Sellers",
+                "most_viewed_products": "Most Viewed Products",
+                "b2b": "B2B Products",
+                "b2c": "Retail Products"
+            },
+            "best_sellers": {
+                "image": "Product Image",
+                "product": "Product",
+                "sku": "SKU",
+                "count": "Count"
+            },
+            "most_viewes": {
+                "views": "Views"
+            }
+        }
+    },
+    "notifications": {
+        "go_to_humhhumm": "Go To Humhumm",
+        "notifications": "Notifications",
+        "mark_as_read": "Mark As Read",
+        "read_all": "Read All",
+        "loading": "Loading...",
+        "statistics": {
+            "sales": "Sales",
+            "order": "Order",
+            "products_b2c": "Products B2C",
+            "products_b2b": "Products B2B"
+        },
+        "types": {
+            "orders": "Orders",
+            "transactions": "Transactions",
+            "others": "Others"
+        }
+    },
+    "login": {
+        "welcome": "WELCOME",
+        "greatDay": "Supplier May \"Login\" or \" Create Account\" Here",
+        "signinTitle": "Please Sign In",
+        "email": "Email",
+        "password": "Password",
+        "remember": "Remember Me",
+        "signin": "Login",
+        "createAccount": "Create Account",
+        "forgetPassword": "Forget Password"
+    },
+    "register": {
+        "enter_your": "Enter Your ",
+        "please_select": "Please Select ",
+        "welcome": "Create New Account",
+        "greatDay": "We’re excited to have you on board!",
+        "signinTitle": "Please add your details",
+        "company_en": "English Company Name",
+        "company_ar": "Arabic Company Name",
+        "job": "Job Title",
+        "email": "Email",
+        "phone": "Phone",
+        "password": "Password",
+        "confirm": "Password Confirmation ",
+        "i_agree": "I agree",
+        "create": "Create Account",
+        "readTerms": "Read Terms",
+        "signin": "Login",
+        "selling_for": "I'm Selling For",
+        "termsAndCondition": "Terms & Conditions",
+        "close": "Close",
+        "perfect": "Agree",
+        "job_title": "Job Title",
+        "supplier_type": "Supplier Type",
+        "dept_options": {
+            "Finance": "Finance",
+            "Marketting": "Marketting",
+            "Sales": "Sales",
+            "HR": "HR",
+            "Accounting": "Accounting",
+            "IT": "IT",
+            "Law": "Law"
+        }
+    },
+    "otp": {
+        "welcome": "Welcome",
+        "verifyTitle": "Please Verify your Account",
+        "description": "The verification code has been sent to your phone, please check your SMS",
+        "otpTitle": "Account Verification",
+        "otp": "OTP Code",
+        "verifyBtn": "Submit",
+        "resend": "Resend",
+        "other_register": "Register Again With Another Number"
+    },
+    "verify-email": {
+        "welcome": "Welcome",
+        "verifyTitle": "Thank You for Registering",
+        "description": "We have sent you an email with instructions and the next steps for you to complete your Registration",
+        "resend": "Resend",
+        "login_btn": "Login With Another Mail"
+    },
+    "verify-pass": {
+        "welcome": "Welcome",
+        "description": "We have sent you an email with instructions and the next steps for you to complete your Reset Password",
+        "resend": "Resend"
+    },
+    "forget-pass": {
+        "welcome": "Don’t worry, we’ve got your back",
+        "subTitle": "Please enter your username or email",
+        "formTitle": "Password Reminder",
+        "input": "Username or Email",
+        "signin": " Sign In"
+    },
+    "reset-pass": {
+        "welcome": "Welcome",
+        "subTitle": "Please enter your new password",
+        "formTitle": "Reset Password",
+        "password": "New Password",
+        "confirm": "Confirm Password",
+        "reset": "Reset",
+        "expired_link": "Your redirect link is expired"
+    },
+    "complete-profile": {
+        "header": "My Profile",
+        "sub_header": "View your account and change your settings.",
+        "my_account": "My Account",
+        "breadcrumb": {
+            "dashboard": "Dashboard",
+            "complete_profile": "Complate Profile"
+        },
+        "selling-categories": {
+            "tab": "Selling Categories",
+            "title": "Selling Categories",
+            "action-btns": {
+                "save": "Save"
+            }
+        },
+        "shipping": {
+            "tab": "Pickup and Shipping",
+            "title": "Pickup and Shipping Information",
+            "city": "City",
+            "country": "Country",
+            "region": "State/Region",
+            "pincode": "Zip Code",
+            "point_sale": "Do You Support Pickup Method",
+            "key-address": "Key in the address",
+            "address1": "Address Line 1",
+            "address2": "Address Line 2",
+            "select-location": "select from google map",
+            "lng": "Longitude",
+            "lat": "Latitude",
+            "is-default": "Is Default",
+            "is-active": "Is Active",
+            "actions": "Actions",
+            "placeholders": {
+                "select": "Please select"
+            },
+            "action-btns": {
+                "save": "Save",
+                "edit": "Edit Address",
+                "delete": "Delete Address",
+                "default": "Set Default",
+                "status": "Change Status"
+            },
+            "hints": {
+                "key_address_hint": "You can add your address lines in address line one and address line two",
+                "location_hint": "Our system sets automatically your longitude and latitude from your current location"
+            }
+        },
+        "supplier-info": {
+            "tab": "User Information",
+            "name": "User First Name",
+            "last_name": "User Last Name",
+            "job_title": "Job Title",
+            "supplier_type": "Supplier Type",
+            "type": "You are a buyer for B2B",
+            "selling_for": "Selling For",
+            "email": "Email",
+            "mobile_number": "Mobile Number",
+            "Change_password": "Change Password",
+            "Change_mail_phone": "Change Mail Phone",
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm Password",
+            "hints": {
+                "type_hint": "do you want us to create a buyer account for your company?",
+                "selling_for_hint": "select which customer you want to sell for",
+                "email_hint": "if you want to change your entered data please contact humhumm admin",
+                "mobile_number_hint": "if you want to change your entered data please contact humhumm admin",
+                "passwords_hint": "The password must be at least 8 characters & At least contains one char  (Upper Case, Lower Case, Special Char, and Number)"
+            },
+            "action-btns": {
+                "save": "Save",
+                "yes": "Yes",
+                "no": "No"
+            }
+        },
+        "business-info": {
+            "tab": "Business Information",
+            "business_name_en": "English Business Name",
+            "business_name_ar": "Arabic Business Name",
+            "company_logo": "Company's Logo",
+            "reg_number": "Registration Number",
+            "CCL": "Company Commercial Licence",
+            "auth_sign": "Authorized Person's name to sign",
+            "cilvil_id": "Civil Id Number",
+            "civil_id_copy": "Civil ID Copy of Authorized Signatory",
+            "certificate_signatory": "Certificate of certified signatory",
+            "right_management": "Right of Management Certificate from MOC",
+            "hints": {
+                "company_logo_hint": "must be an image png, jpg, jpeg recommended scale 100x100px, size not exceed 1MB",
+                "image_hint": "must be pdf, doc, docx, jpg, jpeg, png, recommended size not exceed 1MB"
+            },
+            "action-btns": {
+                "save": "Save"
+            }
+        },
+        "supplier_description": {
+            "tab": "Supplier Description",
+            "action-btns": {
+                "save": "Save"
+            },
+            "hints": {
+                "image_hint": "must be jpg, jpeg or png recommended size not exceed 1MB"
+            },
+            "form": {
+                "facebook_page": "Facebook",
+                "instagram_page": "Instagram",
+                "linkedin_page": "Linked In",
+                "twitter_page": "Twitter",
+                "google_page": "Google Page",
+                "short_description": "Short Description",
+                "shipping_and_payment_terms": "Shipping And Payment Terms",
+                "return_policy": "Return Policy",
+                "banner": "Banner",
+                "en": "EN",
+                "ar": "AR"
+            }
+        },
+        "bank-details": {
+            "tab": "Bank Details",
+            "account_holder_name": "Account Holder's Name",
+            "account_number": "Account Number",
+            "bank_name": "Bank Name",
+            "iban_number": "IBAN Code",
+            "iban_number_cert": "IBAN Number Cetficate",
+            "action-btns": {
+                "save": "Save"
+            },
+            "file_upload": "must be pdf, doc, docx, jpg, jpeg, png, recommended size not exceed 1MB"
+        },
+        "supplier-docs": {
+            "tab": "Supplier Documents",
+            "signature": "Signature Authoriry Documents",
+            "memorandom": "Memorandum of association",
+            "message": "Please Upload Below mentioned Documents to complete the Registration",
+            "action-btns": {
+                "save": "Save"
+            }
+        },
+        "status": {
+            "tab": "Status",
+            "current_status": "Current Status",
+            "status_value": "active",
+            "request_for": "Request For",
+            "to": "to",
+            "go_to_vacation": "Go to Vacation",
+            "reason": "Reason",
+            "ID": "ID",
+            "request_for_table": "Request For",
+            "request_from": "Request From",
+            "request_to": "Request To",
+            "reason_table": "Reason",
+            "status": "Status",
+            "action-btns": {
+                "save": "Save",
+                "vacation": "Vacation",
+                "close": "Close"
+            }
+        }
+    },
+    "products": {
+        "breadcrumb": {
+            "products": "Products",
+            "new": "New Product",
+            "edit": "Edit Product"
+        },
+        "newproduct": {
+            "add_product": "Add Product",
+            "no_selling_categories": "Please fill up your selling categories First.",
+            "add": "ADD",
+            "title": "Save Product",
+            "basicInfo": "Basic Info",
+            "save": "Save",
+            "productId": "Product ID",
+            "sku": " SKU",
+            "change_category": "Change Category",
+            "request_category": "Request New Category",
+            "product_name": "Product Name",
+            "message": "Message",
+            "category": "Category",
+            "subcategory": "Sub Category",
+            "subSubcategory": "Last Category",
+            "other": "Other",
+            "name-ar": "Name AR",
+            "name-en": "Name EN",
+            "brand_id": "Brand Name",
+            "from": "Product From",
+            "selling_country": "Selling Countries",
+            "unit": "Unit",
+            "desc-en": "English Description",
+            "desc-short-en": "English Short Description",
+            "desc-ar": "Arabic Description",
+            "desc-short-ar": "Arabic Short Description",
+            "images": "Images",
+            "main-image": "Upload product main image",
+            "sub-images": "Upload product images",
+            "placeholders": {
+                "select": "Please select"
+            },
+            "publish_msg": "You want to publish this product?",
+            "publish_msg_err": "Not completed product",
+            "add_brand": {
+                "add_brand": "Add Brand",
+                "title_en": "Title EN ",
+                "title_ar": "Title AR ",
+                "image": "Image"
+            },
+            "b2form": {
+                "b2b-title": "B2B/Wholesale",
+                "b2c-title": "B2C/Retail",
+                "published": "Published",
+                "unpublished": "Unpublished",
+                "sku": "Supplier SKU",
+                "price": "Your Price",
+                "weight": "Weight",
+                "expire": "Expiration Date",
+                "expire_day": "Expiration Days",
+                "quantity": "In stock quantity",
+                "unit": "Unit",
+                "pcs": "Pcs per Unit",
+                "barcode": "Barcode",
+                "change_commission_request": "Change Commission Request",
+                "commission": "Commission percentage specific for this product",
+                "exclude_msg": "price excluding commission.",
+                "include_msg": "price including commission.",
+                "include": "Include",
+                "exclude": "Exclude",
+                "commission_msg": "our commission will be",
+                "price_msg": "Supplier will get",
+                "total_price_msg": "The total product price will show on website",
+                "add-cart": "Enable Add to cart / RFQ Button",
+                "both": "Both",
+                "rfq": "RFQ Only",
+                "cart-only": "Add To Cart Only",
+                "options": "Options",
+                "option": {
+                    "sku": " SKU",
+                    "title": " Option",
+                    "title_ar": "Title Ar",
+                    "title_en": "Title En",
+                    "quantity": "Quantity",
+                    "price": "Price"
+                }
+            },
+            "offerForm": {
+                "formTitle": "Offer",
+                "price": "Offer percentage",
+                "start": "Offer Start",
+                "end": "Offer End",
+                "type": "Offer Type",
+                "status": "Offer Status"
+            },
+            "statusForm": {
+                "none": "None",
+                "formTitle": "Status",
+                "ask_to_active": "Ask To Active",
+                "daily": "Daily",
+                "monthly": "Monthly",
+                "published": "Ask admin to publish",
+                "unpublished": "Ask admin to unpublish",
+                "delivery_time": "Delivery time",
+                "return_time": "Return Time Limit",
+                "alert_quantity": "Low Stock Alert quantity",
+                "stock_quantity": "In stock quantity",
+                "min_quantity": "Min-Order-Qty",
+                "warranty": "Warranty Type",
+                "status": "Status",
+                "recentlyArrived": "Recently Arrived",
+                "mostWanted": "Most Wanted",
+                "condition": "Condition",
+                "new": "New",
+                "used": "Used",
+                "rental": "Rental"
+            }
+        },
+        "sellproduct": {
+            "title": "Products",
+            "category": "Category",
+            "all": "All",
+            "topSellers": "Top Sellers",
+            "outOfStock": "Out of Stock",
+            "select": "Select",
+            "none": "None",
+            "cols": {
+                "image": "Product Image",
+                "product": "Product",
+                "category": "Category",
+                "actions": "Actions"
+            }
+        },
+        "listproduct": {
+            "title": "Products",
+            "topSellers": "Top Sellers",
+            "outOfStock": "Out of Stock",
+            "select": "Select",
+            "upload_images": "Upload Images",
+            "none": "None",
+            "cols": {
+                "image": "Product Image",
+                "product": "Product",
+                "basket": "Basket",
+                "category": "Category",
+                "from": "From Country",
+                "brand": "Brand",
+                "sku": " SKU",
+                "selling_price": "SELLING PRICE",
+                "sup_price": "SUP PRICE",
+                "sup_total_price": "SUP TOTAL PRICE",
+                "price": "PRICE",
+                "coupon": "Coupon",
+                "coupon_discount": "Coupon Discount",
+                "commission_after_discount": "Commission After Discount",
+                "commission_changed": "Commission Changed By",
+                "sup_total_after_discount": "Sup Total After Discount",
+                "offer_price": "Offer Discount",
+                "expiration": "Expiration",
+                "quantity": "Quantity",
+                "total": "Total",
+                "commission": "Commission",
+                "Price": "Price",
+                "Offer": "Offer",
+                "OfferExp": "Expiration",
+                "status": "Status",
+                "actions": "Actions",
+                "barcode": "Barcode",
+                "created_at": "Created At"
+            },
+            "edit": "Edit",
+            "changeStatus": "Change Status",
+            "filters": {
+                "filter": "Filter",
+                "sku": "Supplier SKU",
+                "product": "Product",
+                "status": "Status",
+                "category": "Category",
+                "date_from": "Date From",
+                "date_to": "Date To",
+                "published": "Published",
+                "unpublished": "UnPublished"
+            }
+        },
+        "details": {
+            "title": "Overview",
+            "title_en": "Title EN ",
+            "title_ar": "Title AR ",
+            "category": "Category",
+            "sub_category": "SubCategory",
+            "subSubcategory": "SubSubCategory",
+            "from_country": "From Country ",
+            "brand": "Brand",
+            "unit": "Unit",
+            "options": "Options",
+            "b2b": "B2B Wholesale",
+            "b2c": "B2C Retail",
+            "sku": "SKU",
+            "price": "Price",
+            "weight": "Weight",
+            "expiration": "Expiration",
+            "pieces_number": "PSC Number",
+            "quantity": "Quantity",
+            "commission": "Commission",
+            "product_id": "Product ID",
+            "en_desc": "Product EN Description",
+            "ar_desc": "Product AR Description",
+            "ar_short_desc": "Product AR Short Description",
+            "en_short_desc": "Product EN Short Description",
+            "edit": "Edit",
+            "barcode": "Barcode"
+        },
+        "cards": {
+            "allProducts": "All Products",
+            "nonLive": "Non Live",
+            "live": "Live",
+            "outOfStock": "Out Of Stock",
+            "new-product": "New Product"
+        }
+    },
+    "permissions": {
+        "roles": {
+            "title": "Role",
+            "table": {
+                "id": "ID",
+                "role": "ROLE",
+                "actions": "ACTIONS"
+            },
+            "new_role_modal": {
+                "title": "New Role",
+                "sec_title": "Create a Role",
+                "role_name": "Role Name",
+                "resources_access": "Resource Access?",
+                "resorce_names": "Resources",
+                "all_resorces": {
+                    "sup_dashboard": "Supplier Dashboard",
+                    "sup_profile": "Supplier Profile",
+                    "manage_orders": "Manage Orders",
+                    "manage_products": "Manage Products",
+                    "sup_services": "Supplier Services",
+                    "financials": "Financials"
+                }
+            },
+            "action_btns": {
+                "add_role": "Add New Role"
+            }
+        },
+        "users": {
+            "status": "Status",
+            "cards": {
+                "active": "ACTIVE",
+                "inactive": "INACTIVE",
+                "all_access": "ALL ACCESS",
+                "custom_access": "CUSTOM ACCESS",
+                "add_user": "ADD A NEW USER"
+            },
+            "table": {
+                "id": "ID",
+                "name": "NAME",
+                "email": "EMAIL",
+                "access": "ACCESS",
+                "is_active": "IS ACTIVE",
+                "action": "ACTION"
+            },
+            "action_btns": {
+                "status": {
+                    "status": "Status",
+                    "active": "Active",
+                    "in_active": "InActive",
+                    "all": "All"
+                },
+                "show": "Show"
+            }
+        },
+        "add_user": {
+            "title": "New User",
+            "sec_title": "Create a new user account",
+            "form": {
+                "user_name": "Username",
+                "name": "Name",
+                "email": "Email Address",
+                "password": "Password",
+                "confirm_password": "Confirm Password",
+                "account_status": "This account is?",
+                "user_role": "User Role",
+                "action_btns": {
+                    "all_access": "All Access",
+                    "custom_access": "Custom Access",
+                    "create_btn": "Create"
+                }
+            }
+        }
+    },
+    "most_viewed_products": {
+        "title": "Most Viewed Products"
+    },
+    "supplier_services": {
+        "feedback_rating": {
+            "header": {
+                "title": "Feedback & Ratings",
+                "action_btns": {
+                    "btn_today": {
+                        "title": "Today",
+                        "data": {
+                            "today": "Today",
+                            "this_week": "This Week",
+                            "this_month": "This Month",
+                            "this_year": "This Year",
+                            "all_time": "All Time"
+                        }
+                    },
+                    "btn_all": {
+                        "title": "All",
+                        "data": {
+                            "pending": "pending",
+                            "proccessing": "proccessing",
+                            "Canceled": "Canceled",
+                            "Complete": "Complete",
+                            "all": "All"
+                        }
+                    },
+                    "btn_print": {
+                        "title": "Print"
+                    },
+                    "btn_exports": {
+                        "title": "Exports",
+                        "data": {
+                            "export_excel": "Export As Excel",
+                            "export_pdf": "Export As pdf"
+                        }
+                    },
+                    "btn_filter": {
+                        "title": "Filter"
+                    }
+                }
+            },
+            "table": {
+                "product": "Product",
+                "count_of_rate": "Total Reviews",
+                "average_rate": "Average Reviews",
+                "last_rate_date": "Last Rate Date"
+            }
+        },
+        "feedback_product_reviews": {
+            "header": {
+                "title": "Product Reviews",
+                "action_btns": {
+                    "btn_today": {
+                        "title": "Today",
+                        "data": {
+                            "today": "Today",
+                            "this_week": "This Week",
+                            "this_month": "This Month",
+                            "this_year": "This Year",
+                            "all_time": "All Time"
+                        }
+                    },
+                    "btn_all": {
+                        "title": "All",
+                        "data": {
+                            "pending": "pending",
+                            "proccessing": "proccessing",
+                            "Canceled": "Canceled",
+                            "Complete": "Complete",
+                            "all": "All"
+                        }
+                    },
+                    "btn_print": {
+                        "title": "Print"
+                    },
+                    "btn_exports": {
+                        "title": "Exports",
+                        "data": {
+                            "export_excel": "Export As Excel",
+                            "export_pdf": "Export As pdf"
+                        }
+                    },
+                    "btn_filter": {
+                        "title": "Filter"
+                    }
+                }
+            },
+            "product": {
+                "product_name": "Product Name",
+                "description": "Description"
+            },
+            "table": {
+                "name": "Client",
+                "email": "Email",
+                "phone": "Phone",
+                "rate": "Rate",
+                "date": "Date"
+            }
+        },
+        "customer_query": {
+            "header": {
+                "title": "Customer Query",
+                "sec_title": "Buyer Communications"
+            },
+            "table": {
+                "customer_name": "CUSTOMER NAME",
+                "message": "MESSAGE",
+                "date": "DATE",
+                "last_message": "Last Message"
+            },
+            "details": {
+                "client_name": "Client Name",
+                "subject": "Subject",
+                "message": "Message",
+                "send": "Send"
+            }
+        },
+        "marketplace_communication": {
+            "header": {
+                "title": "Supplier Services",
+                "add_communication": "Add New Communications",
+                "sec_title": "Commissions Invoice"
+            },
+            "table": {
+                "subject": "SUBJECT",
+                "date": "DATE",
+                "status": "STATUS"
+            }
+        }
+    },
+    "utilitis": {
+        "supported_all_format": "supported all format:",
+        "supported_images_format": "supported images format:",
+        "switch_message": "It looks like you did some changes to the data. do you want to discard or save your changes ?",
+        "save_btn": "Save",
+        "discard": "Discard",
+        "ok": "OK",
+        "yes": "Yes",
+        "no": "No",
+        "confirm_message": "Are you sure?",
+        "cancle": "Cancle!",
+        "confirm": "Confirm"
+    },
+    "navbar": {
+        "admin_options": {
+            "welcome": "Welcome",
+            "profile": "Profile",
+            "notifications-configuration": "Notifications configuration",
+            "inbox": "Inbox",
+            "settings": "Settings",
+            "login_as_b2b": "Login As B2B Buyer",
+            "sign_out": "Sign Out"
+        },
+        "language_menu": {
+            "title": "Choose A Language",
+            "en": "English",
+            "ar": "اللغة العربية"
+        }
+    },
+    "sidenav": {
+        "dashboard": "Dashboard",
+        "orders": {
+            "title": "Sales / Orders"
+        },
+        "quotes": {
+            "title": "Quotations"
+        },
+        "products": {
+            "title": "Products",
+            "my_listing": "My Listing",
+            "list_new_product": "List New Product",
+            "select_and_sell": "Select and Sell"
+        },
+        "financials": {
+            "title": "Financials",
+            "transactions": "Transactions",
+            "ads_financials": "Ads Financials"
+        },
+        "returns": {
+            "title": "Returns"
+        },
+        "marketing": {
+            "title": "Marketing Tools",
+            "coupons": "Coupons",
+            "buy_get_promotions": "Buy X Get Y Promotions",
+            "basket_promotions": "Basket Promotions",
+            "buy_gift_promotions": "Buy X Gift Y Promotions",
+            "purchase_ads": "Purchase Ads",
+            "most_viewed_products": "Most Viewed Products"
+        },
+        "purchase_ads": {
+            "title": "Purchase Ads"
+        },
+        "supplier_services": {
+            "title": "Supplier Services",
+            "feedback_and_rating": "Feedback and Rating",
+            "customer_query": "Customer Query"
+        },
+        "settings": {
+            "title": "Settings",
+            "shipping_method": "Shipping Method",
+            "roles": "Roles",
+            "permissions": "Permissions",
+            "logs": "Logs",
+            "users": "Users",
+            "notifications-configuration": "Notifications configuration"
+        },
+        "sign_out": "Sign Out",
+        "hide_menu": "Hide Menu"
+    },
+    "quotes": {
+        "title": "Quotations",
+        "view_requests": "View Requests",
+        "breadcrumb": {
+            "dashboard": "Dashboard",
+            "view_requests": "View Requests"
+        },
+        "requests": {
+            "title": "Requested Quotes",
+            "quote_name": "QUOTE NAME",
+            "is_confirmed": "IS CONFIRMED",
+            "created": "CREATED",
+            "created_by": "CREATED BY",
+            "status": "STATUS",
+            "last_update": "LAST UPDATED",
+            "prod_name": "PRODUCT NAME"
+        }
+    },
+    "complete_message": {
+        "account_proccess": {
+            "title": "Account Registration Process"
+        },
+        "complete_reg": {
+            "title": "Complete registration",
+            "sec_title": "Please Complete registration by Uploading required Documents, at For Now you can only List your Products.",
+            "link": "CLICK HERE TO COMPLETE YOUR REGISTRATION"
+        }
+    },
+    "returns_page": {
+        "breadcrumb": {
+            "bashboard": "Dashboard",
+            "return_request": "Return Requests"
+        },
+        "title": "Returns management",
+        "action_btns": {
+            "btn_print": {
+                "title": "Print"
+            },
+            "btn_exports": {
+                "title": "Exports",
+                "data": {
+                    "export_excel": "Export As Excel",
+                    "export_pdf": "Export As pdf"
+                }
+            },
+            "btn_filter": {
+                "title": "Filter"
+            }
+        },
+        "filters": {
+            "submit": "Filter",
+            "all": "All",
+            "form": {
+                "orders": "Orders",
+                "status": "Status",
+                "purchase_date": "Purchase Date",
+                "bill_to": "Bill to",
+                "shipping_to": "Shipping to"
+            }
+        },
+        "cards": {
+            "replace": "REPLACE",
+            "refund": "REFUND",
+            "all": "ALL"
+        },
+        "table": {
+            "return_serial": "Return Serial",
+            "item_names": "ORDERED ITEM",
+            "client": "CLIENT",
+            "price": "PRICE",
+            "retrun_option": "RETURN OPTION",
+            "return_status": "RETURN STATUS",
+            "return_request_date": "REQUEST DATE",
+            "updated_at": "UPDATED AT",
+            "actions": {
+                "view": "View"
+            }
+        },
+        "tabs": {
+            "all": "All",
+            "replace": "Replace",
+            "refund": "Refund"
+        }
+    },
+    "return_order_view": {
+        "title": "Return Request",
+        "actions": {
+            "refunt_accept": "Received item and ready to refund",
+            "replace_accept": "Ready to replace",
+            "reject": "Reject",
+            "change_status": "Change Status"
+        },
+        "information": "Information",
+        "request_details": {
+            "title": "Request Details",
+            "print_memo": "Print Memo",
+            "declined_reason": "Decline Reason",
+            "reason": "Return Reason",
+            "details": {
+                "title": "Details",
+                "table": {
+                    "type": "Type",
+                    "request_status": "Request Status",
+                    "request_date": "Request Date",
+                    "last_update_date": "Last Update",
+                    "reshipping_fee": "Reshipping Fee",
+                    "refund_option": "Refund Option"
+                }
+            },
+            "print": {
+                "return_title": "Payment Voucher",
+                "supplier": "Supplier",
+                "return_serial": "Return Serial",
+                "return_request_date": "Return Request Date",
+                "order_serial": "Order Serial",
+                "name": "Name",
+                "debit": "Debit",
+                "credit": "Credit",
+                "footer_thanks": "Thank you"
+            }
+        },
+        "order_account_information": {
+            "title": "Order & Account Information",
+            "account_information": {
+                "title": "Account",
+                "table": {
+                    "customer_name": "Customer Name",
+                    "phone": "Phone",
+                    "email": "Email",
+                    "company_name": "Company"
+                }
+            },
+            "order_information": {
+                "title": "Order",
+                "table": {
+                    "payment_type": "Payment Type",
+                    "shipping_type": "Shipping Type",
+                    "date": "Date"
+                }
+            },
+            "Item": {
+                "title": "Request Item",
+                "table": {
+                    "product": "Product",
+                    "price": "Price",
+                    "quantity": "Quantity",
+                    "total": "Buyer Total",
+                    "supplier_total": "Supplier Total"
+                }
+            }
+        },
+        "modals": {
+            "close": "Close",
+            "confirm": {
+                "title": "Accept Request",
+                "msg": "Are you sure you want to Confirm the Request?",
+                "reshipping_fee": "Reshipping Fee",
+                "confirm": "Confirm"
+            },
+            "reject": {
+                "title": "Reject Request",
+                "msg": "Are you sure you want to Reject the Request?",
+                "reject_reason": "Reject Reason",
+                "reject": "Reject"
+            }
+        }
+    },
+    "breadcrumb": {
+        "dashboard": "Dashboard",
+        "orders": "Orders",
+        "quotations": "Quotations",
+        "products": "Products",
+        "select_and_sell": "Select and Sell",
+        "feedback_and_rating": "Feedback and Rating",
+        "product_reviews": "Product Reviews",
+        "customer_query": "Customer Query",
+        "admin_chat": "MySupply Chat",
+        "marketplace_communication": "Marketplace Communication",
+        "all_users": "All Users",
+        "roles": "Roles",
+        "returns_request": "Returns Request",
+        "shipping_method": "Shipping Method",
+        "transactions_summary": "Transactions Summary",
+        "commissions_invoice": "Commissions Invoice",
+        "microsite": "Micro Site",
+        "customer_query_details": "Details",
+        "coupons": "Coupons",
+        "buy_get_promotion": "Buy X Get Y Promotion",
+        "buy_gift_promotions": "Buy X Get Gift Promotion",
+        "basket_promotion": "Basket Promotion",
+        "ads_management": "Ads Management",
+        "ads_financials": "Ads Financials"
+    },
+    "shipping_method": {
+        "header": {
+            "title": "Shipping Method",
+            "add_new": "Add New Shipping Rates"
+        },
+        "sec_header": {
+            "title": "Shipping Rates",
+            "today_btn": "Today",
+            "all_btn": "All"
+        },
+        "table": {
+            "country": "COUNTRY",
+            "region": "REGION",
+            "city": "CITY",
+            "zipcode_from": "ZIPCODE FROM",
+            "zipcode_to": "ZIPCODE TO",
+            "order_from": "ORDER SUBTOTAL FROM",
+            "order_to": "ORDER SUBTOTAL TO",
+            "price": "PRICE",
+            "shipping_method": "SHIPPING METHOD",
+            "shipping_for": "Shipping For",
+            "period": "PERIOD",
+            "period_type": "PERIOD TYPE"
+        },
+        "modal": {
+            "title": "Shipping Rate",
+            "placeholders": {
+                "select": "Please Select",
+                "zipcode_from": "Enter your Zipcode From..",
+                "zipcode_to": "Enter your Zipcode To..",
+                "order_from": "Enter your Order Subtotal From..",
+                "order_to": "Enter your Order Subtotal To..",
+                "price": "Enter your Price.."
+            },
+            "action_btns": {
+                "add_shipping": "Add Shipping",
+                "close": "Close"
+            }
+        },
+        "filters": {
+            "filter": "Filter",
+            "country": "Country",
+            "city": "City",
+            "region": "Region"
+        },
+        "edit": "Edit",
+        "delete": "Delete",
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes"
+    },
+    "financials": {
+        "transactions_summary": {
+            "header": {
+                "title": "Financials"
+            },
+            "card": {
+                "title": "KWD",
+                "paid_money": "Paid Money",
+                "received_money": "Received Money",
+                "un_paid_money": "Unpaid Money",
+                "un_received_money": "Unreceived Money",
+                "cash": "Cash Money"
+            },
+            "table": {
+                "search_placeholder": "Search By Serial",
+                "transaction_serial": "TRANSACTION SERIAL",
+                "serial": "SERIAL",
+                "type": "Type",
+                "value": "TRANSFER AMOUNT",
+                "commission": "COMMISSION",
+                "payment_type": "PAYMENT TYPE",
+                "debitor": "DEBITOR",
+                "creditor": "CREDITOR",
+                "status": "STATUS",
+                "created_at": "CREATED DATE",
+                "updated_at": "UPDATED DATE",
+                "actions": {
+                    "send_request": "Send Request",
+                    "complete": "Complete",
+                    "make_payment": "Make Payment",
+                    "confirm_recieve": "Confirm Recieve",
+                    "reject_recieve": "Reject Recieve",
+                    "waiting_payment": "Waiting Admin Payment",
+                    "waiting_confirm": "Waiting Admin Confirm",
+                    "print": "Print",
+                    "view_img": "View Receipt"
+                }
+            },
+            "filter": {
+                "created_from": "Created From",
+                "created_to": "Created To",
+                "updated_from": "Updated From",
+                "updated_to": "Updated To",
+                "order_serial": "Order Serial",
+                "status": "Status",
+                "payment_type": "Payment Type"
+            },
+            "statuses": {
+                "pending": "Pending"
+            },
+            "swal": {
+                "title": "Send Receipt",
+                "cancel": "Cancel",
+                "send": "Send",
+                "send_without_file": "Send Without File"
+            },
+            "payment_ways": {
+                "knet": "KNET",
+                "bank": "Bank Transaction"
+            },
+            "print": {
+                "title": {
+                    "pay": "Payment Voucher",
+                    "receipt": "Receipt Voucher"
+                },
+                "supplier": "Supplier",
+                "invoice": "Invoice",
+                "transaction_serial": "Transaction Serial",
+                "order_serial": "Order Serial",
+                "transaction_date": "Transaction Date",
+                "name": "Name",
+                "debit": "Debit",
+                "credit": "Credit",
+                "total": "Total",
+                "payment_method": "Payment Method",
+                "shipping_method": "Shipping Method",
+                "shipping_info": "Shipping Info",
+                "apartment": "Apartment",
+                "floor": "Floor",
+                "building": "Building",
+                "mobile_no": "Mobile NO.",
+                "footer_thanks": "Thank you"
+            }
+        },
+        "commissions_invoice": {
+            "header": {
+                "title": "Commissions Invoice"
+            },
+            "table": {
+                "invoice_gen_date": "INVOICE GENERATION DATE",
+                "invoice_number": "CONSOLLIDATED INVOICE NUMBER",
+                "total_fees_amount": "TOTAL FEES AMOUNT",
+                "commission_status": "COMMISSION STATUS"
+            }
+        }
+    },
+    "orders": {
+        "header": {
+            "title": "Orders"
+        },
+        "cards": {
+            "all_orders": "ALL ORDERS",
+            "completed": "COMPLETED",
+            "pending": "PENDING",
+            "canceled": "CANCELED"
+        },
+        "tabs": {
+            "new": "New",
+            "pack": "Pack",
+            "in_transit": "In Transit",
+            "delivered": "Delivered",
+            "cancelled": "Cancelled",
+            "memo": "Memo",
+            "action_btns": {
+                "filter": "Filter",
+                "export": "Export"
+            }
+        },
+        "tabels": {
+            "id": "ID #",
+            "purchase_date": "PURCHASE DATE",
+            "bill_to_name": "BUYER NAME",
+            "ship_to_name": "SHIP TO NAME",
+            "grand_total": "GRAND TOTAL",
+            "status": "STATUS",
+            "price": "GRAND TOTAL",
+            "discount": "DISCOUNT",
+            "commission": "COMMISSION",
+            "shipping_fee": "SHIPPING FEES",
+            "shipping_type": "SHIPPING TYPE",
+            "client_name": "Client Name",
+            "client_email": "Client EMAIL",
+            "client_phone": "Client PHONE",
+            "payment_type": "Payment Type",
+            "payment_status": "Payment Status",
+            "total_commission": "Total Commission",
+            "charge_id": "Charge Id"
+        },
+        "payment_statuses": {
+            "paid": "Paid",
+            "unpaid": "Unpaid"
+        },
+        "details": {
+            "page_title": "Order",
+            "status": "Status",
+            "all_orders": "All Orders",
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "back": "Back",
+            "supplier_cancel_reason": "Supplier Cancel Reason",
+            "client_cancel_reason": "Client Cancel Reason",
+            "tabs": {
+                "info": {
+                    "title": "Information",
+                    "account_order_info": {
+                        "head_title": "Order & Account Info",
+                        "account_title": "Account Information",
+                        "order_title": "Supplier Order",
+                        "customer_name": "Customer Name",
+                        "email": "Email",
+                        "order_date": "Order Date",
+                        "order_status": "Order Status",
+                        "purchased_from": "Purchased From",
+                        "client_type": "Client Type",
+                        "phone_number": "Phone Number",
+                        "company": "Company",
+                        "b2b_type": "B2B Buyer",
+                        "b2c_type": "Retail Buyer"
+                    },
+                    "comments": {
+                        "header": "Clients Comments",
+                        "sec_header": "Comments"
+                    },
+                    "address_section": {
+                        "head_title": "Pick Up / Shipping Information",
+                        "billing_sec": {
+                            "title": "Billing Address",
+                            "address": "Address",
+                            "city": "City",
+                            "governorate": "Governorate",
+                            "country": "Country",
+                            "full_address": "Full Address",
+                            "picked_title": "Pickup Address",
+                            "shipping_title": "Shipping Address",
+                            "apartment": "Apartment",
+                            "building": "Building",
+                            "floor": "Floor"
+                        },
+                        "shipping_sec": {
+                            "title": "Shipping Address"
+                        },
+                        "payment_head_title": "Payment & Shipping Method",
+                        "payment_sec": {
+                            "title": "Payment Information",
+                            "currency_info": "Payment Currency",
+                            "charge_id": "Charge Id",
+                            "type": "Type",
+                            "status": "Status",
+                            "bank_comment": "Bank Comment",
+                            "payment_bank_image": "Payment Image",
+                            "reject_reason": "Reject Reason"
+                        },
+                        "handling_sec": {
+                            "title": "Shipping & Handling Information",
+                            "shipping_fees": "Shipping Fees",
+                            "shipping_type": "Shipping Type"
+                        }
+                    },
+                    "items_section": {
+                        "head_title": "Items"
+                    },
+                    "baskets_section": {
+                        "head_title": "Baskets"
+                    },
+                    "total_section": {
+                        "head_title": "Order Total",
+                        "notes_title": "Notes for this order",
+                        "orders_title": "Order Totals",
+                        "status": "Change Status",
+                        "comment": "Comment",
+                        "notify_email": "Notify Customer By Email"
+                    },
+                    "order_totals": {
+                        "title": "Order Totals",
+                        "total_supplier_price": "Total Supplier price",
+                        "total_price": "Total Price",
+                        "total_discount": "Total Discount",
+                        "total_commission": "Total Commission",
+                        "shipping_fee": "Shipping Fee",
+                        "sub_price": "Subtotal Price"
+                    }
+                },
+                "invoice": {
+                    "title": "Invoice",
+                    "actions": {
+                        "print_invoice": "Print Invoice"
+                    },
+                    "invoice_table": {
+                        "product": "Product",
+                        "quantity": "Quantity",
+                        "price": "Price",
+                        "subtotal": "Subtotal",
+                        "ordered": "Ordered",
+                        "total_price": "Total Price",
+                        "total_discount": "Total Discount",
+                        "total_commission": "Total Commission",
+                        "shipping_fee": "Shipping Fee"
+                    },
+                    "print": {
+                        "supplier": "Supplier",
+                        "client": "Client",
+                        "invoice": "Invoice",
+                        "order": "Order",
+                        "order_date": "Order Date",
+                        "item": "Item",
+                        "basket": "Basket",
+                        "qty": "Quantity",
+                        "coupon": "Coupon",
+                        "price": "Price",
+                        "subtotal": "Subtotal",
+                        "shipping_and_handling": "Shipping & Handling",
+                        "charge_id": "Charge Id",
+                        "tax": "Tax",
+                        "discount": "Discount",
+                        "grand_total": "Grand Total",
+                        "payment_method": "Payment Method",
+                        "shipping_method": "Shipping Method",
+                        "shipping_info": "Shipping Info",
+                        "mobile_no": "Mobile NO.",
+                        "footer_thanks": "Thank you for your order"
+                    }
+                },
+                "comments": {
+                    "title": "Comments History",
+                    "comment": {
+                        "client_name": "Client Name",
+                        "comment": "Comment"
+                    }
+                },
+                "log_status": {
+                    "title": "Log Status"
+                },
+                "memo": {
+                    "serial": "Credit Memo Serial",
+                    "created_at": "Credit at",
+                    "order_serial": "Order Serial",
+                    "order_date": "Status",
+                    "bill_to_name": "Bill to name",
+                    "status": "Status",
+                    "debitor": "Debitor",
+                    "creditor": "Creditor",
+                    "amount": "Amount",
+                    "updated_at": "Updated at"
+                }
+            }
+        }
+    },
+    "alerts": {
+        "saved": "Saved Successfully !"
+    },
+    "tooltips": {
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "repay": "Repay",
+        "pause": "Pause",
+        "play": "Play",
+        "print": "Print"
+    },
+    "quote_details": {
+        "quote_title": "Quote",
+        "sec_title": "Account Information",
+        "product_title": "Product Information",
+        "details": {
+            "quote_name": "Quote Name",
+            "created": "Created",
+            "is_confirmed": "Is Confrirmed",
+            "expires": "Expires",
+            "status": "Status"
+        },
+        "product_details": {
+            "product_name": "Product Name",
+            "sku": "SKU",
+            "price_before_discount": "Price Before Discount",
+            "price": "Customer Price",
+            "final_price": "Final Price"
+        },
+        "tabs": {
+            "items_quoted": {
+                "tab_title": "Items Quoted",
+                "table": {
+                    "supplier_price": "Supplier Price",
+                    "negotiable_price": "Negotiable Supplier Price",
+                    "stock": "Stock",
+                    "qty": "Qty",
+                    "total": "Total",
+                    "action": "Action",
+                    "send_offer": "Send Offer",
+                    "placeholder": "Enter Your Price"
+                },
+                "update_btn": "Update"
+            },
+            "Comments": {
+                "title": "Message On Quote",
+                "add_comment": "Add Comment",
+                "table": {
+                    "index": "Serial",
+                    "comment": "Comment",
+                    "commented_by": "Commented By",
+                    "created_at": "Created At",
+                    "total_price": "Total Price",
+                    "total_commission": "Total Commission"
+                }
+            },
+            "modal": {
+                "add_offer": "Send Quote",
+                "negotiable_price": "Negotiable Price",
+                "negotiable_qty": "Negotiable Qty",
+                "expiry_date": "Quote Expiry Date",
+                "comments": "Comment",
+                "send": "Send",
+                "close": "Close"
+            }
+        }
+    },
+    "users": {
+        "header": {
+            "users": "Users",
+            "add_new": "Add New User",
+            "edit": "Edit User"
+        },
+        "table": {
+            "name": "Name",
+            "email": "Email",
+            "role": "Role"
+        },
+        "form": {
+            "submit": "Submit",
+            "add_user": "Add User",
+            "edit_user": "edit User",
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "email": "Email",
+            "mobile_number": "Mobile Number",
+            "password": "Password",
+            "confirm_password": "Confirm Password",
+            "role": "Role",
+            "hints": {
+                "please_enter": "Please Enter",
+                "please_select": "Please Select",
+                "valid_email": "Please Enter Valid Email",
+                "password_not_match": "Passwords Do not Match!"
+            }
+        }
+    },
+    "coupons": {
+        "header": {
+            "title": "Coupons",
+            "add_new": "Add New Coupon",
+            "edit": "Edit Coupon"
+        },
+        "table": {
+            "code": "CODE",
+            "type": "TYPE",
+            "count_of_use": "COUNT OF USE",
+            "count_of_use_per_user": "COUNT OF USE PER USER",
+            "discount_type": "DISCOUNT TYPE",
+            "discount": "DISCOUNT",
+            "max_discount": "MAX DISOCUNT",
+            "min_buy": "MIN BUY",
+            "promotions": "PROMOTIONS",
+            "supplier_percentage": "SUPPLIER PERCENTAGE",
+            "created_by": "CREATED BY",
+            "start_date": "START DATE",
+            "end_date": "END DATE",
+            "updated_at": "UPDATED AT"
+        },
+        "form": {
+            "submit": "Submit",
+            "fields": {
+                "coupon_type": "Coupon Type",
+                "order_count": "Filter By Orders Count",
+                "order_amount": "Filter By Orders Amount",
+                "condition": "Condition",
+                "client": "Client",
+                "product": "Search Product",
+                "code": "Code",
+                "discount": "Discount",
+                "discount_type": "Discount Type",
+                "minimum_purchase_amount": "Minimum Purchase Amount",
+                "max_discount": "Max Discount",
+                "count_of_use": "Count Of Use",
+                "user_using_times": "User Using Times",
+                "start_date": "Start Date",
+                "start_time": "Start Time",
+                "end_date": "End Date",
+                "end_time": "End Time",
+                "can_be_used_with_promotions": "Can be used with promotions"
+            },
+            "hints": {
+                "select_all": "Select All",
+                "unselect_all": "Unselect All",
+                "please_enter": "Please Enter",
+                "please_select": "Please Select",
+                "all_selected": "All Selected"
+            },
+            "discounts": {
+                "amount": "Amount",
+                "percent": "Percent"
+            }
+        }
+    },
+    "ads_management": {
+        "header": {
+            "title": "Ads Management",
+            "financials": "Ads Financials",
+            "add_new": "Add Ad",
+            "edit": "Edit Ad"
+        },
+        "cards": {
+            "total": "Total",
+            "active": "Active",
+            "comming_soon": "Comming Soon",
+            "unpaied": "Unpaid",
+            "ended": "Ended",
+            "total_amount": "Total Amount"
+        },
+        "table": {
+            "plan": "Plan",
+            "plan_type": "Plan Type",
+            "product_type": "Product Type",
+            "max_plan": "Max Plan",
+            "total_price": "Total Price",
+            "banner": "Banner",
+            "products": "Products",
+            "start_time": "Start Time",
+            "end_time": "End Time",
+            "created_at": "Created At"
+        },
+        "add": {
+            "popup": "Pop Up",
+            "comparison": "Comparison Table",
+            "product_types": "Product Types",
+            "package": "Package",
+            "days": "Days",
+            "product": "Product",
+            "process": "Process",
+            "refund_msg": "No Refunds For Purchased Ads"
+        },
+        "form": {
+            "submit": "Submit",
+            "fields": {
+                "product": "Product",
+                "products": "Products",
+                "add_product": "Add Product",
+                "banner": "Banner",
+                "start_date": "Start Date",
+                "description_en": "Description EN",
+                "description_ar": "Description AR"
+            },
+            "hints": {
+                "select_all": "Select All",
+                "unselect_all": "Unselect All",
+                "please_enter": "Please Enter",
+                "please_select": "Please Select",
+                "search_for_product": "Search for Product",
+                "all_selected": "All Selected",
+                "max_category": "Category reached max number"
+            }
+        },
+        "print": {
+            "supplier": "Supplier",
+            "date": "Date",
+            "charge_id": "Charge Id",
+            "footer_thanks": "Thank you for your order"
+        }
+    },
+    "roles": {
+        "header": {
+            "title": "Roles",
+            "add_new": "Add Role",
+            "edit_role": "Edit Role"
+        },
+        "table": {
+            "name": "Name"
+        },
+        "form": {
+            "save": "save",
+            "fields": {
+                "name_en": "Name En",
+                "name_ar": "Name Ar",
+                "permissions": "Permissions"
+            },
+            "hints": {
+                "please_enter": "Please Enter",
+                "please_select": "Please Select"
+            }
+        }
+    },
+    "notifications-configurations": {
+        "table": {
+            "type": "Type",
+            "module": "Module",
+            "status": "Status"
+        }
+    },
+    "buy_get_promotions": {
+        "header": {
+            "title": "Buy X Get Y Promotions",
+            "add_new": "Add New Promotion",
+            "edit": "Edit Promotion"
+        },
+        "table": {
+            "product_type": "Product Type",
+            "products": "Products",
+            "buy": "Buy",
+            "get": "Get",
+            "start_date": "Start Date",
+            "end_date": "End Date",
+            "status": "Status",
+            "created_at": "Created At",
+            "updated_at": "Updated at"
+        },
+        "form": {
+            "submit": "Submit",
+            "fields": {
+                "product_type": "Product Type",
+                "products": "Search Products",
+                "buy": "Buy",
+                "get": "Get",
+                "promotion_period": "Promotion Period"
+            },
+            "hints": {
+                "please_enter_number": "Please Enter a Number",
+                "please_select": "Please Select"
+            }
+        }
+    },
+    "basket_promotions": {
+        "header": {
+            "title": "Basket Promotion",
+            "add_new": "Add New Promotion",
+            "edit": "Edit Promotion"
+        },
+        "table": {
+            "product_type": "Product Type",
+            "products": "Products",
+            "price_type": "Price Type",
+            "discount_percentage": "Discount Percentage",
+            "basket_price": "Basket Price",
+            "start_date": "Start Date",
+            "end_date": "End Date",
+            "status": "Status",
+            "created_at": "Created At",
+            "updated_at": "Updated at"
+        },
+        "form": {
+            "submit": "Submit",
+            "fields": {
+                "product_type": "Product Type",
+                "products": "Search Products",
+                "calculation_type": "Calculation Type",
+                "discount_percentage": "Discount Percentage",
+                "promotion_period": "Promotion Period",
+                "return_time": "Return Time Limit",
+                "title_en": "Title EN",
+                "title_ar": "Title AR",
+                "description_en": "Description EN",
+                "description_ar": "Description AR",
+                "main_image": "Main Image",
+                "images": "Images"
+            },
+            "products": {
+                "products": "Products",
+                "product": "Product",
+                "old_price": "Old Price",
+                "new_price": "New Price",
+                "quantity": "Quantity",
+                "percent": "Percent",
+                "total_old_price": "Total Old Price",
+                "total_price": "Total Price",
+                "total": "Total"
+            },
+            "price_types": {
+                "percent": "Percent",
+                "amount": "Amount"
+            },
+            "be_aware_of_one": "Be aware that you made a basket with one product only"
+        }
+    },
+    "buy_gift_promotions": {
+        "header": {
+            "title": "Buy X Get Gift Promotion",
+            "add_new": "Add New Promotion",
+            "edit": "Edit Promotion"
+        },
+        "table": {
+            "product_type": "Product Type",
+            "buy_product_name": "Buy Product Name",
+            "buy": "Buy",
+            "gift_product_name": "Gift Product Name",
+            "gift": "Gift",
+            "start_date": "Start Date",
+            "end_date": "End Date",
+            "status": "Status",
+            "created_at": "Created At",
+            "updated_at": "Updated at"
+        },
+        "form": {
+            "submit": "Submit",
+            "fields": {
+                "product_type": "Product Type",
+                "buy_product": "Buy Product",
+                "buy": "Buy",
+                "gift_product": "Gift Product",
+                "gift": "Gift",
+                "promotion_period": "Promotion Period"
+            },
+            "hints": {
+                "please_enter_number": "Please Enter a Number",
+                "please_select": "Please Select"
+            }
+        }
+    }
+}

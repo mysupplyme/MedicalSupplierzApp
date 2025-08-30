@@ -1,0 +1,1770 @@
+{
+    "lang": "English",
+    "dir": "rtl",
+    "generic": {
+        "b2b": "منتجات جملة",
+        "b2c": "منتجات تجزئة",
+        "both": "الاثنين معا",
+        "not_completed": "منتجات غير مكتملة",
+        "currency": "د.ك",
+        "cancel_order_modal": {
+            "modal_title": "سبب الإلغاء",
+            "reason": "سبب الإلغاء",
+            "save": "حفظ",
+            "send": "ارسال",
+            "close": "إلغاء"
+        },
+        "times": {
+            "all_time": "كل الاوقات",
+            "current_month": "هذا الشهر",
+            "previous_month": "الشهر الماضي",
+            "custom": "مخصص"
+        },
+        "export": "تصدير",
+        "import": "استيراد",
+        "example": "مثال",
+        "chat_with_my_supply": "قم بمحادثة ماي سبلاي",
+        "save": "حفظ",
+        "step": "خطوة",
+        "period": "الفترة"
+    },
+    "actions": "العمليات",
+    "nodata": "لا توجد بيانات",
+    "table": {
+        "filters": "تصفية",
+        "reset": "إعادة تعيين",
+        "cancel": "إلغاء",
+        "columns": "اختر الاعمدة",
+        "clickable_rows": "عرض عند الضغط",
+        "visible": "ظاهر",
+        "out of": "من",
+        "per_page": "في الصفحة",
+        "select_all": "اخيار الكل",
+        "actions": "الاجراءات",
+        "choose_date": "اختر التاريخ"
+    },
+    "filters": {
+        "submit": "تصفية"
+    },
+    "dashboard": {
+        "title": "لوحة التحكم",
+        "products": "المنتجات",
+        "suppliers": "الموردين",
+        "avg_order": "متوسط ​​الطلبات",
+        "lifetime_sales": "مبيعات مدى الحياة",
+        "kwd": "د.ك",
+        "cards": {
+            "first_cards": {
+                "title": "المبيعات",
+                "orders": "الطلبات",
+                "avg_order": "متوسط ​​الطلبات",
+                "total_commission": "إجمالي العمولة",
+                "net_sales": "صافي الارباح"
+            },
+            "sec_cards": {
+                "title": "حالات الطلبات",
+                "complete_orders": "الطلبات المكتملة",
+                "pending_orders": "الطلبات الجارية",
+                "canceled_orders": "الطلبات الملغاة"
+            },
+            "third_cards": {
+                "title": "المرتجعات",
+                "complete_returns": "المرتجعات المكتملة",
+                "pending_returns": "المرتجعات الجارية"
+            },
+            "forth_cards": {
+                "title": "المالية",
+                "paid_orders": "الطلبات المدفوعة",
+                "unpaid_orders": "الطلبات غير المدفوعة",
+                "received_money": "المبالغ المحصلة",
+                "un_received_money": "المبالغ الغير محصلة",
+                "total_shipping_fee": "مصاريف الشحن المحصلة",
+                "cash_box": "صندوق النقدية"
+            },
+            "go_to": "اذهب الي"
+        },
+        "table": {
+            "tabs": {
+                "latest_orders": "اخر الطلبات",
+                "approved_products": "المنتجات المعتمدة",
+                "low_inventory_products": "منتجات منخفضة المخزون",
+                "best_sellers": "اكثر المنتجات المباعة",
+                "most_viewed_products": "اكثر المنتجات المشاهدة",
+                "b2b": "منتجات جملة",
+                "b2c": "منتجات تجزئة"
+            },
+            "best_sellers": {
+                "image": "صورة المنتج",
+                "product": "المنتج",
+                "sku": "SKU",
+                "count": "العدد"
+            },
+            "most_viewes": {
+                "views": "المشاهدات"
+            }
+        }
+    },
+    "notifications": {
+        "go_to_humhhumm": "الذهاب الي الموقع",
+        "notifications": "الاشعارات",
+        "mark_as_read": "تعليم كمقرؤة",
+        "read_all": "قراءة الكل",
+        "loading": "جاري التحميل",
+        "statistics": {
+            "sales": "مبيعات",
+            "order": "طلبات",
+            "products_b2c": "منتجات تجزئة",
+            "products_b2b": "منتجات جملة"
+        }
+    },
+    "login": {
+        "welcome": "مرحبًا بك في لوحة تحكم المورد",
+        "greatDay": "المورد يستطيع \"تسجيل الدخول\" أو \" انشاء حساب جديد\" من هنا",
+        "signinTitle": "تسجيل الدخول",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "remember": "تذكرني",
+        "signin": "تسجيل الدخول",
+        "createAccount": "انشاء حساب",
+        "forgetPassword": "نسيت كلمة المرور"
+    },
+    "register": {
+        "enter_your": "ادخل ",
+        "please_select": "برجاء اختر",
+        "welcome": "انشاء حساب جديد",
+        "greatDay": "يسعدنا انضمامك إلينا!",
+        "signinTitle": "الرجاء إضافة التفاصيل الخاصة بك",
+        "company_en": "اسم الشركة بالانجليزية",
+        "company_ar": "اسم الشركة بالعربية",
+        "job": "المسمى الوظيفي",
+        "email": "بريد الالكتروني",
+        "phone": "هاتف",
+        "password": "كلمة المرور",
+        "confirm": "تأكيد كلمة المرور",
+        "i_agree": "أوافق على",
+        "create": "انشاء حساب",
+        "readTerms": "اقرأ الشروط",
+        "signin": "تسجيل الدخول",
+        "selling_for": "منتجاتي تباع لـ",
+        "termsAndCondition": "الشروط و الاحكام",
+        "close": "اغلاق",
+        "perfect": "موافق",
+        "job_title": "المسمي الوظيفي",
+        "supplier_type": "نوع المورد",
+        "dept_options": {
+            "Finance": "الماليه",
+            "Marketting": "التسويق",
+            "Sales": "المبيعات",
+            "HR": "الموارد البشرية",
+            "Accounting": "الحسابات",
+            "IT": "تكنولوجيا المعلومات",
+            "Law": "القانون"
+        }
+    },
+    "otp": {
+        "welcome": "أهلا وسهلا",
+        "verifyTitle": "من فضلك قم بالتحقق من حسابك",
+        "description": "كود التحقق الخاص بحسابك تم ارساله الي هاتفك، برجاء التحقق من الرسائل",
+        "otpTitle": "تفعيل الحساب",
+        "otp": "كود التفعيل",
+        "verifyBtn": "قم بالتفعيل",
+        "resend": "لم تصل؟ قم باعادة الارسال ",
+        "other_register": "تسجيل باستخدام رقم هاتف اخر"
+    },
+    "verify-email": {
+        "welcome": "أهلا بك",
+        "verifyTitle": "شكرا لتسجيلك",
+        "description": "لقد أرسلنا إليك بريدًا إلكترونيًا يحتوي على الإرشادات والخطوات التالية لإكمال التسجيل",
+        "resend": "إعادة إرسال",
+        "login_btn": "تسجيل الدخول باستخدام بريد آخر"
+    },
+    "forget-pass": {
+        "welcome": "لا تقلق ، نحن نساندك",
+        "subTitle": "الرجاء إدخال البريد الإلكتروني الخاص بك",
+        "formTitle": "تذكير كلمة السر",
+        "input": "اسم المستخدم أو البريد الالكتروني",
+        "signin": " تسجيل الدخول"
+    },
+    "reset-pass": {
+        "welcome": "أهلا بك",
+        "subTitle": "الرجاء إدخال كلمة المرور الجديدة الخاصة بك",
+        "formTitle": "إعادة تعيين كلمة المرور",
+        "password": "كلمه المرور الجديدة",
+        "confirm": "تأكيد كلمه المرور الجديدة",
+        "reset": "اعادة تعيين",
+        "expired_link": "صلاحية رابط اعادة التوجية اصبحت منتهية"
+    },
+    "verify-pass": {
+        "welcome": "أهلا بك",
+        "description": "لقد أرسلنا إليك بريدًا إلكترونيًا يحتوي على الإرشادات والخطوات التالية لإكمال إعادة تعيين كلمة المرور الخاصة بك",
+        "resend": "إعادة إرسال"
+    },
+    "complete-profile": {
+        "header": "الصفحة الشخصية",
+        "sub_header": "عرض حسابك وتغيير الإعدادات الخاصة بك",
+        "my_account": "حسابي",
+        "breadcrumb": {
+            "dashboard": "لوحة التحكم",
+            "complete_profile": "ملف الشركة"
+        },
+        "selling-categories": {
+            "tab": "فئات البيع",
+            "title": "فئات البيع",
+            "action-btns": {
+                "save": "حفظ"
+            }
+        },
+        "shipping": {
+            "tab": "الاستلام والشحن",
+            "title": "الاستلام والشحن",
+            "city": "المدينة",
+            "country": "الدولة",
+            "region": "المنطقة",
+            "pincode": "الرقم البريدي",
+            "key-address": "العنوان",
+            "address1": "سطر العنوان الاول",
+            "address2": "سطر العنوان الثاني",
+            "select-location": "ادخل العنوان من خرائط جوجل",
+            "lng": "خط الطول",
+            "lat": "دائرة العرض",
+            "is-default": "هل افتراضي؟",
+            "is-active": "هل نشيط؟",
+            "actions": "الاجراءات",
+            "point_sale": "هل تدعم نقاط الاستلام",
+            "placeholders": {
+                "select": "من فضلك اختر"
+            },
+            "action-btns": {
+                "save": "حفظ",
+                "edit": "تعديل العنوان",
+                "delete": "مسح العنوان",
+                "default": "اجعله افتراضي",
+                "status": "تغيير الحالة"
+            },
+            "hints": {
+                "key_address_hint": "يمكنك إضافة سطور العنوان في سطر العنوان الأول وسطر العنوان الثاني",
+                "location_hint": "يقوم نظامنا تلقائيًا بأضافة خط الطول وخط العرض من موقعك الحالي"
+            }
+        },
+        "supplier-info": {
+            "tab": "بيانات المستخدم",
+            "name": "الأسم الاول للمستخدم",
+            "last_name": "الأسم الأخير للمستخدم",
+            "job_title": "المسمي الوظيفي",
+            "supplier_type": "نوع المورد",
+            "type": "(بالجملة) هل تريد ان تكون مشتري",
+            "selling_for": "منتجاتي تباع لـ",
+            "email": "البريد الألكتروني",
+            "mobile_number": "رقم الهاتف",
+            "Change_password": "تغير الرقم السري",
+            "Change_mail_phone": "تغيير البريد والهاتف",
+            "current_password": "الرقم السري الحالي",
+            "new_password": "الرقم السري الجديد",
+            "confirm_password": "أكد الرقم السري",
+            "hints": {
+                "type_hint": "هل تريد انشاء حساب مستخدم كمشتري بالجملة؟",
+                "selling_for_hint": "اختر لأي المستخدمين ستقوم ببيع منتجاتك",
+                "email_hint": "اذا اردت ان تقوم بتغيير تلك البيانات من فضلك قم بالتواصل مع فريق ادارة Humhumm",
+                "mobile_number_hint": "اذا اردت ان تقوم بتغيير تلك البيانات من فضلك قم بالتواصل مع فريق ادارة Humhumm",
+                "passwords_hint": "كلمة المرور لا يجب ان تقل  عن 8 حروف وان تحتوي علي (الأحرف الكبيرة والصغيرة والأحرف الخاصة والرقم)"
+            },
+            "action-btns": {
+                "save": "حفظ",
+                "yes": "نعم",
+                "no": "لا"
+            }
+        },
+        "business-info": {
+            "tab": "بياتات الشركة",
+            "business_name_en": "اسم الشركة بالانجليزية",
+            "business_name_ar": "اسم الشركة بالعربية",
+            "company_logo": "شعار الشركة",
+            "reg_number": "رقم التسجيل",
+            "CCL": "الرخصة التجارية للشركة",
+            "auth_sign": "اسم المفوض بالتوقيع",
+            "cilvil_id": "رقم البطاقة المدنية",
+            "civil_id_copy": "نسخة من البطاقة المدنية للمخول بالتوقيع",
+            "certificate_signatory": "شهادة مصدق بالتوقيع",
+            "right_management": "شهادة حق الإدارة من وزارة التجارة",
+            "hints": {
+                "company_logo_hint": "يجب ان يكون الملف عبارة عن صورة, بالامتدادات الاتيه : JPG, PNG, JEPG, والا  يتعدي حجم الملف مساحة 1 ميجا بايت",
+                "image_hint": "يجب ان يكون الملف بالامتدادات الاتيه : pdf, doc, docx, JPG, PNG, JEPG, والا  يتعدي حجم الملف مساحة 1 ميجا بايت "
+            },
+            "action-btns": {
+                "save": "حفظ"
+            }
+        },
+        "supplier_description": {
+            "tab": "بيانات المورد",
+            "action-btns": {
+                "save": "حفظ"
+            },
+            "hints": {
+                "image_hint": "يجب ان يكون الملف بالامتدادات الاتيه : JPG, PNG, JEPG, والا  يتعدي حجم الملف مساحة 1 ميجا بايت "
+            },
+            "form": {
+                "facebook_page": "فيس بوك",
+                "instagram_page": "انستجرام",
+                "linkedin_page": "لينكد ان",
+                "twitter_page": "تويتر",
+                "google_page": "جوجل",
+                "short_description": "وصف قصير",
+                "shipping_and_payment_terms": "شروط الشحن والدفع",
+                "return_policy": "سياسة الإرجاع",
+                "banner": "لافتة",
+                "en": "انجليزي",
+                "ar": "عربي"
+            }
+        },
+        "bank-details": {
+            "tab": "بيانات البنك",
+            "account_holder_name": "اسم صاحب الحساب",
+            "account_number": "رقم حساب",
+            "bank_name": "اسم البنك",
+            "iban_number": "كود IBAN",
+            "iban_number_cert": "شهادة كود IBAN",
+            "action-btns": {
+                "save": "حفظ"
+            }
+        },
+        "supplier-docs": {
+            "tab": "مستندات المورد",
+            "message": "يرجى تحميل المستندات المذكورة أدناه لإكمال التسجيل",
+            "signature": "مستندات مؤلف التوقيع",
+            "memorandom": "عقد التأسيس",
+            "action-btns": {
+                "save": "حفظ"
+            }
+        },
+        "status": {
+            "tab": "الحالة",
+            "current_status": "الحالة الحالية",
+            "status_value": "مفعل",
+            "request_for": "طلب الي",
+            "go_to_vacation": "اذهب إلى العطلة",
+            "to": "الي",
+            "reason": "السبب",
+            "ID": "المسلسل",
+            "request_for_table": "طلب ل...",
+            "request_from": "طلب من",
+            "request_to": "طلب الي",
+            "reason_table": "سبب",
+            "status": "الحالة",
+            "action-btns": {
+                "save": "حفظ",
+                "vacation": "طلب اجازة",
+                "close": "طلب اغلاق المتجر"
+            }
+        }
+    },
+    "products": {
+        "breadcrumb": {
+            "edit": "تعديل منتج",
+            "new": "اضافة منتج",
+            "products": "المنتجات"
+        },
+        "newproduct": {
+            "add_product": "اضافة المنتج",
+            "no_selling_categories": "برجاء ملء فئات البيع الخاصة بك اولاً",
+            "add": "اضافة",
+            "title": "منتج جديد",
+            "basicInfo": "المعلومات الأساسية",
+            "save": "حفظ",
+            "sku": "رقم المخزن",
+            "productId": "معرف المنتج",
+            "change_category": "تفيير الفئات",
+            "request_category": "طلب فثة جديده",
+            "product_name": "اسم المنتج",
+            "message": "رسالة",
+            "category": "الفئة",
+            "subcategory": "الفئة الفرعي",
+            "subSubcategory": "الفئة الأخيرة",
+            "other": "آخري",
+            "name-ar": "الأسم العربي",
+            "name-en": "الأسم الإنجليزي",
+            "brand_id": "اسم التوكيل",
+            "from": "المنتج من",
+            "selling_country": "بلد التوزيع",
+            "unit": "الوحدة",
+            "desc-en": "وصف المنتج باللغة الإنجليزية",
+            "desc-short-en": "وصف قصير باللغة الإنجليزية",
+            "desc-ar": "وصف المنتج باللغة العربية",
+            "desc-short-ar": "وصف قصير باللغة العربية",
+            "images": "الصور",
+            "main-image": "تحميل الصورة الرئيسية للمنتج",
+            "sub-images": "تحميل صور المنتج",
+            "placeholders": {
+                "select": "الرجاء التحديد"
+            },
+            "publish_msg": "هل تريد ان تفعل هذا المنتج؟",
+            "publish_msg_err": "هذا المنتج غير مكتمل",
+            "add_brand": {
+                "add_brand": "اضافة علامة تجارية",
+                "title_en": "الاسم الانجليزي ",
+                "title_ar": "الاسم العربي ",
+                "image": "صورة"
+            },
+            "b2form": {
+                "b2b-title": "الجملة/ الشركات",
+                "b2c-title": "التجزئة / العملاء",
+                "published": "منشور",
+                "unpublished": "غير منشور",
+                "sku": "المورد SKU",
+                "price": "السعر",
+                "weight": "الوزن",
+                "expire": "تاريخ الصلاحية",
+                "expire_day": "أيام انتهاء الصلاحية",
+                "quantity": "الكمية",
+                "unit": "الوحدة",
+                "pcs": "عدد القطع لكل وحدة",
+                "barcode": "الباركود",
+                "change_commission_request": "طلب تغيير العمولة",
+                "commission": "العمولة الخاصة للمتج",
+                "exclude_msg": "السعر غير شامل العمولة.",
+                "include_msg": "السعر شامل العمولة.",
+                "include": "ضمن",
+                "exclude": "لا يحتوي",
+                "commission_msg": "عموله الموقع سوف تكون",
+                "price_msg": "المورد سيحصل علي",
+                "total_price_msg": "السعر المنتج الذي سيظهر علي الموقع",
+                "add-cart": "تفعيل شراء المنتج / طلب عرض سعر",
+                "both": "الاثنين معا",
+                "rfq": "طلب عرض سعر فقط",
+                "cart-only": "شراء المنتج فقط",
+                "options": "الخيارات",
+                "option": {
+                    "sku": "SKU الخيارات",
+                    "title": "اضافة خيار جديد",
+                    "title_ar": "اسم الخيار باللغة العربية",
+                    "title_en": "اسم الخيار باللغة الانجليزية",
+                    "quantity": "الكمية",
+                    "price": "السعر"
+                }
+            },
+            "offerForm": {
+                "formTitle": "العروض",
+                "price": "نسبه الخصم",
+                "start": "تاريخ بداية العرض",
+                "end": "تاريخ انتهاء العرض",
+                "type": "نوع العرض",
+                "status": "حالة العرض"
+            },
+            "statusForm": {
+                "none": "بدون حاله",
+                "formTitle": "حالة المنتج",
+                "ask_to_active": "طلب تقعيل",
+                "daily": "يومي",
+                "monthly": "شهري",
+                "published": "اطلب من المسؤول النشر",
+                "unpublished": "اطلب من المسؤول الغاء النشر",
+                "delivery_time": "مدة الشحن",
+                "return_time": "تحديد وقت الاسترجاع",
+                "alert_quantity": "التنبيه عند وصول المخزون لكمية معينة",
+                "stock_quantity": "كمية المخزون",
+                "min_quantity": "اقل كمية للطلب",
+                "warranty": "نوع الضمان",
+                "status": "الحالة",
+                "recentlyArrived": "وصل حديثاً",
+                "mostWanted": "مطلوب بشدة",
+                "condition": "الحالة",
+                "new": "جديد",
+                "used": "مستعمل",
+                "rental": "ايجار"
+            }
+        },
+        "sellproduct": {
+            "title": "المنتجات",
+            "category": "الفئة",
+            "all": "الكل",
+            "topSellers": "أفضل البائعين",
+            "outOfStock": "انتهى من المخزون",
+            "select": "اختر",
+            "none": "لا شئ",
+            "cols": {
+                "image": "صورة المنتج",
+                "product": "المنتج",
+                "category": "الفئة",
+                "actions": "العمليات"
+            }
+        },
+        "listproduct": {
+            "title": "المنتجات",
+            "topSellers": "أفضل البائعين",
+            "outOfStock": "انتهى من المخزون",
+            "select": "اختر",
+            "none": "لاشئ",
+            "upload_images": "رفع صةر",
+            "cols": {
+                "image": "صورة المنتج",
+                "product": "اسم المنتج",
+                "basket": "سلة",
+                "category": "الفئة",
+                "from": "المنتج من",
+                "brand": "العلامة التجارية",
+                "actions": "العمليات",
+                "barcode": "رمز الباركود",
+                "sku": "رقم المخزن",
+                "selling_price": "سعر البيع",
+                "sup_price": "سعر المورد",
+                "sup_total_price": "اجمالي سعر المورد",
+                "price": "السعر",
+                "coupon": "القسيمة",
+                "coupon_discount": "خصم القسيمة",
+                "commission_after_discount": "العمولة بعد الخصم",
+                "commission_changed": "تغيير العمولة بواسطة",
+                "sup_total_after_discount": "سعر المورد بعد الخصم",
+                "offer_price": "سعر العرض",
+                "expiration": "تاريخ الصلاحية",
+                "quantity": "الكمية",
+                "commission": "العمولة",
+                "total": "الاجمالي",
+                "Price": "سعر",
+                "Offer": "سعر العرض للجملة",
+                "OfferExp": "تاريخ صلاحية",
+                "status": "حالة",
+                "created_at": "تاريخ الانشاء"
+            },
+            "edit": "تعديل",
+            "changeStatus": "تغيير الحالة",
+            "filters": {
+                "filter": "تصفية",
+                "sku": "المورد SKU",
+                "product": "اسم المنتج",
+                "status": "الحالة",
+                "category": "الفئة",
+                "date_from": "التاريخ من",
+                "date_to": "التاريخ إلى",
+                "published": "منشور",
+                "unpublished": "غير منشور"
+            }
+        },
+        "details": {
+            "title": "التفاصيل",
+            "title_ar": "الاسم العربي ",
+            "title_en": "الاسم الانجليزي ",
+            "category": "الفئة",
+            "sub_category": "الفئة الفرعي",
+            "subSubcategory": "الفئة الأخيرة",
+            "from_country": "بلد المنشا ",
+            "brand": "التوكيل",
+            "unit": "الوحدة",
+            "options": "الخيارات",
+            "b2b": "مورد جمله",
+            "b2c": "مورد تجزئة",
+            "sku": "SKU المورد",
+            "price": "السعر",
+            "weight": "الوزن",
+            "expiration": "تاريخ الصلاحية",
+            "pieces_number": "عدد القطع",
+            "quantity": "الكميه",
+            "commission": "العمولة",
+            "product_id": "معرف المنتج",
+            "en_desc": "وصف المنتج باللغة الإنجليزية",
+            "ar_desc": "وصف المنتج باللغة العربية",
+            "ar_short_desc": "وصف قصير باللغة العربية",
+            "en_short_desc": "وصف قصير باللغة الإنجليزية",
+            "edit": "تعديل",
+            "barcode": "الرمز الشرطي"
+        },
+        "cards": {
+            "allProducts": "كل المنتجات",
+            "nonLive": "غير منشور",
+            "outOfStock": " غير متوفر بالمخزون",
+            "new-product": "منتج جديد",
+            "live": "منشور"
+        }
+    },
+    "permissions": {
+        "roles": {
+            "title": "اسم الدور",
+            "table": {
+                "id": "المعرف",
+                "role": "الدور",
+                "actions": "الاجراءات"
+            },
+            "new_role_modal": {
+                "title": "دور جديد",
+                "sec_title": "انشاء دور",
+                "role_name": "اسم الدور",
+                "resources_access": "الوصول إلى الموارد؟",
+                "resorce_names": "موارد",
+                "all_resorces": {
+                    "sup_dashboard": "لوحة تحكم المورد",
+                    "sup_profile": "حساب المورد",
+                    "manage_orders": "تحكم بالطلبات؟",
+                    "manage_products": "تحكم بالمنتجات؟",
+                    "sup_services": "خدمات المورد",
+                    "financials": "الحسابات المالية"
+                }
+            },
+            "action_btns": {
+                "add_role": "أضف دور جديد"
+            }
+        },
+        "users": {
+            "status": "الحالة",
+            "cards": {
+                "active": "نشط",
+                "inactive": "غير نشط",
+                "all_access": "كل الصلاحيات",
+                "custom_access": "صلاحيات محددة",
+                "add_user": "اضف مستخدم جديد"
+            },
+            "table": {
+                "id": "المعرف",
+                "name": "الاسم",
+                "email": "البريد الالكتروني",
+                "access": "الصلاحية",
+                "is_active": "هل نشط؟",
+                "action": "الاجراءات"
+            },
+            "action_btns": {
+                "status": {
+                    "status": "الحالة",
+                    "active": "نشط",
+                    "in_active": "غير نشط",
+                    "all": "الكل"
+                },
+                "show": "اظهر"
+            }
+        },
+        "add_user": {
+            "title": "مستخدم جديد",
+            "sec_title": "انشيء مستخدم جديد",
+            "form": {
+                "user_name": "اسم المستخدم",
+                "name": "الاسم",
+                "email": "البريد الالكتروني",
+                "password": "كلمة المرور",
+                "confirm_password": "تأكيد كلمة المرور",
+                "account_status": "هذا الحساب هو؟",
+                "user_role": "دور المستخدم",
+                "action_btns": {
+                    "all_access": "كل الصلاحيات",
+                    "custom_access": "صلاحيات محددة",
+                    "create_btn": "انشاء"
+                }
+            }
+        }
+    },
+    "utilitis": {
+        "supported_all_format": "تدعم كل الصيغ:",
+        "supported_images_format": "تدعم كل صيغ الصور:",
+        "switch_message": "يبدو أنك أجريت بعض التغييرات على البيانات. هل تريد تجاهل التغييرات أو حفظها؟",
+        "save_btn": "حفظ",
+        "discard": "تجاهل",
+        "ok": "حسناً",
+        "yes": "نعم",
+        "no": "لا",
+        "confirm_message": "هل انت متأكد؟",
+        "cancle": "إلغاء",
+        "confirm": "تاكيد"
+    },
+    "supplier_services": {
+        "feedback_rating": {
+            "header": {
+                "title": "ردود الفعل والتقييمات",
+                "action_btns": {
+                    "btn_today": {
+                        "title": "اليوم",
+                        "data": {
+                            "today": "اليوم",
+                            "this_week": "الاسبوع",
+                            "this_month": "الشهر",
+                            "this_year": "السنة",
+                            "all_time": "كل التواريخ"
+                        }
+                    },
+                    "btn_all": {
+                        "title": "الكل",
+                        "data": {
+                            "pending": "انتظار",
+                            "proccessing": "تحميل",
+                            "Canceled": "إلغاء",
+                            "Complete": "أاكمل",
+                            "all": "الكل"
+                        }
+                    },
+                    "btn_print": {
+                        "title": "طباعة"
+                    },
+                    "btn_exports": {
+                        "title": "تصدير",
+                        "data": {
+                            "export_excel": "تصدير بصيغه ملف آكسل",
+                            "export_pdf": "تصدير بصيغة ملف PDF"
+                        }
+                    },
+                    "btn_filter": {
+                        "title": "تصفية"
+                    }
+                }
+            },
+            "table": {
+                "product": "المنتج",
+                "count_of_rate": "اجمالي التقييمات",
+                "average_rate": "متوسط التقييمات",
+                "last_rate_date": "تاريخ اخر تقييم"
+            }
+        },
+        "feedback_product_reviews": {
+            "header": {
+                "title": "تقييمات المنتج",
+                "action_btns": {
+                    "btn_today": {
+                        "title": "اليوم",
+                        "data": {
+                            "today": "اليوم",
+                            "this_week": "الاسبوع",
+                            "this_month": "الشهر",
+                            "this_year": "السنة",
+                            "all_time": "كل التواريخ"
+                        }
+                    },
+                    "btn_all": {
+                        "title": "الكل",
+                        "data": {
+                            "pending": "انتظار",
+                            "proccessing": "تحميل",
+                            "Canceled": "إلغاء",
+                            "Complete": "اكمل",
+                            "all": "الكل"
+                        }
+                    },
+                    "btn_print": {
+                        "title": "طباعة"
+                    },
+                    "btn_exports": {
+                        "title": "تصدير",
+                        "data": {
+                            "export_excel": "تصدير بصيغه ملف آكسل",
+                            "export_pdf": "تصدير بصيغة ملف PDF"
+                        }
+                    },
+                    "btn_filter": {
+                        "title": "تصفيه"
+                    }
+                }
+            },
+            "product": {
+                "product_name": "اسم المنتج",
+                "description": "الوصف"
+            },
+            "table": {
+                "name": "اسم العميل",
+                "email": "البريد الألكتروني",
+                "phone": "هاتف",
+                "rate": "التقييم",
+                "date": "التاريخ"
+            }
+        },
+        "customer_query": {
+            "header": {
+                "title": "استعلامات العملاء",
+                "sec_title": "اتصالات المشتري"
+            },
+            "table": {
+                "customer_name": "اسم العميل",
+                "message": "رسالة",
+                "date": "التاريخ",
+                "last_message": "اخر رسالة"
+            },
+            "details": {
+                "client_name": "اسم العميل",
+                "subject": "الموضوع",
+                "message": "الرسالة",
+                "send": "إرسال"
+            }
+        },
+        "marketplace_communication": {
+            "header": {
+                "title": "خدمات الوردين",
+                "add_communication": "أضف اتصالات جديدة",
+                "sec_title": "فاتورة العمولات"
+            },
+            "table": {
+                "subject": "موضوعات",
+                "date": "التاريخ",
+                "status": "الحالة"
+            }
+        }
+    },
+    "navbar": {
+        "admin_options": {
+            "welcome": "اهلاُ",
+            "profile": "الملف الشخصي",
+            "notifications-configuration": "اعدادات الاشعارات",
+            "inbox": "صندوق الوارد",
+            "settings": "الإعدادات",
+            "login_as_b2b": "تسجيل الدخول كمشتري جملة",
+            "sign_out": "تسجيل الخروج"
+        },
+        "language_menu": {
+            "title": "اختر اللغة",
+            "en": "English",
+            "ar": "اللغة العربية"
+        }
+    },
+    "sidenav": {
+        "dashboard": "لوحة التحكم",
+        "products": {
+            "title": "المنتجات",
+            "my_listing": "منتجاتي",
+            "list_new_product": "اضافة منتج",
+            "select_and_sell": "اختر و بع"
+        },
+        "supplier_services": {
+            "title": "خدمات الموردين",
+            "feedback_and_rating": "المراجعة و التقييم",
+            "customer_query": "استعلامات العملاء"
+        },
+        "purchase_ads": {
+            "title": "ادارة الاعلانات"
+        },
+        "returns": {
+            "title": "المرتجعات"
+        },
+        "marketing": {
+            "title": "تسويق",
+            "coupons": "القسائم",
+            "buy_get_promotions": "عروض اشتري س احصل علي ص",
+            "buy_gift_promotions": "عروض اشتري س احصل علي هدية",
+            "basket_promotions": "عروض السلة",
+            "purchase_ads": "الاعلانات",
+            "most_viewed_products": "اكثر المنتجات المشاهدة"
+        },
+        "quotes": {
+            "title": "عروض الاسعار"
+        },
+        "financials": {
+            "title": "المالية",
+            "transactions": "التحويلات",
+            "ads_financials": "معاملات الاعلانات"
+        },
+        "orders": {
+            "title": "الطلبات"
+        },
+        "settings": {
+            "title": "الاعدادت",
+            "shipping_method": "طريقة الشحن",
+            "roles": "الأدوار",
+            "permissions": "الصلاحيات",
+            "logs": "السجلات",
+            "users": "المستخدمين",
+            "notifications-configuration": "اعدادات الاشعارات"
+        },
+        "sign_out": "تسجيل الخروج",
+        "hide_menu": "اخفاء القائمة"
+    },
+    "quotes": {
+        "title": "عروض الأسعار",
+        "view_requests": "عرض الطلبات",
+        "breadcrumb": {
+            "dashboard": "لوحة التحكم",
+            "view_requests": "عرض الطلبات"
+        },
+        "requests": {
+            "title": "عروض الاسعار المطلوبة",
+            "quote_name": "اسم عرض السعر",
+            "is_confirmed": "هل تم التأكيد",
+            "created": "تاريخ الانشاء",
+            "created_by": "الانشاء بواسطة",
+            "status": "الحالة",
+            "last_update": "اخر تحديث",
+            "prod_name": "اسم المنتج"
+        }
+    },
+    "complete_message": {
+        "account_proccess": {
+            "title": "عملية استكمال بيانات التسجيل"
+        },
+        "complete_reg": {
+            "title": "استكمل التسجيل",
+            "sec_title": "من فضلك قم باستكمال بيانات التسجيل وادخال المستندات اللازمة لتفعيل الحساب",
+            "link": "اضغط هنا لاستكمال عملية التسجيل"
+        }
+    },
+    "returns_page": {
+        "breadcrumb": {
+            "bashboard": "لوحة التحكم",
+            "return_request": "طلبات الإرجاع"
+        },
+        "title": "ادارة المرتجعات",
+        "action_btns": {
+            "btn_print": {
+                "title": "طباعة"
+            },
+            "btn_exports": {
+                "title": "تصدير",
+                "data": {
+                    "export_excel": "تصدير بصيغه ملف آكسل",
+                    "export_pdf": "تصدير بصيغة ملف كتابي"
+                }
+            },
+            "btn_filter": {
+                "title": "تصفيه"
+            }
+        },
+        "filters": {
+            "submit": "تصفية",
+            "all": "الكل",
+            "form": {
+                "orders": "الطلبات",
+                "status": "الحالة",
+                "purchase_date": "تاريخ الشراء",
+                "bill_to": "فاتورة الي",
+                "shipping_to": "شحن الي"
+            }
+        },
+        "cards": {
+            "replace": "استبدال",
+            "refund": "ارجاع",
+            "all": "الكل"
+        },
+        "table": {
+            "return_serial": "رقم طلب الارجاع",
+            "item_names": "اسم المنتجات",
+            "client": "العميل",
+            "price": "السعر",
+            "retrun_option": "نوع الطلب",
+            "return_status": "حالة الطلب",
+            "return_request_date": "تاريخ الطلب",
+            "updated_at": "تاريخ التحديث",
+            "actions": {
+                "view": "عرض"
+            }
+        },
+        "tabs": {
+            "all": "الكل",
+            "replace": "استبدال",
+            "refund": "استرجاع"
+        }
+    },
+    "return_order_view": {
+        "title": "طلب ارجاع",
+        "actions": {
+            "refunt_accept": "تم استلام الطلب وجاهز للارجاع",
+            "replace_accept": "جاهز للإستبدال",
+            "reject": "رفض",
+            "change_status": "تغيير الحالة"
+        },
+        "information": "البيانات",
+        "request_details": {
+            "title": "بيانات الطلب",
+            "print_memo": "طباعة سند الدفع",
+            "declined_reason": "سبب الرفض",
+            "reason": "سبب الطلب",
+            "details": {
+                "title": "التفاصيل",
+                "table": {
+                    "type": "النوع",
+                    "request_status": "حالة الطلب",
+                    "request_date": "تاريخ الطلب",
+                    "last_update_date": "اخر تحديث",
+                    "reshipping_fee": "مصاريف اعادة الشحن",
+                    "refund_option": "اختيار الاسترداد"
+                }
+            },
+            "print": {
+                "return_title": "سند دفع",
+                "supplier": "مورد",
+                "return_serial": "رقم طلب الارجاع'",
+                "return_request_date": "تاريخ الطلب",
+                "order_serial": "رقم الطلب",
+                "name": "الأسم",
+                "debit": "مدين",
+                "credit": "دائن",
+                "footer_thanks": "شكرا لك"
+            }
+        },
+        "order_account_information": {
+            "title": "بيانات الحساب والطلب",
+            "account_information": {
+                "title": "الحساب",
+                "table": {
+                    "customer_name": "اسم العميل",
+                    "phone": "هاتف",
+                    "email": "البريد الإلكتروني",
+                    "company_name": "الشركة"
+                }
+            },
+            "order_information": {
+                "title": "الطلب",
+                "table": {
+                    "payment_type": "طريقة الدفع",
+                    "shipping_type": "نوع الشحن",
+                    "date": "التاريخ"
+                }
+            },
+            "Item": {
+                "title": "المنتج",
+                "table": {
+                    "product": "اسم المنتج",
+                    "price": "السعر",
+                    "quantity": "الكمية",
+                    "total": "اجمالي سعر المشتري",
+                    "supplier_total": "اجمالي سعر المورد"
+                }
+            }
+        },
+        "modals": {
+            "close": "اغلاق",
+            "confirm": {
+                "title": "قبول الطلب",
+                "msg": "هل أنت متاكد من تاكيد الطلب؟",
+                "reshipping_fee": "مصاريف اعادة الشحن",
+                "confirm": "تاكيد"
+            },
+            "reject": {
+                "title": "رفض الطلب",
+                "msg": "هل انت متاكد من رفض الطلب؟",
+                "reject_reason": "سبب الرفض",
+                "reject": "رفض"
+            }
+        }
+    },
+    "breadcrumb": {
+        "dashboard": "لوحة التحكم",
+        "orders": "الطلبات",
+        "quotations": "عروض الاسعار",
+        "products": "المنتجات",
+        "feedback_and_rating": "المراجعة و التقييم",
+        "product_reviews": "تقييمات المنتج",
+        "customer_query": "استعلامات العملاء",
+        "admin_chat": "محادثة ماي سبلاي",
+        "marketplace_communication": "التواصل الخاص بالمتجر",
+        "all_users": "كل المستخدمين",
+        "roles": "الأدوار",
+        "select_and_sell": "اختر و بع",
+        "returns_request": "طلبات الارجاع",
+        "shipping_method": "طريقة الشحن",
+        "transactions_summary": "ملخص المعاملات",
+        "commissions_invoice": "فاتورة العمولات",
+        "microsite": "الموقع المصغر",
+        "customer_query_details": "تفاصيل",
+        "coupons": "القسائم",
+        "buy_get_promotion": "عرض اشتري س احصل علي ص",
+        "buy_gift_promotions": "عرض اشتري س احصل علي هدية",
+        "basket_promotion": "عرض السلة",
+        "ads_management": "ادارة الاعلانات",
+        "ads_financials": "معاملات الاعلانات"
+    },
+    "shipping_method": {
+        "header": {
+            "title": "طريقة الشحن",
+            "add_new": "أضف أسعار شحن جديدة"
+        },
+        "sec_header": {
+            "title": "أسعار الشحن",
+            "today_btn": "اليوم",
+            "all_btn": "الكل"
+        },
+        "table": {
+            "country": "البلد",
+            "region": "منطقة",
+            "city": "المدينة",
+            "zipcode_from": "الرمز البريدي من",
+            "zipcode_to": "الرمز البريدي الي",
+            "order_from": "المجموع الفرعي للطلب من",
+            "order_to": "المجموع الفرعي للطلب الي",
+            "price": "سعر الشحن",
+            "shipping_method": "طريقة الشحن",
+            "shipping_for": "شحن الي",
+            "period": "فترة التوصيل",
+            "period_type": "نوع فتره التوصيل بالمدة"
+        },
+        "modal": {
+            "title": "الطلبات",
+            "placeholders": {
+                "select": "من فضلك اختر",
+                "zipcode_from": "ادخل الرقم البريدي من..",
+                "zipcode_to": "ادخل الرقم البريدي الي..",
+                "order_from": "..",
+                "order_to": "..",
+                "price": "ادخل السعر الخاص بك.."
+            },
+            "action_btns": {
+                "add_shipping": "اضف بيانات شحن",
+                "close": "اغلق"
+            }
+        },
+        "filters": {
+            "filter": "تصفية",
+            "country": "الدولة",
+            "city": "المدينة",
+            "region": "المنطقة"
+        },
+        "edit": "تعديل",
+        "delete": "مسح",
+        "days": "الايام",
+        "hours": "الساعات",
+        "minutes": "الدقائق"
+    },
+    "financials": {
+        "transactions_summary": {
+            "header": {
+                "title": "المعاملات المالية"
+            },
+            "card": {
+                "title": "دينار كويتي",
+                "paid_money": "المبالغ المدفوعة",
+                "received_money": "المبالغ المحصلة",
+                "un_paid_money": "المبالغ غير المدفوعة",
+                "un_received_money": "المبالغ الغير محصلة",
+                "cash": "صندوق النقدية"
+            },
+            "table": {
+                "search_placeholder": "ابحث برقم الطلب",
+                "transaction_serial": "رقم التحويل",
+                "serial": "رقم المسلسل",
+                "type": "النوع",
+                "value": "مبلغ التحويل",
+                "commission": "العمولة",
+                "payment_type": "طريقة الدفع",
+                "debitor": "المدين",
+                "creditor": "الدائن",
+                "status": "الحالة",
+                "created_at": "تاريخ الانشاء",
+                "updated_at": "تاريخ التحديث",
+                "actions": {
+                    "send_request": "ارسال طلب",
+                    "complete": "انتهاء",
+                    "make_payment": "انشاء دفع",
+                    "confirm_recieve": "تاكيد استلام",
+                    "reject_recieve": "رفض الاستلام",
+                    "waiting_payment": "بإنتظار دفع المسؤول",
+                    "waiting_confirm": "بإنتظار تأكيد المسؤل",
+                    "print": "طباعة",
+                    "view_img": "عرض الايصال"
+                }
+            },
+            "filter": {
+                "created_from": "تاريخ الانشاء من",
+                "created_to": "تاريخ الانشاء الي",
+                "updated_from": "تاريخ التحديث من",
+                "updated_to": "تاريخ التحديث الي",
+                "order_serial": "رقم الطلب",
+                "status": "الحالة",
+                "payment_type": "طريقة الدفع"
+            },
+            "statuses": {
+                "pending": "قيد الانتظار"
+            },
+            "swal": {
+                "title": "ارسال الايصال",
+                "cancel": "الغاء",
+                "send": "إرسال",
+                "send_without_file": "ارسال بدون ملف"
+            },
+            "payment_ways": {
+                "knet": "KNET",
+                "bank": "تحويل بنكي"
+            },
+            "print": {
+                "title": {
+                    "pay": "سند دفع",
+                    "receipt": "سند القبض"
+                },
+                "supplier": "مورد",
+                "invoice": "فاتورة",
+                "transaction_serial": "رقم العملية",
+                "order_serial": "رقم الطلب",
+                "transaction_date": "تاريخ العملية",
+                "name": "الأسم",
+                "debit": "مدين",
+                "credit": "دائن",
+                "total": "الاجمالي",
+                "payment_method": "طريقة الدفع",
+                "shipping_method": "طريقة الشحن",
+                "shipping_info": "بيانات الشحن",
+                "apartment": "شقة",
+                "floor": "طابق",
+                "building": "مبني",
+                "mobile_no": "رقم الهاتف",
+                "footer_thanks": "شكراً لك"
+            }
+        },
+        "commissions_invoice": {
+            "header": {
+                "title": "فاتورة العمولات"
+            },
+            "table": {
+                "invoice_gen_date": "تاريخ انشاء الفاتورة",
+                "invoice_number": "رقم الفاتورة الموحد",
+                "total_fees_amount": "قيمة اجمالي المبلغ",
+                "commission_status": "حالة العمولة"
+            }
+        }
+    },
+    "orders": {
+        "header": {
+            "title": "الطلبات"
+        },
+        "cards": {
+            "all_orders": "كل الطلبات",
+            "completed": "المكتمل",
+            "pending": "المعلق",
+            "canceled": "الملغى"
+        },
+        "tabs": {
+            "new": "جديد",
+            "pack": "تم تجهيزه",
+            "in_transit": "في الطريق",
+            "delivered": "تم توصيله",
+            "cancelled": "تم الغاؤه",
+            "memo": "مذكرة",
+            "action_btns": {
+                "filter": "تصفية",
+                "export": "تصدير"
+            }
+        },
+        "tabels": {
+            "id": "رقم الطلب",
+            "purchase_date": "تاريخ الشراء",
+            "bill_to_name": "اسم المشتري",
+            "ship_to_name": "الشحن إلى",
+            "grand_total": "المبلغ الاجمالي",
+            "status": "الحالة",
+            "price": "السعر الكلي",
+            "discount": "الخصم",
+            "commission": "العمولة",
+            "shipping_fee": "مصاريف الشحن",
+            "shipping_type": "نوع الشحن",
+            "client_name": "اسم العميل",
+            "client_email": "البريد الالكتروني",
+            "client_phone": "الهاتف",
+            "payment_type": "طريقة الدفع",
+            "payment_status": "حالة الدفع",
+            "total_commission": "إجمالي العمولة",
+            "charge_id": "رقم الدفع"
+        },
+        "payment_statuses": {
+            "paid": "مدفوع",
+            "unpaid": "غير مدفوع"
+        },
+        "details": {
+            "page_title": "الطلب",
+            "status": "حالة الطلب",
+            "all_orders": "كل الطلبات",
+            "cancel": "الغاء",
+            "confirm": "تاكيد",
+            "back": "رجوع",
+            "supplier_cancel_reason": "سبب  الغاء المورد",
+            "client_cancel_reason": "سبب الغاء العميل",
+            "tabs": {
+                "info": {
+                    "title": "المعلومات",
+                    "account_order_info": {
+                        "head_title": "الطلب و تفاصيل الحساب",
+                        "account_title": "تفاصيل الحساب",
+                        "order_title": "طلب المورد",
+                        "customer_name": "اسم العميل",
+                        "email": "البريد الالكتروني",
+                        "order_date": "تاريخ الطلب",
+                        "order_status": "حالة الطلب",
+                        "purchased_from": "الدفع",
+                        "client_type": "نوع العميل",
+                        "phone_number": "رقم الهاتف",
+                        "company": "الشركة",
+                        "b2b_type": "مشتري جملة",
+                        "b2c_type": "مشتري تجزئة"
+                    },
+                    "comments": {
+                        "header": "ملاحظات العميل",
+                        "sec_header": "التعليق"
+                    },
+                    "address_section": {
+                        "head_title": "تفاصيل الشحن / الاستلام",
+                        "billing_sec": {
+                            "title": "عنوان الدفع",
+                            "address": "العنوان",
+                            "city": "المدينة",
+                            "governorate": "المحافظة",
+                            "country": "البلد",
+                            "full_address": "العنوان الكامل",
+                            "picked_title": "عنوان الإستلام",
+                            "shipping_title": "عنوان الشحن",
+                            "apartment": "شقة",
+                            "building": "مبني",
+                            "floor": "طابق"
+                        },
+                        "shipping_sec": {
+                            "title": "عنوان الشحن"
+                        },
+                        "payment_head_title": "طريقة الدفع و الشحن",
+                        "payment_sec": {
+                            "title": "تفاصيل الدفع",
+                            "currency_info": "عملة الدفع",
+                            "type": "النوع",
+                            "charge_id": "رقم الدفع",
+                            "status": "الحالة",
+                            "bank_comment": "تعليق البنك",
+                            "payment_bank_image": "اثبات الدفع",
+                            "reject_reason": "سبب الرفض"
+                        },
+                        "handling_sec": {
+                            "title": "تفاصيل الشحن",
+                            "shipping_fees": "مصاريف الشحن",
+                            "shipping_type": "نوع الشحن"
+                        }
+                    },
+                    "items_section": {
+                        "head_title": "الطلبات"
+                    },
+                    "baskets_section": {
+                        "head_title": "سلات"
+                    },
+                    "total_section": {
+                        "head_title": "اجمالي الطلب",
+                        "notes_title": "ملاحظات لهذا الطلب",
+                        "orders_title": "Order Totals",
+                        "status": "تغيير الحالة",
+                        "comment": "تعليق",
+                        "notify_email": "Notify Customer By Email"
+                    },
+                    "order_totals": {
+                        "title": "ترتيب الإجماليات",
+                        "total_supplier_price": "سعر المورد الكلي",
+                        "total_price": "السعر الكلي",
+                        "total_discount": "إجمالي الخصم",
+                        "total_commission": "إجمالي العمولة",
+                        "shipping_fee": "رسوم الشحن",
+                        "sub_price": "الإجمالي الفرعي"
+                    }
+                },
+                "invoice": {
+                    "title": "الفاتورة",
+                    "actions": {
+                        "print_invoice": "طبع الفاتورة"
+                    },
+                    "invoice_table": {
+                        "product": "المنتج",
+                        "quantity": "الكمية",
+                        "price": "السعر",
+                        "subtotal": "المجموع الفرعي",
+                        "ordered": "العناصر المطلوبة",
+                        "total_price": "السعر الكلي",
+                        "total_discount": "إجمالي الخصم",
+                        "total_commission": "إجمالي العمولة",
+                        "shipping_fee": "رسوم الشحن"
+                    },
+                    "print": {
+                        "supplier": "المورد",
+                        "client": "العميل",
+                        "invoice": "فاتورة",
+                        "coupon": "القسيمة",
+                        "order": "طلب",
+                        "order_date": "تاريخ الطلب",
+                        "item": "منتج",
+                        "basket": "سلة",
+                        "qty": "الكمية",
+                        "price": "السعر",
+                        "subtotal": "المجموع الفرعي",
+                        "shipping_and_handling": "شحن",
+                        "charge_id": "رقم الدفع",
+                        "tax": "ضرائب",
+                        "discount": "خصم",
+                        "grand_total": "المبلغ الاجمالي",
+                        "payment_method": "طريقة الدفع",
+                        "shipping_method": "طريقة الشحن",
+                        "shipping_info": "بيانات الشحن",
+                        "mobile_no": "رقم الهاتف",
+                        "footer_thanks": "شكرا لطلبك"
+                    }
+                },
+                "comments": {
+                    "title": "تاريخ التعليقات",
+                    "comment": {
+                        "client_name": "اسم العميل",
+                        "comment": "تعليق"
+                    }
+                },
+                "log_status": {
+                    "title": "حالة السجل"
+                },
+                "memo": {
+                    "serial": "رقم المذكرة",
+                    "created_at": "تاريخ الانشاء",
+                    "order_serial": "رقم الطلب",
+                    "order_date": "تاريخ الطلب",
+                    "bill_to_name": "المشتري",
+                    "status": "الحالة",
+                    "debitor": "المدين",
+                    "creditor": "الدائن",
+                    "amount": "المبلغ",
+                    "updated_at": "تاريخ التحديث"
+                }
+            }
+        }
+    },
+    "alerts": {
+        "saved": "تم الحفظ بنجاح !"
+    },
+    "tooltips": {
+        "view": "عرض",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "repay": "اعادة دفع",
+        "pause": "ايقاف",
+        "play": "استمرار",
+        "print": "طباعة"
+    },
+    "quote_details": {
+        "quote_title": "عرض الاسعار",
+        "sec_title": "معلومات عرض الاسعار",
+        "product_title": "بيانات المنتج",
+        "details": {
+            "quote_name": "اسم عرض السعر",
+            "created": "تاريخ الانشاء",
+            "is_confirmed": "وضع الموافقة",
+            "expires": "تاريخ الانتهاء",
+            "status": "الحالة"
+        },
+        "product_details": {
+            "product_name": "اسم المنتج",
+            "sku": "رقم المخزن",
+            "price_before_discount": "السعر قبل الخصم",
+            "price": "سعر العميل",
+            "final_price": "السعر النهائي"
+        },
+        "tabs": {
+            "items_quoted": {
+                "tab_title": "المنتجات المطلوب تسعيرها",
+                "table": {
+                    "supplier_price": "سعر المورد",
+                    "negotiable_price": "سعر التفاوض",
+                    "stock": "كمية المخزون",
+                    "qty": "الكمية المطلوبة",
+                    "total": "الاجمالي",
+                    "action": "اجراء",
+                    "send_offer": "ارسال عرض سعر",
+                    "placeholder": "ادخل سعرك"
+                },
+                "update_btn": "تحديث"
+            },
+            "Comments": {
+                "title": "مراسلة عرض السعر",
+                "add_comment": "اضافة تعليق",
+                "table": {
+                    "index": "رقم المسلسل",
+                    "comment": "التعليق",
+                    "commented_by": "تعليق بواسطة",
+                    "created_at": "تم الانشاء في",
+                    "total_price": "السعر الكلي",
+                    "total_commission": "إجمالي العمولة"
+                }
+            },
+            "modal": {
+                "add_offer": "إضافة عرض",
+                "negotiable_price": "سعر التفاوض",
+                "negotiable_qty": "كمية التفاوض",
+                "expiry_date": "تاريخ انتهاء الصلاحية",
+                "comments": "تعليق",
+                "send": "ارسال",
+                "close": "اغلاق"
+            }
+        }
+    },
+    "users": {
+        "header": {
+            "add_new": "أضف مستخدم جديد",
+            "edit": "تعديل مستخدم",
+            "users": "المستخدمين"
+        },
+        "table": {
+            "name": "الأسم",
+            "email": "البريد الألكتروني",
+            "role": "الدور"
+        },
+        "form": {
+            "add_user": "اضافة مستخدم",
+            "edit_user": "تعديل مستخدم",
+            "first_name": "الأسم الاول",
+            "last_name": "الأسم الأخير",
+            "email": "البريد الألكتروني",
+            "mobile_number": "رقم الهاتف",
+            "password": "كلمة المرور",
+            "confirm_password": "تأكيد كلمة المرور",
+            "role": "الدور",
+            "hints": {
+                "please_enter": "برجاء ادخال",
+                "please_select": "برجاء اختر",
+                "valid_email": "برجاء ادخال بريد الكتروني صالح",
+                "password_not_match": "كلمة المرور غير مطابقة!"
+            },
+            "submit": "ارسال"
+        }
+    },
+    "coupons": {
+        "header": {
+            "title": "القسائم",
+            "add_new": "اضافة قسيمة جديدة",
+            "edit": "تعديل"
+        },
+        "table": {
+            "code": "كود",
+            "type": "نوع",
+            "count_of_use": "مرات الاستخدام",
+            "count_of_use_per_user": "مرات الاستخدام للمستخدم",
+            "discount_type": "نوع الخصم",
+            "promotions": "العروض",
+            "discount": "الخصم",
+            "max_discount": "حد الخصم",
+            "min_buy": "اقل سعر بيع",
+            "created_by": "أنشئ بواسطة",
+            "start_date": "بداية",
+            "end_date": "نهاية",
+            "supplier_percentage": "نسبة المورد",
+            "updated_at": "تاريخ التحديث"
+        },
+        "form": {
+            "submit": "ارسال",
+            "fields": {
+                "coupon_type": "نوع القسيمة",
+                "order_count": "عدد الطلبات المكتملة",
+                "order_amount": "مبلغ الطلبات الكلي",
+                "condition": "الشرط",
+                "client": "العميل",
+                "product": "ابحث عن المنتج",
+                "code": "الكود",
+                "discount": "الخصم",
+                "discount_type": "نوع الخصم",
+                "minimum_purchase_amount": "اقل مبلغ شراء",
+                "max_discount": "حد الخصم",
+                "count_of_use": "عدد مرات الاستخدام",
+                "user_using_times": "مرات الاستخدام للشخص الواحد",
+                "start_date": "تاريخ بداية",
+                "start_time": "وقت بداية",
+                "end_date": "تاريخ النهاية",
+                "end_time": "وقت النهاية",
+                "can_be_used_with_promotions": "يمكن استخدامه مع العروض"
+            },
+            "hints": {
+                "select_all": "اخيار الكل",
+                "unselect_all": "الغاء اخيار الكل",
+                "please_enter": "برجاء ادخال",
+                "please_select": "برجاء اختر",
+                "all_selected": "تم اختيار الكل"
+            },
+            "discounts": {
+                "amount": "مبلغ",
+                "percent": "نسبة"
+            }
+        }
+    },
+    "ads_management": {
+        "header": {
+            "title": "ادارة الاعلانات",
+            "financials": "الحسابات المالية للاعلانات",
+            "add_new": "اضافة اعلان",
+            "edit": "تعديل اعلان"
+        },
+        "cards": {
+            "total": "الاجمالي",
+            "active": "نشط",
+            "comming_soon": "قادم",
+            "unpaied": "غير مدفوع",
+            "ended": "انتهي",
+            "total_amount": "اجمالي المبلغ"
+        },
+        "table": {
+            "plan": "الخطة",
+            "plan_type": "نوع الخطة",
+            "product_type": "نوع المنتج",
+            "max_plan": "اقصي عدد",
+            "total_price": "السعر الكلي",
+            "banner": "لافتة",
+            "products": "المنتجات",
+            "start_time": "وقت بداية",
+            "end_time": "وقت النهاية",
+            "created_at": "تاريخ الانشاء"
+        },
+        "add": {
+            "popup": "الاعلانات المنبثقة",
+            "comparison": "إعلانات جدول المنتجات",
+            "product_types": "نوع المنتجات",
+            "package": "باقة",
+            "days": "أيام",
+            "product": "منتج",
+            "process": "استمرار",
+            "refund_msg": "لا يوجد استرداد للاعلانات"
+        },
+        "form": {
+            "submit": "ارسال",
+            "fields": {
+                "product": "المنتج",
+                "products": "المنتجات",
+                "add_product": "اضافة منتج",
+                "banner": "لافتة",
+                "start_date": "تاريخ بداية",
+                "description_en": "وصف انجليزي",
+                "description_ar": "وصف عربي"
+            },
+            "hints": {
+                "select_all": "اخيار الكل",
+                "unselect_all": "الغاء اخيار الكل",
+                "please_enter": "برجاء ادخال",
+                "please_select": "برجاء اختر",
+                "search_for_product": "ابحث عن المنتج",
+                "all_selected": "تم اختيار الكل",
+                "max_category": "تم الوصول للحد الاقصي في الفئة المختارة"
+            }
+        },
+        "print": {
+            "supplier": "المورد",
+            "date": "التاريخ",
+            "charge_id": "رقم الدفع",
+            "footer_thanks": "شكرا لك"
+        }
+    },
+    "roles": {
+        "header": {
+            "title": "الادوار",
+            "add_new": "اضافة دور",
+            "edit_role": "تعديل دور"
+        },
+        "table": {
+            "name": "الاسم"
+        },
+        "form": {
+            "save": "حفظ",
+            "fields": {
+                "name_en": "الاسم بالانجليزية",
+                "name_ar": "الاسم بالعربية",
+                "permissions": "الصلاحيات"
+            },
+            "hints": {
+                "please_enter": "برجاء ادخال",
+                "please_select": "برجاء اختر"
+            }
+        }
+    },
+    "notifications-configurations": {
+        "table": {
+            "type": "النوع",
+            "module": "قسم",
+            "status": "الحالة"
+        }
+    },
+    "buy_get_promotions": {
+        "header": {
+            "title": "عرض اشتري س احصل علي ص",
+            "add_new": "اضافة عرض جديد",
+            "edit": "تعديل عرض"
+        },
+        "table": {
+            "product_type": "نوع المنتج",
+            "products": "المنتجات",
+            "buy": "اشتري",
+            "get": "احصل علي",
+            "start_date": "تاريخ البداية",
+            "end_date": "تاريخ النهاية",
+            "status": "الحالة",
+            "created_at": "تاريخ الانشاء",
+            "updated_at": "تاريخ التحديث"
+        },
+        "form": {
+            "submit": "ارسال",
+            "fields": {
+                "product_type": "نوع المنتج",
+                "products": "المنتجات",
+                "buy": "اشتري",
+                "get": "احصل علي",
+                "promotion_period": "فترة العرض"
+            },
+            "hints": {
+                "please_enter_number": "من فضلك ادخل رقم",
+                "please_select": "من فضلك اختر"
+            }
+        }
+    },
+    "basket_promotions": {
+        "header": {
+            "title": "عرض السلة",
+            "add_new": "اضافة عرض جديد",
+            "edit": "تعديل عرض"
+        },
+        "table": {
+            "product_type": "نوع المنتج",
+            "products": "المنتجات",
+            "price_type": "نو عالخصم",
+            "discount_percentage": "نسبة الخصم",
+            "basket_price": "سعر السلة",
+            "start_date": "تاريخ البداية",
+            "end_date": "تاريخ النهاية",
+            "status": "الحالة",
+            "created_at": "تاريخ الانشاء",
+            "updated_at": "تاريخ التحديث"
+        },
+        "form": {
+            "submit": "ارسال",
+            "fields": {
+                "product_type": "نوع المنتج",
+                "products": "المنتجات",
+                "calculation_type": "طريقة حساب الخصم",
+                "discount_percentage": "نسبة الخصم",
+                "promotion_period": "فترة العرض",
+                "return_time": "تحديد وقت الاسترجاع",
+                "title_en": "الاسم الانجليزي",
+                "title_ar": "الاسم العربي",
+                "description_en": "وصف انجليزي",
+                "description_ar": "وصف عربي",
+                "main_image": "الصورة الرئيسية",
+                "images": "الصور"
+            },
+            "products": {
+                "products": "المنتجات",
+                "product": "اسم المنتج",
+                "old_price": "السعر القديم",
+                "new_price": "السعر الجديد",
+                "quantity": "الكمية",
+                "percent": "نسبة الخصم",
+                "total_old_price": "الاجمالي القديم",
+                "total_price": "الاجمالي الجديد",
+                "total": "الاجمالي"
+            },
+            "price_types": {
+                "percent": "نسبة",
+                "amount": "مبلغ"
+            },
+            "be_aware_of_one": "برجاء العلم بأنك وضعت منتج واحد فقط في السلة"
+        }
+    },
+    "buy_gift_promotions": {
+        "header": {
+            "title": "عرض اشتري س احصل هدية",
+            "add_new": "اضافة عرض جديد",
+            "edit": "تعديل عرض"
+        },
+        "table": {
+            "product_type": "نوع المنتج",
+            "buy_product_name": "اشتري المنتج",
+            "buy": "اشتري",
+            "gift_product_name": "احصل علي هدية",
+            "gift": "هدية",
+            "start_date": "تاريخ البداية",
+            "end_date": "تاريخ النهاية",
+            "status": "الحالة",
+            "created_at": "تاريخ الانشاء",
+            "updated_at": "تاريخ التحديث"
+        },
+        "form": {
+            "submit": "ارسال",
+            "fields": {
+                "product_type": "نوع المنتج",
+                "buy_product": "اشتري منتج",
+                "buy": "اشتري",
+                "gift_product": "احصل علي هدية",
+                "gift": "هدية",
+                "promotion_period": "فترة العرض"
+            },
+            "hints": {
+                "please_enter_number": "من فضلك ادخل رقم",
+                "please_select": "من فضلك اختر"
+            }
+        }
+    },
+    "most_viewed_products": {
+        "title": "المنتجات الاكثر مشاهدة"
+    }
+}
