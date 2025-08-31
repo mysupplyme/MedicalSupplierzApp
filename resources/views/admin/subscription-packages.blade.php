@@ -41,13 +41,14 @@
                     <th>Duration</th>
                     <th>Type</th>
                     <th>iOS Plan ID</th>
+                    <th>Android Plan ID</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="packages-table">
                 <tr>
-                    <td colspan="8">Loading packages...</td>
+                    <td colspan="9">Loading packages...</td>
                 </tr>
             </tbody>
         </table>
@@ -90,6 +91,13 @@
                     <label>Android Plan ID:</label>
                     <input type="text" id="android_plan_id">
                 </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="status" required>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Save Package</button>
             </form>
         </div>
@@ -113,6 +121,7 @@
                                 <td>${pkg.period}</td>
                                 <td>${pkg.type}</td>
                                 <td>${pkg.ios_plan_id || 'N/A'}</td>
+                                <td>${pkg.android_plan_id || 'N/A'}</td>
                                 <td>${pkg.status}</td>
                                 <td>
                                     <button class="btn btn-warning" onclick="editPackage(${pkg.id})">Edit</button>
@@ -121,7 +130,7 @@
                             </tr>
                         `).join('');
                     } else {
-                        tbody.innerHTML = '<tr><td colspan="8">No packages found</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="9">No packages found</td></tr>';
                     }
                 });
         }
@@ -150,6 +159,7 @@
                         document.getElementById('type').value = pkg.type;
                         document.getElementById('ios_plan_id').value = pkg.ios_plan_id || '';
                         document.getElementById('android_plan_id').value = pkg.android_plan_id || '';
+                        document.getElementById('status').value = pkg.status ? '1' : '0';
                         
                         document.getElementById('modal-title').textContent = 'Edit Package';
                         document.getElementById('packageModal').style.display = 'block';
@@ -176,7 +186,7 @@
                 type: document.getElementById('type').value,
                 ios_plan_id: document.getElementById('ios_plan_id').value,
                 android_plan_id: document.getElementById('android_plan_id').value,
-                status: true
+                status: document.getElementById('status').value === '1'
             };
 
             const url = editingId ? `/api/admin/packages/${editingId}` : '/api/admin/packages';
