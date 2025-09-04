@@ -58,13 +58,13 @@ class WhatsAppController extends Controller
                 $this->sendCMEMenu($from);
                 break;
             case 'SUP_SIGNUP':
-                $this->sendText($from, "✅ Great. Please complete your profile here: https://medicalsupplierz.app/register\nNeed help? Tap \"Talk to Sales\".");
+                $this->sendText($from, "✅ Great. Please complete your profile here: https://supplier.medicalsupplierz.com\nNeed help? Tap \"Talk to Sales\".");
                 break;
             case 'BUY_SIGNUP':
-                $this->sendText($from, "✅ Create your free buyer account: https://medicalsupplierz.app/register\nInvite your procurement team inside your dashboard.");
+                $this->sendText($from, "✅ Create your free buyer account: https://medicalsupplierz.com/b2b-register\nInvite your procurement team inside your dashboard.");
                 break;
             case 'CME_SUBSCRIBE':
-                $this->sendText($from, "✅ Subscribe here: https://medicalsupplierz.app/register\nYour credits, centralized. Your career, compounded.");
+                $this->sendText($from, "✅ Subscribe here: https://medicalsupplierz.com/doctor-register\nYour credits, centralized. Your career, compounded.");
                 break;
         }
     }
