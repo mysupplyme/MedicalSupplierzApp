@@ -49,6 +49,14 @@ class InAppPurchaseController extends Controller
 
         // Skip Apple verification in test mode
         $testMode = $request->header('x-test-mode') === 'true';
+        
+        // Debug logging
+        \Log::info('iOS Purchase Debug', [
+            'test_mode' => $testMode,
+            'transaction_id' => $request->transaction_id,
+            'headers' => $request->headers->all()
+        ]);
+        
         $isValid = $testMode ? true : $this->verifyAppleReceipt($request->transaction_id);
         
         if (!$isValid) {
@@ -235,9 +243,8 @@ class InAppPurchaseController extends Controller
             return false;
         }
         
-        $baseUrl = config('app.env') === 'production' 
-            ? 'https://api.storekit.itunes.apple.com'
-            : 'https://api.storekit-sandbox.itunes.apple.com';
+        // Always use sandbox for testing with mobile developers
+        $baseUrl = 'https://api.storekit-sandbox.itunes.apple.com';
             
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "{$baseUrl}/inApps/v1/transactions/{$transactionId}");
@@ -261,10 +268,10 @@ class InAppPurchaseController extends Controller
     
     private function generateAppleJWT()
     {
-        $keyId = config('services.apple.key_id');
-        $teamId = config('services.apple.team_id');
-        $bundleId = config('services.apple.bundle_id');
-        $privateKeyPath = config('services.apple.private_key_path');
+        $keyId = env('APPLE_KEY_ID');
+        $teamId = env('APPLE_TEAM_ID');
+        $bundleId = env('APPLE_BUNDLE_ID');
+        $privateKeyPath = env('APPLE_PRIVATE_KEY_PATH');
         
         if (!$keyId || !$teamId || !$bundleId || !file_exists($privateKeyPath)) {
             return null;
