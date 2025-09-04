@@ -38,11 +38,20 @@ class InAppPurchaseController extends Controller
     // Verify and activate iOS purchase
     public function verifyIosPurchase(Request $request)
     {
-        $request->validate([
-            'subscription_id' => 'required|exists:bussiness_subscriptions,id',
-            'receipt_data' => 'required|string',
-            'transaction_id' => 'required|string'
-        ]);
+        try {
+            $request->validate([
+                'subscription_id' => 'required|exists:bussiness_subscriptions,id',
+                'receipt_data' => 'required|string',
+                'transaction_id' => 'required|string'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('iOS Purchase Validation Error', $e->errors());
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 400);
+        }
 
         $client = $request->get('auth_user');
         $subscription = BusinessSubscription::find($request->subscription_id);
