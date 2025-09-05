@@ -151,7 +151,45 @@ class WhatsAppController extends Controller
     {
         Log::info('getAIResponse called with:', ['message' => $userMessage]);
         
-        // Use keyword matching for reliability
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                'Content-Type' => 'application/json'
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-3.5-turbo',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'You are a MedicalSupplierz.com assistant. Classify user intent as: supplier, buyer, cme, or welcome. Respond with appropriate message and action.'
+                    ],
+                    [
+                        'role' => 'user', 
+                        'content' => $userMessage
+                    ]
+                ],
+                'max_tokens' => 100
+            ]);
+            
+            if ($response->successful()) {
+                $aiMessage = $response->json()['choices'][0]['message']['content'];
+                
+                // Parse AI response for action
+                $text = strtolower($userMessage);
+                if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
+                    return ['message' => '🚀 Great! I can help you with supplier registration.', 'action' => 'supplier'];
+                } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false) {
+                    return ['message' => '🏥 Perfect! Let me show you buyer options.', 'action' => 'buyer'];
+                } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false) {
+                    return ['message' => '🩺 Excellent! Here are medical education options.', 'action' => 'cme'];
+                } else {
+                    return ['message' => $aiMessage, 'action' => 'welcome'];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('OpenAI API Error:', ['error' => $e->getMessage()]);
+        }
+        
+        // Fallback to keyword matching
         $text = strtolower($userMessage);
         if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
             return ['message' => '🚀 Great! I can help you with supplier registration.', 'action' => 'supplier'];
