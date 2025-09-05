@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '33797292aa793d5225f7c0ce0acc4c04dea5e36f',
+        'reference' => 'adb75e206801bc09c8e9855cda13ad9d632bcf7b',
         'name' => 'laravel/events-ecommerce-admin',
         'dev' => true,
     ),
@@ -376,7 +376,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '33797292aa793d5225f7c0ce0acc4c04dea5e36f',
+            'reference' => 'adb75e206801bc09c8e9855cda13ad9d632bcf7b',
             'dev_requirement' => false,
         ),
         'laravel/framework' => array(
@@ -574,15 +574,6 @@
             'reference' => '5369ef84d8142c1d87e4ec278711d4ece3cbf301',
             'dev_requirement' => false,
         ),
-        'openai-php/client' => array(
-            'pretty_version' => 'v0.16.1',
-            'version' => '0.16.1.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../openai-php/client',
-            'aliases' => array(),
-            'reference' => '7a59e4d896d83f8c923e0b3a5ebae0a5cddad2d6',
-            'dev_requirement' => false,
-        ),
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.4',
             'version' => '2.0.4.0',
@@ -600,36 +591,6 @@
             'aliases' => array(),
             'reference' => '4f7fd7836c6f332bb2933569e566a0d6c4cbed74',
             'dev_requirement' => true,
-        ),
-        'php-http/async-client-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '*',
-            ),
-        ),
-        'php-http/client-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '*',
-            ),
-        ),
-        'php-http/discovery' => array(
-            'pretty_version' => '1.20.0',
-            'version' => '1.20.0.0',
-            'type' => 'composer-plugin',
-            'install_path' => __DIR__ . '/../php-http/discovery',
-            'aliases' => array(),
-            'reference' => '82fe4c73ef3363caed49ff8dd1539ba06044910d',
-            'dev_requirement' => false,
-        ),
-        'php-http/multipart-stream-builder' => array(
-            'pretty_version' => '1.4.2',
-            'version' => '1.4.2.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../php-http/multipart-stream-builder',
-            'aliases' => array(),
-            'reference' => '10086e6de6f53489cca5ecc45b6f468604d3460e',
-            'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.3',
@@ -752,7 +713,6 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
-                1 => '*',
             ),
         ),
         'psr/http-factory' => array(
@@ -768,7 +728,6 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
-                1 => '*',
             ),
         ),
         'psr/http-message' => array(
@@ -784,7 +743,6 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
-                1 => '*',
             ),
         ),
         'psr/log' => array(
