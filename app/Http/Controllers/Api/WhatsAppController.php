@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use OpenAI;
 
 class WhatsAppController extends Controller
 {
@@ -128,73 +127,22 @@ class WhatsAppController extends Controller
     {
         Log::info('handleText called with:', ['from' => $from, 'text' => $text]);
         
-        // Get LLM response
-        $llmResponse = $this->getLLMResponse($text);
+        $text = strtolower($text);
         
-        Log::info('LLM response received:', ['response' => $llmResponse]);
-        
-        // Check if LLM suggests showing menus
-        if (strpos(strtolower($llmResponse), '[show_supplier_menu]') !== false) {
+        if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
+            $this->sendText($from, "🚀 Great! I can help you with supplier registration.");
             $this->sendSupplierMenu($from);
-        } elseif (strpos(strtolower($llmResponse), '[show_buyer_menu]') !== false) {
+        } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false || strpos($text, 'buy') !== false) {
+            $this->sendText($from, "🏥 Perfect! Let me show you buyer options.");
             $this->sendBuyerMenu($from);
-        } elseif (strpos(strtolower($llmResponse), '[show_cme_menu]') !== false) {
+        } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false || strpos($text, 'medical') !== false) {
+            $this->sendText($from, "🩺 Excellent! Here are medical education options.");
             $this->sendCMEMenu($from);
-        } elseif (strpos(strtolower($llmResponse), '[show_welcome_menu]') !== false) {
-            $this->sendWelcomeMenu($from);
+        } elseif (strpos($text, 'urgent') !== false) {
+            $this->sendText($from, "🚨 Urgent request flagged. Our team will contact you within 1 hour.");
         } else {
-            // Send LLM response as text
-            $cleanResponse = str_replace(['[show_supplier_menu]', '[show_buyer_menu]', '[show_cme_menu]', '[show_welcome_menu]'], '', $llmResponse);
-            $this->sendText($from, trim($cleanResponse));
-        }
-    }
-    
-    private function getLLMResponse($userMessage)
-    {
-        Log::info('Getting LLM response for:', ['message' => $userMessage]);
-        
-        try {
-            Log::info('Creating OpenAI client with key:', ['key_preview' => substr(env('OPENAI_API_KEY'), 0, 20) . '...']);
-            
-            $client = OpenAI::client(env('OPENAI_API_KEY'));
-            
-            $systemPrompt = "You are a helpful assistant for MedicalSupplierz.com. Keep responses under 200 characters. Add [show_welcome_menu] for greetings, [show_supplier_menu] for suppliers, [show_buyer_menu] for buyers, [show_cme_menu] for doctors/CME.";
-            
-            Log::info('Calling OpenAI API...');
-            
-            $response = $client->chat()->create([
-                'model' => 'gpt-3.5-turbo',
-                'messages' => [
-                    ['role' => 'system', 'content' => $systemPrompt],
-                    ['role' => 'user', 'content' => $userMessage]
-                ],
-                'max_tokens' => 100,
-                'temperature' => 0.7
-            ]);
-            
-            $llmResponse = $response->choices[0]->message->content;
-            Log::info('OpenAI response received:', ['response' => $llmResponse]);
-            
-            return $llmResponse;
-            
-        } catch (\Exception $e) {
-            Log::error('OpenAI API Error:', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            // Fallback to simple keyword matching
-            Log::info('Using fallback response');
-            $text = strtolower($userMessage);
-            if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
-                return "I can help you with supplier registration! [show_supplier_menu]";
-            } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false) {
-                return "Let me show you buyer options! [show_buyer_menu]";
-            } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false) {
-                return "Here are medical education options! [show_cme_menu]";
-            } else {
-                return "Welcome to MedicalSupplierz.com! How can I help you today? [show_welcome_menu]";
-            }
+            $this->sendText($from, "👋 Welcome to MedicalSupplierz.com! We connect medical suppliers with buyers globally and offer CME for medical professionals.");
+            $this->sendWelcomeMenu($from);
         }
     }
 
