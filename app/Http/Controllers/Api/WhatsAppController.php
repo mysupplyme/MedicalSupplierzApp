@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use OpenAI;
 
 class WhatsAppController extends Controller
 {
@@ -127,22 +128,64 @@ class WhatsAppController extends Controller
     {
         Log::info('handleText called with:', ['from' => $from, 'text' => $text]);
         
-        $text = strtolower($text);
+        // Get AI response
+        $response = $this->getAIResponse($text);
+        $this->sendText($from, $response['message']);
         
-        if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
-            $this->sendText($from, "🚀 Great! I can help you with supplier registration.");
-            $this->sendSupplierMenu($from);
-        } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false || strpos($text, 'buy') !== false) {
-            $this->sendText($from, "🏥 Perfect! Let me show you buyer options.");
-            $this->sendBuyerMenu($from);
-        } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false || strpos($text, 'medical') !== false) {
-            $this->sendText($from, "🩺 Excellent! Here are medical education options.");
-            $this->sendCMEMenu($from);
-        } elseif (strpos($text, 'urgent') !== false) {
-            $this->sendText($from, "🚨 Urgent request flagged. Our team will contact you within 1 hour.");
-        } else {
-            $this->sendText($from, "👋 Welcome to MedicalSupplierz.com! We connect medical suppliers with buyers globally and offer CME for medical professionals.");
-            $this->sendWelcomeMenu($from);
+        // Send appropriate menu
+        switch ($response['action']) {
+            case 'supplier':
+                $this->sendSupplierMenu($from);
+                break;
+            case 'buyer':
+                $this->sendBuyerMenu($from);
+                break;
+            case 'cme':
+                $this->sendCMEMenu($from);
+                break;
+            default:
+                $this->sendWelcomeMenu($from);
+        }
+    }
+    
+    private function getAIResponse($userMessage)
+    {
+        try {
+            $client = OpenAI::client(env('OPENAI_API_KEY'));
+            
+            $prompt = "You are MedicalSupplierz.com assistant. Respond in under 160 chars. Based on user message, return JSON with 'message' and 'action' (supplier/buyer/cme/welcome).
+            
+User: {$userMessage}";
+            
+            $response = $client->chat()->create([
+                'model' => 'gpt-3.5-turbo',
+                'messages' => [['role' => 'user', 'content' => $prompt]],
+                'max_tokens' => 80
+            ]);
+            
+            $aiResponse = $response->choices[0]->message->content;
+            $decoded = json_decode($aiResponse, true);
+            
+            if ($decoded && isset($decoded['message']) && isset($decoded['action'])) {
+                return $decoded;
+            }
+            
+            throw new \Exception('Invalid AI response format');
+            
+        } catch (\Exception $e) {
+            Log::error('AI Error:', ['error' => $e->getMessage()]);
+            
+            // Fallback to keyword matching
+            $text = strtolower($userMessage);
+            if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
+                return ['message' => '🚀 Great! I can help you with supplier registration.', 'action' => 'supplier'];
+            } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false) {
+                return ['message' => '🏥 Perfect! Let me show you buyer options.', 'action' => 'buyer'];
+            } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false) {
+                return ['message' => '🩺 Excellent! Here are medical education options.', 'action' => 'cme'];
+            } else {
+                return ['message' => '👋 Welcome to MedicalSupplierz.com! We connect medical suppliers with buyers globally.', 'action' => 'welcome'];
+            }
         }
     }
 
