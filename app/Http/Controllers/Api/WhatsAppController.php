@@ -106,6 +106,8 @@ class WhatsAppController extends Controller
     {
         $buttonId = $interactive['button_reply']['id'] ?? $interactive['list_reply']['id'] ?? '';
         
+        Log::info('Button clicked:', ['button_id' => $buttonId, 'interactive' => $interactive]);
+        
         switch ($buttonId) {
             case 'SUPPLIER_REG':
                 $this->sendSupplierMenu($from);
@@ -258,7 +260,7 @@ class WhatsAppController extends Controller
                 'body' => ['text' => "🚀 Suppliers win here. List unlimited products, access global buyers, capture qualified leads.\nSubscription: $100/mo or $1,000/yr.\nWhat do you want to do next?"],
                 'action' => [
                     'buttons' => [
-                        ['type' => 'reply', 'reply' => ['id' => 'SUP_SIGNUP', 'title' => 'Start Supplier Signup']],
+                        ['type' => 'reply', 'reply' => ['id' => 'SUP_SIGNUP', 'title' => 'Start Signup']],
                         ['type' => 'reply', 'reply' => ['id' => 'SUP_BENEFITS', 'title' => 'See Benefits']],
                         ['type' => 'reply', 'reply' => ['id' => 'SUP_SALES', 'title' => 'Talk to Sales']]
                     ]
@@ -348,9 +350,9 @@ class WhatsAppController extends Controller
                 'body' => ['text' => "🏥 Buyers register free. Search global suppliers, compare products, post bulk RFQs, negotiate directly.\nWhat's your next step?"],
                 'action' => [
                     'buttons' => [
-                        ['type' => 'reply', 'reply' => ['id' => 'BUY_SIGNUP', 'title' => 'Create Free Buyer Account']],
+                        ['type' => 'reply', 'reply' => ['id' => 'BUY_SIGNUP', 'title' => 'Create Account']],
                         ['type' => 'reply', 'reply' => ['id' => 'BUY_POST_RFQ', 'title' => 'Post RFQ Now']],
-                        ['type' => 'reply', 'reply' => ['id' => 'BUY_CATEGORIES', 'title' => 'Explore Categories']]
+                        ['type' => 'reply', 'reply' => ['id' => 'BUY_CATEGORIES', 'title' => 'Browse Categories']]
                     ]
                 ]
             ]
@@ -371,8 +373,8 @@ class WhatsAppController extends Controller
                 'action' => [
                     'buttons' => [
                         ['type' => 'reply', 'reply' => ['id' => 'CME_SUBSCRIBE', 'title' => 'Subscribe Now']],
-                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find CME by Specialty']],
-                        ['type' => 'reply', 'reply' => ['id' => 'CME_MONTH', 'title' => 'Upcoming This Month']]
+                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find by Specialty']],
+                        ['type' => 'reply', 'reply' => ['id' => 'CME_MONTH', 'title' => 'This Month']]
                     ]
                 ]
             ]
