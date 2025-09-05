@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use OpenAI;
 
 class WhatsAppController extends Controller
 {
@@ -153,24 +152,27 @@ class WhatsAppController extends Controller
         Log::info('getAIResponse called with:', ['message' => $userMessage]);
         
         try {
-            Log::info('Creating OpenAI client...');
-            $client = OpenAI::client(env('OPENAI_API_KEY'));
+            Log::info('Calling OpenAI API directly...');
             
-            $prompt = "You are MedicalSupplierz.com assistant. Respond in under 160 chars. Based on user message, return JSON with 'message' and 'action' (supplier/buyer/cme/welcome).
-            
-User: {$userMessage}";
-            
-            $response = $client->chat()->create([
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                'Content-Type' => 'application/json'
+            ])->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-3.5-turbo',
-                'messages' => [['role' => 'user', 'content' => $prompt]],
+                'messages' => [[
+                    'role' => 'user', 
+                    'content' => "You are MedicalSupplierz.com assistant. Respond in under 160 chars. Based on user message, return JSON with 'message' and 'action' (supplier/buyer/cme/welcome). User: {$userMessage}"
+                ]],
                 'max_tokens' => 80
             ]);
             
-            $aiResponse = $response->choices[0]->message->content;
-            $decoded = json_decode($aiResponse, true);
-            
-            if ($decoded && isset($decoded['message']) && isset($decoded['action'])) {
-                return $decoded;
+            if ($response->successful()) {
+                $aiResponse = $response->json()['choices'][0]['message']['content'];
+                $decoded = json_decode($aiResponse, true);
+                
+                if ($decoded && isset($decoded['message']) && isset($decoded['action'])) {
+                    return $decoded;
+                }
             }
             
             throw new \Exception('Invalid AI response format');
