@@ -11,7 +11,7 @@ class WhatsAppController extends Controller
 {
     private $accessToken;
     private $phoneNumberId;
-    private $baseUrl = 'https://graph.facebook.com/v18.0';
+    private $baseUrl = 'https://graph.facebook.com/v20.0';
 
     public function __construct()
     {
