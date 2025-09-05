@@ -49,11 +49,22 @@ class WhatsAppController extends Controller
             $message = $data['entry'][0]['changes'][0]['value']['messages'][0];
             $from = $message['from'];
             
+            Log::info('Processing message:', [
+                'from' => $from,
+                'message_type' => $message['type'] ?? 'unknown',
+                'text' => $message['text']['body'] ?? 'no text',
+                'has_interactive' => isset($message['interactive'])
+            ]);
+            
             if (isset($message['interactive'])) {
+                Log::info('Handling interactive message');
                 $this->handleInteractive($from, $message['interactive']);
             } elseif (isset($message['text'])) {
+                Log::info('Handling text message: ' . $message['text']['body']);
                 $this->handleText($from, $message['text']['body']);
             }
+        } else {
+            Log::warning('No message found in webhook data');
         }
 
         return response()->json(['status' => 'ok']);
@@ -62,7 +73,28 @@ class WhatsAppController extends Controller
     public function test(Request $request)
     {
         Log::info('WhatsApp Test Endpoint Hit:', $request->all());
-        return response()->json(['message' => 'Test endpoint working', 'timestamp' => now()]);
+        
+        // Test API connection
+        $testPayload = [
+            'messaging_product' => 'whatsapp',
+            'to' => '96594089218', // Your test number
+            'type' => 'text',
+            'text' => ['body' => 'Test message from API']
+        ];
+        
+        Log::info('Testing WhatsApp API with:', [
+            'token' => substr($this->accessToken, 0, 20) . '...',
+            'phone_id' => $this->phoneNumberId,
+            'url' => "{$this->baseUrl}/{$this->phoneNumberId}/messages"
+        ]);
+        
+        $response = $this->sendMessage($testPayload);
+        
+        return response()->json([
+            'message' => 'Test endpoint working', 
+            'timestamp' => now(),
+            'api_response' => $response
+        ]);
     }
 
     private function handleInteractive($from, $interactive)
@@ -210,11 +242,29 @@ class WhatsAppController extends Controller
 
     private function sendMessage($payload)
     {
-        $response = Http::withToken($this->accessToken)
-            ->post("{$this->baseUrl}/{$this->phoneNumberId}/messages", $payload);
-            
-        Log::info('WhatsApp API Response:', $response->json());
+        Log::info('Sending WhatsApp message:', [
+            'payload' => $payload,
+            'url' => "{$this->baseUrl}/{$this->phoneNumberId}/messages",
+            'token_preview' => substr($this->accessToken, 0, 20) . '...'
+        ]);
         
-        return $response->json();
+        try {
+            $response = Http::withToken($this->accessToken)
+                ->post("{$this->baseUrl}/{$this->phoneNumberId}/messages", $payload);
+                
+            Log::info('WhatsApp API Response:', [
+                'status' => $response->status(),
+                'body' => $response->json(),
+                'headers' => $response->headers()
+            ]);
+            
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('WhatsApp API Error:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => $e->getMessage()];
+        }
     }
 }
