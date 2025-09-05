@@ -17,6 +17,11 @@ class WhatsAppController extends Controller
     {
         $this->accessToken = env('WHATSAPP_ACCESS_TOKEN');
         $this->phoneNumberId = env('WHATSAPP_PHONE_NUMBER_ID');
+        
+        Log::info('WhatsApp Controller Init:', [
+            'phone_id' => $this->phoneNumberId,
+            'has_token' => !empty($this->accessToken)
+        ]);
     }
 
     public function webhook(Request $request)
@@ -114,11 +119,29 @@ class WhatsAppController extends Controller
             case 'SUP_SIGNUP':
                 $this->sendText($from, "✅ Great. Please complete your profile here: https://supplier.medicalsupplierz.com\nNeed help? Tap \"Talk to Sales\".");
                 break;
+            case 'SUP_BENEFITS':
+                $this->sendText($from, "📈 Benefits snapshot:\n• Unlimited product listings\n• Qualified global leads in real time\n• Priority search placement\n• Buyer insights & analytics\n• Direct chat/email with buyers\n• International RFQ negotiation support\n👉 Start now: https://supplier.medicalsupplierz.com");
+                break;
+            case 'SUP_SALES':
+                $this->sendText($from, "🗓 You're in good hands. A specialist will join shortly.\nPlease share: company name, country, email, and a brief goal.");
+                break;
             case 'BUY_SIGNUP':
                 $this->sendText($from, "✅ Create your free buyer account: https://medicalsupplierz.com/b2b-register\nInvite your procurement team inside your dashboard.");
                 break;
+            case 'BUY_POST_RFQ':
+                $this->sendText($from, "Let's capture your RFQ. Please reply in this format:\n• Product/Spec: …\n• Qty: …\n• Country: …\n• Timeline: …\n• Contact email: …");
+                break;
+            case 'BUY_CATEGORIES':
+                $this->sendCategoriesList($from);
+                break;
             case 'CME_SUBSCRIBE':
                 $this->sendText($from, "✅ Subscribe here: https://medicalsupplierz.com/doctor-register\nYour credits, centralized. Your career, compounded.");
+                break;
+            case 'CME_BY_SPEC':
+                $this->sendSpecialtiesList($from);
+                break;
+            case 'CME_MONTH':
+                $this->sendText($from, "📅 This month's highlights: https://medicalsupplierz.com/events\nPrefer push updates? Reply \"Notify Monthly\".");
                 break;
         }
     }
@@ -245,6 +268,74 @@ class WhatsAppController extends Controller
         
         $this->sendMessage($payload);
     }
+    
+    private function sendCategoriesList($to)
+    {
+        $payload = [
+            'messaging_product' => 'whatsapp',
+            'to' => $to,
+            'type' => 'interactive',
+            'interactive' => [
+                'type' => 'list',
+                'header' => ['type' => 'text', 'text' => 'Browse Categories'],
+                'body' => ['text' => 'Select a category to view suppliers:'],
+                'action' => [
+                    'button' => 'Choose',
+                    'sections' => [
+                        [
+                            'title' => 'Core Equipment',
+                            'rows' => [
+                                ['id' => 'CAT_IMAGING', 'title' => 'Imaging (X-ray, CT, MRI)'],
+                                ['id' => 'CAT_LAB', 'title' => 'Lab & Diagnostics'],
+                                ['id' => 'CAT_SURGICAL', 'title' => 'Surgical & OR']
+                            ]
+                        ],
+                        [
+                            'title' => 'Consumables & More',
+                            'rows' => [
+                                ['id' => 'CAT_CONSUM', 'title' => 'Medical Consumables'],
+                                ['id' => 'CAT_DENTAL', 'title' => 'Dental'],
+                                ['id' => 'CAT_REHAB', 'title' => 'Rehab & Physio']
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        
+        $this->sendMessage($payload);
+    }
+    
+    private function sendSpecialtiesList($to)
+    {
+        $payload = [
+            'messaging_product' => 'whatsapp',
+            'to' => $to,
+            'type' => 'interactive',
+            'interactive' => [
+                'type' => 'list',
+                'header' => ['type' => 'text', 'text' => 'Choose Specialty'],
+                'body' => ['text' => 'We\'ll tailor events to your domain.'],
+                'action' => [
+                    'button' => 'Select',
+                    'sections' => [
+                        [
+                            'title' => 'Medical Specialties',
+                            'rows' => [
+                                ['id' => 'SPEC_CARDIO', 'title' => 'Cardiology'],
+                                ['id' => 'SPEC_ORTHO', 'title' => 'Orthopedics'],
+                                ['id' => 'SPEC_RAD', 'title' => 'Radiology'],
+                                ['id' => 'SPEC_PED', 'title' => 'Pediatrics'],
+                                ['id' => 'SPEC_DERM', 'title' => 'Dermatology']
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        
+        $this->sendMessage($payload);
+    }
 
     private function sendBuyerMenu($to)
     {
@@ -304,15 +395,18 @@ class WhatsAppController extends Controller
 
     private function sendMessage($payload)
     {
+        $url = "{$this->baseUrl}/{$this->phoneNumberId}/messages";
+        
         Log::info('Sending WhatsApp message:', [
             'payload' => $payload,
-            'url' => "{$this->baseUrl}/{$this->phoneNumberId}/messages",
+            'url' => $url,
+            'phone_id' => $this->phoneNumberId,
             'token_preview' => substr($this->accessToken, 0, 20) . '...'
         ]);
         
         try {
             $response = Http::withToken($this->accessToken)
-                ->post("{$this->baseUrl}/{$this->phoneNumberId}/messages", $payload);
+                ->post($url, $payload);
                 
             Log::info('WhatsApp API Response:', [
                 'status' => $response->status(),
