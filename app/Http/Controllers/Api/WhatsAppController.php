@@ -150,7 +150,10 @@ class WhatsAppController extends Controller
     
     private function getAIResponse($userMessage)
     {
+        Log::info('getAIResponse called with:', ['message' => $userMessage]);
+        
         try {
+            Log::info('Creating OpenAI client...');
             $client = OpenAI::client(env('OPENAI_API_KEY'));
             
             $prompt = "You are MedicalSupplierz.com assistant. Respond in under 160 chars. Based on user message, return JSON with 'message' and 'action' (supplier/buyer/cme/welcome).
