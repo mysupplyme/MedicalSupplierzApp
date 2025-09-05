@@ -72,6 +72,7 @@ Route::get('/terms-conditions', function() {
 Route::post('/webhooks/apple', [WebhookController::class, 'appleWebhook']);
 Route::post('/webhooks/google', [WebhookController::class, 'googleWebhook']);
 Route::match(['get', 'post'], '/webhooks/whatsapp', [\App\Http\Controllers\Api\WhatsAppController::class, 'webhook']);
+Route::get('/webhooks/whatsapp/test', [\App\Http\Controllers\Api\WhatsAppController::class, 'test']);
 
 // Admin routes (no auth for now)
 Route::prefix('admin')->group(function () {

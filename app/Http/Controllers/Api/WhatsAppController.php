@@ -21,22 +21,24 @@ class WhatsAppController extends Controller
 
     public function webhook(Request $request)
     {
-        // Log verification attempt
-        Log::info('WhatsApp Verification:', [
+        // Log ALL requests
+        Log::info('WhatsApp Webhook Request:', [
             'method' => $request->method(),
-            'hub_mode' => $request->query('hub_mode'),
-            'hub_verify_token' => $request->query('hub_verify_token'),
-            'expected_token' => env('WHATSAPP_VERIFY_TOKEN'),
-            'hub_challenge' => $request->query('hub_challenge')
+            'headers' => $request->headers->all(),
+            'query' => $request->query->all(),
+            'body' => $request->all(),
+            'raw_body' => $request->getContent()
         ]);
         
         // Handle GET request for webhook verification
         if ($request->isMethod('GET')) {
             if ($request->query('hub_mode') === 'subscribe' && 
                 $request->query('hub_verify_token') === env('WHATSAPP_VERIFY_TOKEN')) {
+                Log::info('Webhook verification successful');
                 return response($request->query('hub_challenge'), 200)
                     ->header('Content-Type', 'text/plain');
             }
+            Log::error('Webhook verification failed');
             return response('Forbidden', 403);
         }
 
@@ -55,6 +57,12 @@ class WhatsAppController extends Controller
         }
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function test(Request $request)
+    {
+        Log::info('WhatsApp Test Endpoint Hit:', $request->all());
+        return response()->json(['message' => 'Test endpoint working', 'timestamp' => now()]);
     }
 
     private function handleInteractive($from, $interactive)
