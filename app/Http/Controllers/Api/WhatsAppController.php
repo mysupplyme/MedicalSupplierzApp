@@ -151,9 +151,9 @@ class WhatsAppController extends Controller
                 'body' => ['text' => "Welcome to MedicalSupplierz.com — where global medical trade and CME pathways converge.\nHow can we help you today?"],
                 'action' => [
                     'buttons' => [
-                        ['type' => 'reply', 'reply' => ['id' => 'SUPPLIER_REG', 'title' => 'Supplier Registration']],
+                        ['type' => 'reply', 'reply' => ['id' => 'SUPPLIER_REG', 'title' => 'Supplier Setup']],
                         ['type' => 'reply', 'reply' => ['id' => 'BUYER_REG', 'title' => 'Buyer Registration']],
-                        ['type' => 'reply', 'reply' => ['id' => 'MED_PERSONNEL', 'title' => 'Medical Personnel (CME)']]
+                        ['type' => 'reply', 'reply' => ['id' => 'MED_PERSONNEL', 'title' => 'Medical Personnel']]
                     ]
                 ]
             ]
