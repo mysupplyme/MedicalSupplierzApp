@@ -151,46 +151,16 @@ class WhatsAppController extends Controller
     {
         Log::info('getAIResponse called with:', ['message' => $userMessage]);
         
-        try {
-            Log::info('Calling OpenAI API directly...');
-            
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
-                'Content-Type' => 'application/json'
-            ])->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-3.5-turbo',
-                'messages' => [[
-                    'role' => 'user', 
-                    'content' => "You are MedicalSupplierz.com assistant. Respond in under 160 chars. Based on user message, return JSON with 'message' and 'action' (supplier/buyer/cme/welcome). User: {$userMessage}"
-                ]],
-                'max_tokens' => 80
-            ]);
-            
-            if ($response->successful()) {
-                $aiResponse = $response->json()['choices'][0]['message']['content'];
-                $decoded = json_decode($aiResponse, true);
-                
-                if ($decoded && isset($decoded['message']) && isset($decoded['action'])) {
-                    return $decoded;
-                }
-            }
-            
-            throw new \Exception('Invalid AI response format');
-            
-        } catch (\Exception $e) {
-            Log::error('AI Error:', ['error' => $e->getMessage()]);
-            
-            // Fallback to keyword matching
-            $text = strtolower($userMessage);
-            if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
-                return ['message' => '🚀 Great! I can help you with supplier registration.', 'action' => 'supplier'];
-            } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false) {
-                return ['message' => '🏥 Perfect! Let me show you buyer options.', 'action' => 'buyer'];
-            } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false) {
-                return ['message' => '🩺 Excellent! Here are medical education options.', 'action' => 'cme'];
-            } else {
-                return ['message' => '👋 Welcome to MedicalSupplierz.com! We connect medical suppliers with buyers globally.', 'action' => 'welcome'];
-            }
+        // Use keyword matching for reliability
+        $text = strtolower($userMessage);
+        if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
+            return ['message' => '🚀 Great! I can help you with supplier registration.', 'action' => 'supplier'];
+        } elseif (strpos($text, 'buyer') !== false || strpos($text, 'hospital') !== false) {
+            return ['message' => '🏥 Perfect! Let me show you buyer options.', 'action' => 'buyer'];
+        } elseif (strpos($text, 'doctor') !== false || strpos($text, 'cme') !== false) {
+            return ['message' => '🩺 Excellent! Here are medical education options.', 'action' => 'cme'];
+        } else {
+            return ['message' => '👋 Welcome to MedicalSupplierz.com! We connect medical suppliers with buyers globally.', 'action' => 'welcome'];
         }
     }
 
