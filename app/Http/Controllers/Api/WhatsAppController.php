@@ -126,8 +126,12 @@ class WhatsAppController extends Controller
 
     private function handleText($from, $text)
     {
+        Log::info('handleText called with:', ['from' => $from, 'text' => $text]);
+        
         // Get LLM response
         $llmResponse = $this->getLLMResponse($text);
+        
+        Log::info('LLM response received:', ['response' => $llmResponse]);
         
         // Check if LLM suggests showing menus
         if (strpos(strtolower($llmResponse), '[show_supplier_menu]') !== false) {
@@ -147,26 +151,16 @@ class WhatsAppController extends Controller
     
     private function getLLMResponse($userMessage)
     {
+        Log::info('Getting LLM response for:', ['message' => $userMessage]);
+        
         try {
+            Log::info('Creating OpenAI client with key:', ['key_preview' => substr(env('OPENAI_API_KEY'), 0, 20) . '...']);
+            
             $client = OpenAI::client(env('OPENAI_API_KEY'));
             
-            $systemPrompt = "You are a helpful assistant for MedicalSupplierz.com, a global B2B medical equipment marketplace.
+            $systemPrompt = "You are a helpful assistant for MedicalSupplierz.com. Keep responses under 200 characters. Add [show_welcome_menu] for greetings, [show_supplier_menu] for suppliers, [show_buyer_menu] for buyers, [show_cme_menu] for doctors/CME.";
             
-COMPANY INFO:
-- MedicalSupplierz.com connects medical suppliers with buyers (hospitals, clinics, universities, NGOs)
-- Suppliers pay $100/month or $1000/year for unlimited product listings
-- Buyers register for free and can post RFQs, compare products
-- We also offer CME (Continuing Medical Education) for medical professionals at $5/month or $50/year
-- Registration links: Suppliers→supplier.medicalsupplierz.com, Buyers→medicalsupplierz.com/b2b-register, Medical professionals→medicalsupplierz.com/doctor-register
-            
-RESPONSE RULES:
-- Keep responses under 300 characters for WhatsApp
-- Be helpful and professional
-- If user asks about suppliers/selling, add [show_supplier_menu] at the end
-- If user asks about buying/hospitals/procurement, add [show_buyer_menu] at the end  
-- If user asks about doctors/CME/medical education, add [show_cme_menu] at the end
-- For general greetings or unclear requests, add [show_welcome_menu] at the end
-- Always mention relevant registration links when appropriate";
+            Log::info('Calling OpenAI API...');
             
             $response = $client->chat()->create([
                 'model' => 'gpt-3.5-turbo',
@@ -174,16 +168,23 @@ RESPONSE RULES:
                     ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $userMessage]
                 ],
-                'max_tokens' => 150,
+                'max_tokens' => 100,
                 'temperature' => 0.7
             ]);
             
-            return $response->choices[0]->message->content;
+            $llmResponse = $response->choices[0]->message->content;
+            Log::info('OpenAI response received:', ['response' => $llmResponse]);
+            
+            return $llmResponse;
             
         } catch (\Exception $e) {
-            Log::error('OpenAI API Error:', ['error' => $e->getMessage()]);
+            Log::error('OpenAI API Error:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             
             // Fallback to simple keyword matching
+            Log::info('Using fallback response');
             $text = strtolower($userMessage);
             if (strpos($text, 'supplier') !== false || strpos($text, 'sell') !== false) {
                 return "I can help you with supplier registration! [show_supplier_menu]";
