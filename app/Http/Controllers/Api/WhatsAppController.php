@@ -15,7 +15,7 @@ class WhatsAppController extends Controller
 
     public function __construct()
     {
-        $this->accessToken = env('WHATSAPP_ACCESS_TOKEN');
+        $this->accessToken = env('WHATSAPP_SYSTEM_USER_TOKEN');
         $this->phoneNumberId = env('WHATSAPP_PHONE_NUMBER_ID');
         
         Log::info('WhatsApp Controller Init:', [
@@ -125,6 +125,7 @@ class WhatsAppController extends Controller
                 $this->sendText($from, "📈 Benefits snapshot:\n• Unlimited product listings\n• Qualified global leads in real time\n• Priority search placement\n• Buyer insights & analytics\n• Direct chat/email with buyers\n• International RFQ negotiation support\n👉 Start now: https://supplier.medicalsupplierz.com");
                 break;
             case 'SUP_SALES':
+                $this->logHandoffRequest($from, 'supplier_sales');
                 $this->sendText($from, "🗓 You're in good hands. A specialist will join shortly.\nPlease share: company name, country, email, and a brief goal.");
                 break;
             case 'BUY_SIGNUP':
@@ -412,11 +413,19 @@ class WhatsAppController extends Controller
                 
             Log::info('WhatsApp API Response:', [
                 'status' => $response->status(),
-                'body' => $response->json(),
+                'raw_body' => $response->body(),
                 'headers' => $response->headers()
             ]);
             
-            return $response->json();
+            if ($response->successful()) {
+                return $response->json();
+            } else {
+                Log::error('WhatsApp API Error Response:', [
+                    'status' => $response->status(),
+                    'raw_response' => $response->body()
+                ]);
+                return ['error' => 'API request failed'];
+            }
         } catch (\Exception $e) {
             Log::error('WhatsApp API Error:', [
                 'error' => $e->getMessage(),
@@ -424,5 +433,18 @@ class WhatsAppController extends Controller
             ]);
             return ['error' => $e->getMessage()];
         }
+    }
+    
+    private function logHandoffRequest($phoneNumber, $type)
+    {
+        Log::info('HUMAN HANDOFF REQUEST', [
+            'phone' => $phoneNumber,
+            'type' => $type,
+            'timestamp' => now(),
+            'action_required' => 'CONTACT_CUSTOMER'
+        ]);
+        
+        // You can also send email/SMS notification here
+        // Mail::to('sales@medicalsupplierz.com')->send(new HandoffNotification($phoneNumber, $type));
     }
 }
