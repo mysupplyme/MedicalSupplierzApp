@@ -25,18 +25,12 @@ class AuthController extends Controller
                        ->first();
 
         if (!$client) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Doctor not found'
-            ], 401);
+            return $this->error('Doctor not found', 401);
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'user' => $client,
-                'token' => 'simple-token-' . $client->id
-            ]
+        return $this->success([
+            'user' => $client,
+            'token' => 'simple-token-' . $client->id
         ]);
     }
 
@@ -85,11 +79,7 @@ class AuthController extends Controller
             'status' => 1,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'data' => $client,
-            'message' => 'Doctor registered successfully'
-        ], 201);
+        return $this->success($client, 'Doctor registered successfully');
     }
 
     public function forgotPassword(Request $request)

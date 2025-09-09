@@ -178,6 +178,8 @@ class WhatsAppController extends Controller
         Log::info('getAIResponse called with:', ['message' => $userMessage]);
         
         try {
+            Log::info('OpenAI Request:', ['message' => $userMessage]);
+            
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
                 'Content-Type' => 'application/json'
@@ -196,8 +198,14 @@ class WhatsAppController extends Controller
                 'max_tokens' => 100
             ]);
             
+            Log::info('OpenAI Response:', [
+                'status' => $response->status(),
+                'body' => $response->json()
+            ]);
+            
             if ($response->successful()) {
                 $aiMessage = $response->json()['choices'][0]['message']['content'];
+                Log::info('OpenAI Success:', ['ai_message' => $aiMessage]);
                 
                 // Parse AI response for action
                 $text = strtolower($userMessage);

@@ -7,10 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 class ProductSupplier extends Model
 {
     protected $table = 'product_suppliers';
-    protected $fillable = ['product_id', 'supplier_id', 'price', 'availability'];
+    protected $fillable = [
+        'client_id', 'product_id', 'country_id', 'brand_id', 'unit_id',
+        'image', 'short_description_ar', 'short_description_en', 
+        'description_ar', 'description_en', 'condition', 'view_status',
+        'warranty_id', 'min_order_quantity_id', 'in_stock_quantity',
+        'alert_quantity', 'return_time_id', 'delivery_time_id', 'status'
+    ];
     
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Product::class);
+    }
+    
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+    
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }

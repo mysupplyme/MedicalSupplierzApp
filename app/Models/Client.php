@@ -6,20 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    protected $fillable = ['uuid', 'type', 'first_name', 'last_name', 'company_name_en', 'company_name_ar', 'email', 'password', 'mobile_number', 'country_code', 'job_title', 'workplace', 'buyer_type', 'specialty_id', 'sub_specialty_id', 'nationality', 'residency', 'is_buyer', 'status', 'reset_token', 'reset_expired_at'];
-    
-    public function specialty()
+    protected $fillable = ['name', 'email', 'phone', 'status'];
+
+    public function products()
     {
-        return $this->belongsTo(Category::class, 'specialty_id');
+        return $this->hasMany(Product::class);
     }
     
-    public function subSpecialty()
+    public function productSuppliers()
     {
-        return $this->belongsTo(Category::class, 'sub_specialty_id');
-    }
-    
-    public function countryCode()
-    {
-        return $this->belongsTo(Country::class, 'country_code');
+        return $this->hasMany(ProductSupplier::class);
     }
 }

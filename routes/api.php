@@ -18,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 // Event Details (public)
 Route::get('/events/{eventId}/details', [EventDetailController::class, 'getEventDetails']);
 
+// Products API (public) - similar to mqbakery
+Route::middleware(['api.headers'])->group(function () {
+    Route::get('/v1/products', [ProductController::class, 'index']);
+    Route::options('/v1/products', function() {
+        return response()->json(['status' => 'OK']);
+    });
+});
+
 // Public/Common routes (no authentication required)
 Route::prefix('common')->group(function () {
     Route::get('/specialties', [CommonController::class, 'getSpecialties']);
