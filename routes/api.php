@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppPurchaseController;
 use App\Http\Controllers\Api\WebhookController;
 use App\Http\Controllers\Api\EventDetailController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionPackageController;
