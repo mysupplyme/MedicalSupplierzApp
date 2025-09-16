@@ -18,6 +18,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
+            'password' => 'required|string',
         ]);
 
         $client = Client::where('email', $request->email)
@@ -26,6 +27,10 @@ class AuthController extends Controller
 
         if (!$client) {
             return $this->error('Doctor not found', 401);
+        }
+
+        if (!Hash::check($request->password, $client->password)) {
+            return $this->error('Invalid credentials', 401);
         }
 
         return $this->success([
