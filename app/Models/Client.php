@@ -3,10 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Client extends Model
 {
-    protected $fillable = ['name', 'email', 'phone', 'status'];
+    protected $fillable = [
+        'uuid', 'type', 'first_name', 'last_name', 'email', 'password', 
+        'mobile_number', 'country_code', 'job_title', 'workplace', 
+        'specialty_id', 'sub_specialty_id', 'nationality', 'residency', 
+        'buyer_type', 'is_buyer', 'status', 'reset_token', 'reset_expired_at'
+    ];
+
+    protected $hidden = ['password', 'reset_token'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid();
+            }
+        });
+    }
 
     public function products()
     {
@@ -16,5 +35,10 @@ class Client extends Model
     public function productSuppliers()
     {
         return $this->hasMany(ProductSupplier::class);
+    }
+    
+    public function countryCode()
+    {
+        return $this->belongsTo(Country::class, 'country_code');
     }
 }
