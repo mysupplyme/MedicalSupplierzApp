@@ -30,9 +30,8 @@
 
     <script>
         function logout() {
-            fetch('/api/signout', { method: 'POST' })
-                .then(() => window.location.href = '/login')
-                .catch(() => window.location.href = '/login');
+            localStorage.removeItem('admin_token');
+            window.location.href = '/admin/login';
         }
     </script>
 </body>
