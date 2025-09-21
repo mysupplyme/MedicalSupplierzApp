@@ -57,6 +57,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+// Admin authentication
+Route::post('/admin/login', [\App\Http\Controllers\AdminAuthController::class, 'login']);
+
 // Contact form
 Route::post('/contact', [ContactController::class, 'sendMessage']);
 

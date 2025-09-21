@@ -18,7 +18,7 @@
 <body>
     <div class="container">
         <h1>🔐 Admin Login</h1>
-        <form method="POST" action="/api/admin/login">
+        <form id="adminLoginForm">
             <div class="form-group">
                 <label>Admin Email:</label>
                 <input type="email" name="email" required>
@@ -33,6 +33,40 @@
         <div class="doctor-link">
             <p><a href="/login">Doctor Login →</a></p>
         </div>
+        
+        <div id="error" style="color: red; text-align: center; margin-top: 10px;"></div>
     </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            const errorDiv = document.getElementById('error');
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('admin_token', data.data.token);
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    errorDiv.textContent = data.message || 'Login failed';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Login failed. Please try again.';
+            }
+        });
+    </script>
 </body>
 </html>
