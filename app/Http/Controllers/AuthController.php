@@ -144,33 +144,44 @@ class AuthController extends Controller
     public function getProfile(Request $request)
     {
         $client = $request->get('auth_user');
-        $client->load('countryCode:id,currency_id');
+        $client->load('countryCode');
+        
+        // Add currency_id from country relationship
+        $response = $client->toArray();
+        $response['currency_id'] = $client->countryCode->currency_id ?? null;
         
         return response()->json([
             'success' => true,
-            'data' => $client
+            'data' => $response
         ]);
     }
 
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'string|max:255',
-            'mobile_number' => 'string|max:20',
-            'country_code' => 'exists:countries,id',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'name' => 'nullable|string|max:255',
+            'mobile_number' => 'nullable|string|max:20',
+            'country_code' => 'nullable|exists:countries,id',
             'job_title' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
-            'specialty_id' => 'exists:categories,id',
+            'specialty_id' => 'nullable|exists:categories,id',
             'sub_specialty_id' => 'nullable|exists:categories,id',
-            'residency' => 'exists:countries,id',
-            'nationality' => 'exists:countries,id',
+            'residency' => 'nullable|exists:countries,id',
+            'nationality' => 'nullable|exists:countries,id',
+            'email' => 'nullable|email|max:255',
+            'company_name_en' => 'nullable|string|max:255',
+            'company_name_ar' => 'nullable|string|max:255',
+            'profile_percentage' => 'nullable|integer|min:0|max:100',
         ]);
 
         $client = $request->get('auth_user');
         
         $updateData = $request->only([
-            'mobile_number', 'country_code', 'workplace',
-            'specialty_id', 'sub_specialty_id', 'residency', 'nationality'
+            'first_name', 'last_name', 'mobile_number', 'country_code', 'workplace',
+            'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
+            'company_name_en', 'company_name_ar', 'profile_percentage'
         ]);
         
         if ($request->has('job_title')) {
@@ -184,12 +195,17 @@ class AuthController extends Controller
             $updateData['last_name'] = isset($nameParts[1]) ? $nameParts[1] : '';
         }
         
-        $client->update($updateData);
+        $client->update(array_filter($updateData));
         $client->refresh();
+        $client->load('countryCode');
+        
+        // Add currency_id to response
+        $response = $client->toArray();
+        $response['currency_id'] = $client->countryCode->currency_id ?? null;
 
         return response()->json([
             'success' => true,
-            'data' => $client
+            'data' => $response
         ]);
     }
 
