@@ -28,6 +28,10 @@ Route::get('/admin', function () {
     return view('admin.login');
 })->name('admin.dashboard');
 
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard.view');
+
 Route::get('/admin/doctors-management', function () {
     return view('admin.doctors-management');
 })->name('admin.doctors-management');
