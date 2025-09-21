@@ -1,73 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - MedicalSupplierz</title>
+    <title>Admin Login - Medical Supplierz</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        .logo { text-align: center; margin-bottom: 2rem; }
-        .logo h1 { color: #1e40af; font-size: 1.8rem; margin-bottom: 0.5rem; }
-        .logo p { color: #6b7280; font-size: 0.9rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151; }
-        .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; }
-        .form-group input:focus { outline: none; border-color: #1e40af; box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1); }
-        .login-btn { width: 100%; background: #1e40af; color: white; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
-        .login-btn:hover { background: #1d4ed8; }
-        .error-message { background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; display: none; }
-        .back-link { text-align: center; margin-top: 1rem; }
-        .back-link a { color: #1e40af; text-decoration: none; font-size: 0.9rem; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; margin: 0; padding: 40px; }
+        .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #dc3545; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #c82333; }
+        .doctor-link { text-align: center; margin-top: 20px; }
+        .doctor-link a { color: #007bff; text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <h1>Admin Portal</h1>
-            <p>MedicalSupplierz Administration</p>
-        </div>
-        
-        <div id="errorMessage" class="error-message"></div>
-        
-        <form id="loginForm">
+    <div class="container">
+        <h1>🔐 Admin Login</h1>
+        <form method="POST" action="/api/admin/login">
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
+                <label>Admin Email:</label>
+                <input type="email" name="email" required>
             </div>
-            
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label>Admin Password:</label>
+                <input type="password" name="password" required>
             </div>
-            
-            <button type="submit" class="login-btn">Login to Admin Panel</button>
+            <button type="submit">Admin Login</button>
         </form>
         
-        <div class="back-link">
-            <a href="/">← Back to Website</a>
+        <div class="doctor-link">
+            <p><a href="/login">Doctor Login →</a></p>
         </div>
     </div>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-            
-            // Simple admin check (replace with proper authentication)
-            if (email === 'admin@medicalsupplierz.com' && password === 'admin123') {
-                // Set admin session (simplified)
-                localStorage.setItem('admin_logged_in', 'true');
-                window.location.href = '/admin/dashboard';
-            } else {
-                errorDiv.textContent = 'Invalid email or password';
-                errorDiv.style.display = 'block';
-            }
-        });
-    </script>
 </body>
 </html>

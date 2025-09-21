@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login</title>
+    <title>Doctor Login - Medical Supplierz</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 40px; }
         .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Admin Login</h1>
+        <h1>👨‍⚕️ Doctor Login</h1>
         <form method="POST" action="/api/login">
             <div class="form-group">
                 <label>Email:</label>

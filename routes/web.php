@@ -20,8 +20,12 @@ Route::get('/doctor-register', function () {
     return view('doctor-register');
 })->name('doctor-register');
 
+Route::get('/admin/login', function () {
+    return view('admin.login');
+})->name('admin.login');
+
 Route::get('/admin', function () {
-    return view('admin.dashboard');
+    return view('admin.login');
 })->name('admin.dashboard');
 
 Route::get('/admin/doctors-management', function () {
