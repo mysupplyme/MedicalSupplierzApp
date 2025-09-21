@@ -29,11 +29,7 @@
             <button type="submit">Login</button>
         </form>
         
-        <div class="default-creds">
-            <strong>Default Admin Account:</strong><br>
-            Email: admin@medconf.com<br>
-            Password: admin123
-        </div>
+
     </div>
 </body>
 </html>
