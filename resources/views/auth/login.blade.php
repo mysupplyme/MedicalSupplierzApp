@@ -11,7 +11,9 @@
         input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
         button:hover { background: #0056b3; }
-        .default-creds { background: #e7f3ff; padding: 15px; border-radius: 4px; margin-top: 20px; font-size: 14px; }
+        .forgot-link { text-align: center; margin-top: 15px; }
+        .forgot-link a { color: #007bff; text-decoration: none; font-size: 14px; }
+        .forgot-link a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -29,6 +31,9 @@
             <button type="submit">Login</button>
         </form>
         
+        <div class="forgot-link">
+            <a href="/forgot-password">Forgot Password?</a>
+        </div>
 
     </div>
 </body>
