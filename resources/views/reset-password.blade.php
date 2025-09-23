@@ -84,10 +84,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    document.getElementById('message').textContent = result.message;
+                    document.getElementById('message').textContent = result.message + ' Redirecting to home page...';
                     document.getElementById('message').className = 'message success';
                     document.getElementById('message').style.display = 'block';
                     document.getElementById('reset-form').style.display = 'none';
+                    
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
                 } else {
                     document.getElementById('message').textContent = result.message;
                     document.getElementById('message').className = 'message error';
