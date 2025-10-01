@@ -34,6 +34,7 @@ Route::prefix('common')->group(function () {
     Route::get('/get_residencies', [CommonController::class, 'getResidencies']);
     Route::get('/get_nationalities', [CommonController::class, 'getNationalities']);
     Route::get('/get_country_codes', [CommonController::class, 'getCountryCodes']);
+    Route::get('/get_currencies', [CommonController::class, 'getCurrencies']);
     Route::get('/get_categories', [CategoryController::class, 'getCategories']);
     Route::get('/get_specialties/{categoryId?}', [CategoryController::class, 'getSpecialties']);
     Route::get('/get_sub_specialties', [CategoryController::class, 'getSubSpecialties']);
