@@ -93,4 +93,15 @@ class CommonController extends Controller
             'data' => $countries
         ]);
     }
+    
+    public function getCurrencies()
+    {
+        $currencies = \App\Models\Currency::all(['id', 'title_en as title', 'code_en as code', 'is_default', 'decimal_digits', 'rate']);
+        
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'items' => $currencies
+        ]);
+    }
 }

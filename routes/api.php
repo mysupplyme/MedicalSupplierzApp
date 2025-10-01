@@ -71,12 +71,7 @@ Route::get('/terms-conditions', function() {
     
     return response()->json([
         'success' => true,
-        'data' => [
-            'title' => 'Terms and Conditions',
-            'content' => $content,
-            'html_url' => 'https://medicalsupplierz.app/terms',
-            'last_updated' => '2024-01-01'
-        ]
+        'data' => $content
     ]);
 });
 

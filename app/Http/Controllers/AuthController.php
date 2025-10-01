@@ -59,9 +59,10 @@ class AuthController extends Controller
         $firstName = $request->first_name;
         $lastName = $request->last_name;
         
-        // Get country phone prefix
+        // Get country data
         $country = Country::find($request->country_code);
         $phonePrefix = $country ? $country->phone_prefix : '';
+        $countryCode = $country ? '+' . ltrim($country->phone_prefix, '+') : null;
         $fullMobileNumber = '+' . ltrim($phonePrefix, '+') . $request->mobile_number;
         
         $client = Client::create([
@@ -72,7 +73,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
-            'country_code' => $request->country_code,
+            'country_code' => $countryCode, // Use +phone_prefix from countries table
             'job_title' => $request->job_title,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
