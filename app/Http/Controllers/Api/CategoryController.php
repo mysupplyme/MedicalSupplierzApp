@@ -15,7 +15,21 @@ class CategoryController extends Controller
     public function getCategories()
     {
         $categories = Category::whereIn('id', [3021, 3022])
-            ->get();
+            ->select('id', 'title_en as name', 'description_en as description', 'image', 'cover_image', 'icon_image')
+            ->get()
+            ->map(function($category) {
+                $baseUrl = 'https://medicalsupplierz.app/storage/image/';
+                $timestamp = '?v=' . time();
+                
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'description' => $category->description,
+                    'image_path' => $category->image ? $baseUrl . $category->image . '.webp' . $timestamp : null,
+                    'cover_image_path' => $category->cover_image ? $baseUrl . $category->cover_image . '.webp' . $timestamp : null,
+                    'icon_image_path' => $category->icon_image ? $baseUrl . $category->icon_image . '.webp' . $timestamp : null
+                ];
+            });
         
         return response()->json([
             'success' => true,
