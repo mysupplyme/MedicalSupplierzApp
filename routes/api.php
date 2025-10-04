@@ -22,6 +22,7 @@ Route::get('/events/{eventId}/details', [EventDetailController::class, 'getEvent
 // Products API (public) - similar to mqbakery
 Route::middleware(['api.headers'])->group(function () {
     Route::get('/v1/products', [ProductController::class, 'index']);
+    Route::get('/v1/products/test', [ProductController::class, 'test']);
     Route::options('/v1/products', function() {
         return response()->json(['status' => 'OK']);
     });

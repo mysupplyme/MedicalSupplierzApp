@@ -6,11 +6,48 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductSupplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    /**
+     * Get products with filtering and pagination
+     * 
+     * @param Request $request
+     * Query parameters:
+     * - page: Page number (default: 1)
+     * - limit: Items per page (default: 10, max: 50)
+     * - category_id: Filter by category ID
+     * - search: Search in product titles and descriptions
+     * - sort_price: Sort by price (asc|desc)
+     * 
+     * Headers:
+     * - Accept-Language: Language preference (en|ar)
+     * - Country-Id: Country ID for localization
+     * - Currency-Id: Currency ID for pricing
+     * - platform: Platform identifier (web|mobile)
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
+        // Validate request parameters
+        $validator = Validator::make($request->all(), [
+            'page' => 'integer|min:1',
+            'limit' => 'integer|min:1|max:50',
+            'count' => 'integer|min:1|max:50', // Legacy support
+            'category_id' => 'integer|exists:categories,id',
+            'search' => 'string|max:255',
+            'sort_price' => 'in:asc,desc'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid parameters',
+                'errors' => $validator->errors()
+            ], 400);
+        }
         // Get headers for localization and currency
         $language = $request->header('Accept-Language', 'en');
         $countryId = $request->header('Country-Id', 1);
@@ -25,9 +62,22 @@ class ProductController extends Controller
             });
 
         // Filter by category
-        if ($request->has('category_id')) {
+        if ($request->has('category_id') && $request->category_id) {
             $query->whereHas('product.categories', function($q) use ($request) {
                 $q->where('categories.id', $request->category_id);
+            });
+        }
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->whereHas('product', function($q) use ($searchTerm) {
+                $q->where('title_en', 'LIKE', $searchTerm)
+                  ->orWhere('title_ar', 'LIKE', $searchTerm)
+                  ->orWhere('description_en', 'LIKE', $searchTerm)
+                  ->orWhere('description_ar', 'LIKE', $searchTerm)
+                  ->orWhere('short_description_en', 'LIKE', $searchTerm)
+                  ->orWhere('short_description_ar', 'LIKE', $searchTerm);
             });
         }
 
@@ -44,8 +94,9 @@ class ProductController extends Controller
             $query->orderBy('product_suppliers.created_at', 'desc');
         }
 
-        // Pagination
-        $count = min($request->get('count', 10), 50); // Limit max count to 50
+        // Pagination - support both 'count' and 'limit' parameters
+        $limit = $request->get('limit', $request->get('count', 10));
+        $count = min($limit, 50); // Limit max count to 50
         $page = $request->get('page', 1);
         
         $products = $query->paginate($count, ['*'], 'page', $page);
@@ -112,8 +163,9 @@ class ProductController extends Controller
                 ],
                 'filters' => [
                     'category_id' => $request->get('category_id'),
+                    'search' => $request->get('search'),
                     'sort_price' => $request->get('sort_price'),
-                    'count' => $count,
+                    'limit' => $count,
                     'page' => $page
                 ]
             ],
@@ -123,12 +175,40 @@ class ProductController extends Controller
                 'currency_id' => $currencyId,
                 'platform' => $platform,
                 'guest_id' => $guestId,
-                'timestamp' => now()->toISOString()
+                'timestamp' => now()->toISOString(),
+                'api_version' => 'v1'
             ]
         ], 200, [
             'Content-Type' => 'application/json',
             'X-API-Version' => 'v1',
             'X-Total-Count' => $products->total()
+        ]);
+    }
+
+    /**
+     * Test endpoint to verify parameters are received correctly
+     */
+    public function test(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'API test endpoint',
+            'received_parameters' => [
+                'page' => $request->get('page'),
+                'limit' => $request->get('limit'),
+                'count' => $request->get('count'), // Legacy
+                'category_id' => $request->get('category_id'),
+                'search' => $request->get('search'),
+                'sort_price' => $request->get('sort_price')
+            ],
+            'received_headers' => [
+                'Accept-Language' => $request->header('Accept-Language'),
+                'Country-Id' => $request->header('Country-Id'),
+                'Currency-Id' => $request->header('Currency-Id'),
+                'platform' => $request->header('platform'),
+                'Guest-Id' => $request->header('Guest-Id')
+            ],
+            'timestamp' => now()->toISOString()
         ]);
     }
 }
