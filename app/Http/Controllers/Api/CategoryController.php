@@ -15,11 +15,11 @@ class CategoryController extends Controller
     public function getCategories()
     {
         $categories = Category::whereIn('id', [3021, 3022])
-            ->select('id', 'title_en as name', 'description_en as description', 'image', 'cover_image', 'icon_image')
+            ->select('id', 'title_en as name', 'description_en as description', 'image', 'cover_image', 'icon_image', 'updated_at')
             ->get()
             ->map(function($category) {
                 $baseUrl = 'https://medicalsupplierz.app/storage/image/';
-                $timestamp = '?v=' . time();
+                $timestamp = '?v=' . strtotime($category->updated_at);
                 
                 return [
                     'id' => $category->id,
