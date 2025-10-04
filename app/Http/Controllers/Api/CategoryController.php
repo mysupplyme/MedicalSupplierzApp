@@ -34,7 +34,9 @@ class CategoryController extends Controller
         return response()->json([
             'success' => true,
             'data' => $categories
-        ]);
+        ])->header('Access-Control-Allow-Origin', '*')
+          ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+          ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
     
     public function getSpecialties($categoryId = null)
