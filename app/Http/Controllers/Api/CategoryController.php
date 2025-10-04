@@ -25,9 +25,9 @@ class CategoryController extends Controller
                     'id' => $category->id,
                     'name' => $category->name,
                     'description' => $category->description,
-                    'image_path' => $category->image ? $baseUrl . $category->image . '.webp' . $timestamp : null,
-                    'cover_image_path' => $category->cover_image ? $baseUrl . $category->cover_image . '.webp' . $timestamp : null,
-                    'icon_image_path' => $category->icon_image ? $baseUrl . $category->icon_image . '.webp' . $timestamp : null
+                    'image_path' => $category->image ? $baseUrl . $category->image . $timestamp : null,
+                    'cover_image_path' => $category->cover_image ? $baseUrl . $category->cover_image . $timestamp : null,
+                    'icon_image_path' => $category->icon_image ? $baseUrl . $category->icon_image . $timestamp : null
                 ];
             });
         
