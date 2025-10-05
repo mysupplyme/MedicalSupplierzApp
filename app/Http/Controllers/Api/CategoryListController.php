@@ -25,39 +25,32 @@ class CategoryListController extends Controller
             $query->where('title_en', 'like', '%' . $request->keyword . '%');
         }
         
-        $query->select('id', 'title_en as name', 'description_en as description', 'image', 'cover_image', 'icon_image', 'updated_at');
-        
         // Pagination
         if ($request->boolean('pagination')) {
             $count = $request->get('count', 10);
             $categories = $query->paginate($count);
-            $transformedData = $categories->getCollection()->map([$this, 'transformCategory']);
-            $categories->setCollection($transformedData);
+            $categories->getCollection()->transform([$this, 'addImagePaths']);
         } else {
-            $categories = $query->get()->map([$this, 'transformCategory']);
+            $categories = $query->get();
+            $categories->transform([$this, 'addImagePaths']);
         }
         
         return response()->json([
             'success' => true,
             'data' => $categories
-        ])->header('Access-Control-Allow-Origin', '*')
-          ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-          ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        ]);
     }
     
-    private function transformCategory($category)
+    public function addImagePaths($category)
     {
         $baseUrl = 'https://medicalsupplierz.app/storage/image/';
         $timestamp = '?v=' . strtotime($category->updated_at);
         
-        return [
-            'id' => $category->id,
-            'name' => $category->name,
-            'description' => $category->description,
-            'image_path' => $category->image ? $baseUrl . $category->image . $timestamp : null,
-            'cover_image_path' => $category->cover_image ? $baseUrl . $category->cover_image . $timestamp : null,
-            'icon_image_path' => $category->icon_image ? $baseUrl . $category->icon_image . $timestamp : null
-        ];
+        $category->image_path = $category->image ? $baseUrl . $category->image . $timestamp : null;
+        $category->cover_image_path = $category->cover_image ? $baseUrl . $category->cover_image . $timestamp : null;
+        $category->icon_image_path = $category->icon_image ? $baseUrl . $category->icon_image . $timestamp : null;
+        
+        return $category;
     }
     
     public function tree()
