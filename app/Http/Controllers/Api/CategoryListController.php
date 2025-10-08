@@ -59,9 +59,22 @@ class CategoryListController extends Controller
             ->with(['children.children'])
             ->get();
         
+        $categories->transform([$this, 'addImagePathsRecursive']);
+        
         return response()->json([
             'success' => true,
             'data' => $categories
         ]);
+    }
+    
+    public function addImagePathsRecursive($category)
+    {
+        $this->addImagePaths($category);
+        
+        if ($category->children) {
+            $category->children->transform([$this, 'addImagePathsRecursive']);
+        }
+        
+        return $category;
     }
 }

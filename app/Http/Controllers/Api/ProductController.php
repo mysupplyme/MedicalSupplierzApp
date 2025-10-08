@@ -55,7 +55,11 @@ class ProductController extends Controller
         $guestId = $request->header('Guest-Id');
         $platform = $request->header('platform', 'web');
 
-        $query = ProductSupplier::with(['product.categories', 'client'])
+        $query = ProductSupplier::with([
+                'product.categories',
+                'product.client',
+                'client'
+            ])
             ->active()
             ->whereHas('product', function($q) {
                 $q->where('status', 1);
@@ -101,10 +105,11 @@ class ProductController extends Controller
         
         $products = $query->paginate($count, ['*'], 'page', $page);
 
-        // Transform data to match mqbakery API format
+        // Transform data to match comprehensive API format
         $transformedData = $products->getCollection()->map(function($item) use ($language) {
             $title = $language === 'ar' ? ($item->product->title_ar ?? $item->product->title_en) : ($item->product->title_en ?? $item->product->title_ar);
-            $description = $language === 'ar' ? ($item->short_description_ar ?? $item->short_description_en) : ($item->short_description_en ?? $item->short_description_ar);
+            $description = $language === 'ar' ? ($item->product->description_ar ?? $item->product->description_en) : ($item->product->description_en ?? $item->product->description_ar);
+            $shortDescription = $language === 'ar' ? ($item->product->short_description_ar ?? $item->product->short_description_en) : ($item->product->short_description_en ?? $item->product->short_description_ar);
             
             return [
                 'id' => $item->id,
@@ -112,19 +117,20 @@ class ProductController extends Controller
                 'name' => $title,
                 'title' => $title,
                 'description' => $description,
-                'short_description' => $description,
+                'short_description' => $shortDescription,
                 'price' => [
                     'original' => (float) $item->price,
                     'discounted' => (float) $item->price,
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $item->image ? 'https://api.medicalsupplierz.com/storage/product_images/' . $item->image : null,
-                'images' => $item->image ? ['https://api.medicalsupplierz.com/storage/product_images/' . $item->image] : [],
+                'image' => $item->image ? url('storage/product_images/' . $item->image) : ($item->product->image ? url('storage/product_images/' . $item->product->image) : null),
+                'images' => $item->image ? [url('storage/product_images/' . $item->image)] : ($item->product->image ? [url('storage/product_images/' . $item->product->image)] : []),
                 'condition' => $item->condition ?? 'new',
                 'stock_quantity' => $item->in_stock_quantity ?? 0,
                 'availability' => $item->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $item->status == 1 ? 'active' : 'inactive',
+                'view_status' => $item->view_status ?? 'public',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -139,8 +145,20 @@ class ProductController extends Controller
                 'supplier' => [
                     'id' => $item->client->id ?? null,
                     'name' => $item->client->name ?? 'Medical Supplier',
+                    'company_name' => $item->client->company_name ?? null,
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
+                ],
+                'specifications' => [
+                    'condition' => $item->condition ?? 'new',
+                    'brand_id' => $item->brand_id,
+                    'country_id' => $item->country_id,
+                    'unit_id' => $item->unit_id,
+                    'warranty_id' => $item->warranty_id,
+                    'min_order_quantity_id' => $item->min_order_quantity_id,
+                    'return_time_id' => $item->return_time_id,
+                    'delivery_time_id' => $item->delivery_time_id,
+                    'alert_quantity' => $item->alert_quantity
                 ],
                 'created_at' => $item->created_at->toISOString(),
                 'updated_at' => $item->updated_at->toISOString()
@@ -183,6 +201,145 @@ class ProductController extends Controller
             'X-API-Version' => 'v1',
             'X-Total-Count' => $products->total()
         ]);
+    }
+
+    /**
+     * Get product details by ID
+     * 
+     * @param Request $request
+     * @param int $id Product ID
+     * 
+     * Headers:
+     * - Accept-Language: Language preference (en|ar)
+     * - Country-Id: Country ID for localization
+     * - Currency-Id: Currency ID for pricing
+     * - platform: Platform identifier (web|mobile)
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request, $id)
+    {
+        // Validate ID parameter
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|min:1'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid product ID',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        // Get headers for localization
+        $language = $request->header('Accept-Language', 'en');
+        $countryId = $request->header('Country-Id', 1);
+        $currencyId = $request->header('Currency-Id', 1);
+        $guestId = $request->header('Guest-Id');
+        $platform = $request->header('platform', 'web');
+
+        try {
+            // Find product with all related data
+            $product = ProductSupplier::with([
+                'product.categories',
+                'product.client',
+                'client'
+            ])
+            ->leftJoin('product_supplier_offers', 'product_suppliers.id', '=', 'product_supplier_offers.product_supplier_id')
+            ->select('product_suppliers.*', 
+                    DB::raw('COALESCE(product_supplier_offers.price, ROUND(RAND() * 1000 + 10, 2)) as price'))
+            ->where('product_suppliers.id', $id)
+            ->active()
+            ->whereHas('product', function($q) {
+                $q->where('status', 1);
+            })
+            ->first();
+
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found',
+                    'data' => null
+                ], 404);
+            }
+
+            // Transform data to match API format
+            $title = $language === 'ar' ? ($product->product->title_ar ?? $product->product->title_en) : ($product->product->title_en ?? $product->product->title_ar);
+            $description = $language === 'ar' ? ($product->product->description_ar ?? $product->product->description_en) : ($product->product->description_en ?? $product->product->description_ar);
+            $shortDescription = $language === 'ar' ? ($product->product->short_description_ar ?? $product->product->short_description_en) : ($product->product->short_description_en ?? $product->product->short_description_ar);
+            
+            $productData = [
+                'id' => $product->id,
+                'product_id' => $product->product_id,
+                'name' => $title,
+                'title' => $title,
+                'description' => $description,
+                'short_description' => $shortDescription,
+                'price' => [
+                    'original' => (float) $product->price,
+                    'discounted' => (float) $product->price,
+                    'currency' => 'USD',
+                    'currency_symbol' => '$'
+                ],
+                'image' => $product->image ? url('storage/product_images/' . $product->image) : null,
+                'images' => $product->image ? [url('storage/product_images/' . $product->image)] : [],
+                'condition' => $product->condition ?? 'new',
+                'stock_quantity' => $product->in_stock_quantity ?? 0,
+                'availability' => $product->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+                'status' => $product->status == 1 ? 'active' : 'inactive',
+                'rating' => [
+                    'average' => round(rand(35, 50) / 10, 1),
+                    'count' => rand(5, 100)
+                ],
+                'categories' => $product->product->categories->map(function($cat) use ($language) {
+                    return [
+                        'id' => $cat->id,
+                        'name' => $language === 'ar' ? ($cat->title_ar ?? $cat->title_en) : ($cat->title_en ?? $cat->title_ar),
+                        'slug' => $cat->slug ?? \Str::slug($cat->title_en)
+                    ];
+                }),
+                'supplier' => [
+                    'id' => $product->client->id ?? null,
+                    'name' => $product->client->name ?? 'Medical Supplier',
+                    'verified' => true,
+                    'rating' => round(rand(40, 50) / 10, 1)
+                ],
+                'specifications' => [
+                    'condition' => $product->condition ?? 'new',
+                    'brand' => $product->brand ?? 'Generic',
+                    'model' => $product->model ?? null,
+                    'warranty' => $product->warranty ?? null
+                ],
+                'created_at' => $product->created_at->toISOString(),
+                'updated_at' => $product->updated_at->toISOString()
+            ];
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product details retrieved successfully',
+                'data' => $productData,
+                'meta' => [
+                    'language' => $language,
+                    'country_id' => $countryId,
+                    'currency_id' => $currencyId,
+                    'platform' => $platform,
+                    'guest_id' => $guestId,
+                    'timestamp' => now()->toISOString(),
+                    'api_version' => 'v1'
+                ]
+            ], 200, [
+                'Content-Type' => 'application/json',
+                'X-API-Version' => 'v1'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while retrieving product details',
+                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
+            ], 500);
+        }
     }
 
     /**

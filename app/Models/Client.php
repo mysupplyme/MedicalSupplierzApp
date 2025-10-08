@@ -41,4 +41,9 @@ class Client extends Model
     {
         return $this->belongsTo(Country::class, 'country_code');
     }
+    
+    public function clientSetting()
+    {
+        return $this->hasOne(ClientSetting::class);
+    }
 }

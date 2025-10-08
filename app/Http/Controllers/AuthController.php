@@ -159,55 +159,83 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $client = $request->get('auth_user');
+        
         $request->validate([
-            'first_name' => 'nullable|string|max:255',
-            'last_name' => 'nullable|string|max:255',
-            'name' => 'nullable|string|max:255',
+            'first_name' => 'nullable|string|min:2|max:50',
+            'last_name' => 'nullable|string|min:2|max:50',
+            'job_title' => 'nullable|string|min:2|max:150',
             'mobile_number' => 'nullable|string|max:20',
             'country_code' => 'nullable|exists:countries,id',
-            'job_title' => 'nullable|string|max:150',
-            'workplace' => 'nullable|string',
-            'specialty_id' => 'nullable|exists:categories,id',
-            'sub_specialty_id' => 'nullable|exists:categories,id',
+            'workplace' => 'nullable|string|max:255',
+            'specialty_id' => 'nullable|exists:specialties,id',
+            'sub_specialty_id' => 'nullable|exists:sub_specialties,id',
             'residency' => 'nullable|exists:countries,id',
             'nationality' => 'nullable|exists:countries,id',
-            'email' => 'nullable|email|max:255',
+            'email' => 'nullable|email|max:255|unique:clients,email,' . $client->id,
             'company_name_en' => 'nullable|string|max:255',
             'company_name_ar' => 'nullable|string|max:255',
             'profile_percentage' => 'nullable|integer|min:0|max:100',
+            'currency_id' => 'nullable|exists:currencies,id',
+            'language' => 'nullable|string|in:en,ar'
         ]);
 
-        $client = $request->get('auth_user');
-        
-        $updateData = $request->only([
-            'first_name', 'last_name', 'mobile_number', 'country_code', 'workplace',
+        // Update client data
+        $updateData = array_filter($request->only([
+            'first_name', 'last_name', 'job_title', 'mobile_number', 'workplace',
             'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
             'company_name_en', 'company_name_ar', 'profile_percentage'
-        ]);
+        ]));
         
-        if ($request->has('job_title')) {
-            $updateData['job_title'] = $request->job_title;
+        // Handle phone number with country code
+        if ($request->has('mobile_number') && $request->has('country_code')) {
+            $country = Country::find($request->country_code);
+            if ($country) {
+                $updateData['mobile_number'] = $country->phone_prefix . ltrim($request->mobile_number, '+');
+            }
         }
         
-        // Handle name field - split into first_name and last_name
-        if ($request->has('name')) {
-            $nameParts = explode(' ', $request->name, 2);
-            $updateData['first_name'] = $nameParts[0];
-            $updateData['last_name'] = isset($nameParts[1]) ? $nameParts[1] : '';
+        try {
+            $client->update($updateData);
+            
+            // Update client settings (country, currency, language)
+            if ($request->hasAny(['country_code', 'currency_id', 'language'])) {
+                $client->clientSetting()->updateOrCreate(
+                    ['client_id' => $client->id],
+                    array_filter([
+                        'country_id' => $request->country_code,
+                        'currency_id' => $request->currency_id,
+                        'lang' => $request->language ?? 'en'
+                    ])
+                );
+            }
+            
+            $client->refresh();
+            $client->load('countryCode', 'clientSetting');
+            
+            // Format response similar to newapi
+            $response = $client->toArray();
+            $clientSetting = $client->clientSetting;
+            
+            if ($clientSetting) {
+                $response['country_id'] = $clientSetting->country_id;
+                $response['currency_id'] = $clientSetting->currency_id;
+                $response['language'] = $clientSetting->lang ?? 'en';
+            }
+            
+            return response()->json([
+                'code' => 200,
+                'message' => 'Profile updated successfully',
+                'data' => $response
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Failed to update profile',
+                'error' => $e->getMessage()
+            ], 500);
         }
-        
-        $client->update(array_filter($updateData));
-        $client->refresh();
-        $client->load('countryCode');
-        
-        // Add currency_id to response
-        $response = $client->toArray();
-        $response['currency_id'] = $client->countryCode->currency_id ?? null;
-
-        return response()->json([
-            'success' => true,
-            'data' => $response
-        ]);
     }
 
     public function changePassword(Request $request)
