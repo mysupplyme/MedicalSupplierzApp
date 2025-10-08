@@ -124,8 +124,8 @@ class ProductController extends Controller
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $item->image ? url('storage/product_images/' . $item->image) : ($item->product->image ? url('storage/product_images/' . $item->product->image) : null),
-                'images' => $item->image ? [url('storage/product_images/' . $item->image)] : ($item->product->image ? [url('storage/product_images/' . $item->product->image)] : []),
+                'image' => $item->image ? url('storage/products/' . $item->image) : ($item->product->image ? url('storage/products/' . $item->product->image) : null),
+                'images' => $item->image ? [url('storage/products/' . $item->image)] : ($item->product->image ? [url('storage/products/' . $item->product->image)] : []),
                 'condition' => $item->condition ?? 'new',
                 'stock_quantity' => $item->in_stock_quantity ?? 0,
                 'availability' => $item->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
@@ -282,8 +282,8 @@ class ProductController extends Controller
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $product->image ? url('storage/product_images/' . $product->image) : null,
-                'images' => $product->image ? [url('storage/product_images/' . $product->image)] : [],
+                'image' => $product->image ? url('storage/products/' . $product->image) : null,
+                'images' => $product->image ? [url('storage/products/' . $product->image)] : [],
                 'condition' => $product->condition ?? 'new',
                 'stock_quantity' => $product->in_stock_quantity ?? 0,
                 'availability' => $product->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
