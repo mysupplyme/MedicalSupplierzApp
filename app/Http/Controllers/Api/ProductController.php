@@ -58,7 +58,17 @@ class ProductController extends Controller
         $query = ProductSupplier::with([
                 'product.categories',
                 'product.client',
-                'client'
+                'client',
+                'unit',
+                'country',
+                'brand',
+                'warranty',
+                'returnTime',
+                'deliveryTime',
+                'productDetails',
+                'productDetails.unit',
+                'productDetails.returnTime',
+                'productDetails.deliveryTime'
             ])
             ->active()
             ->whereHas('product', function($q) {
@@ -111,6 +121,8 @@ class ProductController extends Controller
             $description = $language === 'ar' ? ($item->product->description_ar ?? $item->product->description_en) : ($item->product->description_en ?? $item->product->description_ar);
             $shortDescription = $language === 'ar' ? ($item->product->short_description_ar ?? $item->product->short_description_en) : ($item->product->short_description_en ?? $item->product->short_description_ar);
             
+            $productDetail = $item->productDetails->first();
+            
             return [
                 'id' => $item->id,
                 'product_id' => $item->product_id,
@@ -118,19 +130,26 @@ class ProductController extends Controller
                 'title' => $title,
                 'description' => $description,
                 'short_description' => $shortDescription,
+                'sku' => $productDetail->sku ?? null,
+                'barcode' => $productDetail->barcode ?? null,
                 'price' => [
-                    'original' => (float) $item->price,
-                    'discounted' => (float) $item->price,
+                    'original' => (float) ($productDetail->price ?? $item->price),
+                    'discounted' => (float) ($productDetail->price ?? $item->price),
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
                 'image' => $item->image ? url('storage/products/' . $item->image) : ($item->product->image ? url('storage/products/' . $item->product->image) : null),
                 'images' => $item->image ? [url('storage/products/' . $item->image)] : ($item->product->image ? [url('storage/products/' . $item->product->image)] : []),
                 'condition' => $item->condition ?? 'new',
-                'stock_quantity' => $item->in_stock_quantity ?? 0,
-                'availability' => $item->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+                'stock_quantity' => $productDetail->quantity ?? $item->in_stock_quantity ?? 0,
+                'pieces_per_unit' => $productDetail->pieces_number ?? null,
+                'weight' => $productDetail->weight ?? null,
+                'expiration_date' => $productDetail->expiration_date ?? null,
+                'expire_days' => $productDetail->expire_days ?? null,
+                'availability' => ($productDetail->quantity ?? $item->in_stock_quantity ?? 0) > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $item->status == 1 ? 'active' : 'inactive',
                 'view_status' => $item->view_status ?? 'public',
+                'add_type' => $productDetail->add_type ?? 'cart',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -149,6 +168,30 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'unit' => $item->unit ? [
+                    'id' => $item->unit->id,
+                    'name' => $language === 'ar' ? ($item->unit->title_ar ?? $item->unit->title_en) : ($item->unit->title_en ?? $item->unit->title_ar)
+                ] : null,
+                'country' => $item->country ? [
+                    'id' => $item->country->id,
+                    'name' => $language === 'ar' ? ($item->country->title_ar ?? $item->country->title_en) : ($item->country->title_en ?? $item->country->title_ar)
+                ] : null,
+                'brand' => $item->brand ? [
+                    'id' => $item->brand->id,
+                    'name' => $language === 'ar' ? ($item->brand->title_ar ?? $item->brand->title_en) : ($item->brand->title_en ?? $item->brand->title_ar)
+                ] : null,
+                'warranty' => $item->warranty ? [
+                    'id' => $item->warranty->id,
+                    'name' => $language === 'ar' ? ($item->warranty->title_ar ?? $item->warranty->title_en) : ($item->warranty->title_en ?? $item->warranty->title_ar)
+                ] : null,
+                'return_time' => $item->returnTime ? [
+                    'id' => $item->returnTime->id,
+                    'name' => $language === 'ar' ? ($item->returnTime->title_ar ?? $item->returnTime->title_en) : ($item->returnTime->title_en ?? $item->returnTime->title_ar)
+                ] : null,
+                'delivery_time' => $item->deliveryTime ? [
+                    'id' => $item->deliveryTime->id,
+                    'name' => $language === 'ar' ? ($item->deliveryTime->title_ar ?? $item->deliveryTime->title_en) : ($item->deliveryTime->title_en ?? $item->deliveryTime->title_ar)
+                ] : null,
                 'specifications' => [
                     'condition' => $item->condition ?? 'new',
                     'brand_id' => $item->brand_id,
@@ -158,7 +201,9 @@ class ProductController extends Controller
                     'min_order_quantity_id' => $item->min_order_quantity_id,
                     'return_time_id' => $item->return_time_id,
                     'delivery_time_id' => $item->delivery_time_id,
-                    'alert_quantity' => $item->alert_quantity
+                    'alert_quantity' => $item->alert_quantity,
+                    'commission' => $productDetail->commission ?? null,
+                    'commission_type' => $productDetail->commission_type ?? null
                 ],
                 'created_at' => $item->created_at->toISOString(),
                 'updated_at' => $item->updated_at->toISOString()
@@ -244,7 +289,17 @@ class ProductController extends Controller
             $product = ProductSupplier::with([
                 'product.categories',
                 'product.client',
-                'client'
+                'client',
+                'unit',
+                'country',
+                'brand',
+                'warranty',
+                'returnTime',
+                'deliveryTime',
+                'productDetails',
+                'productDetails.unit',
+                'productDetails.returnTime',
+                'productDetails.deliveryTime'
             ])
             ->leftJoin('product_supplier_offers', 'product_suppliers.id', '=', 'product_supplier_offers.product_supplier_id')
             ->select('product_suppliers.*', 
@@ -264,10 +319,12 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            // Transform data to match API format
+            // Transform data to match comprehensive API format
             $title = $language === 'ar' ? ($product->product->title_ar ?? $product->product->title_en) : ($product->product->title_en ?? $product->product->title_ar);
             $description = $language === 'ar' ? ($product->product->description_ar ?? $product->product->description_en) : ($product->product->description_en ?? $product->product->description_ar);
             $shortDescription = $language === 'ar' ? ($product->product->short_description_ar ?? $product->product->short_description_en) : ($product->product->short_description_en ?? $product->product->short_description_ar);
+            
+            $productDetail = $product->productDetails->first();
             
             $productData = [
                 'id' => $product->id,
@@ -276,18 +333,26 @@ class ProductController extends Controller
                 'title' => $title,
                 'description' => $description,
                 'short_description' => $shortDescription,
+                'sku' => $productDetail->sku ?? null,
+                'barcode' => $productDetail->barcode ?? null,
                 'price' => [
-                    'original' => (float) $product->price,
-                    'discounted' => (float) $product->price,
+                    'original' => (float) ($productDetail->price ?? $product->price),
+                    'discounted' => (float) ($productDetail->price ?? $product->price),
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $product->image ? url('storage/products/' . $product->image) : null,
-                'images' => $product->image ? [url('storage/products/' . $product->image)] : [],
+                'image' => $product->image ? url('storage/products/' . $product->image) : ($product->product->image ? url('storage/products/' . $product->product->image) : null),
+                'images' => $product->image ? [url('storage/products/' . $product->image)] : ($product->product->image ? [url('storage/products/' . $product->product->image)] : []),
                 'condition' => $product->condition ?? 'new',
-                'stock_quantity' => $product->in_stock_quantity ?? 0,
-                'availability' => $product->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+                'stock_quantity' => $productDetail->quantity ?? $product->in_stock_quantity ?? 0,
+                'pieces_per_unit' => $productDetail->pieces_number ?? null,
+                'weight' => $productDetail->weight ?? null,
+                'expiration_date' => $productDetail->expiration_date ?? null,
+                'expire_days' => $productDetail->expire_days ?? null,
+                'availability' => ($productDetail->quantity ?? $product->in_stock_quantity ?? 0) > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $product->status == 1 ? 'active' : 'inactive',
+                'view_status' => $product->view_status ?? 'public',
+                'add_type' => $productDetail->add_type ?? 'cart',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -302,14 +367,46 @@ class ProductController extends Controller
                 'supplier' => [
                     'id' => $product->client->id ?? null,
                     'name' => $product->client->name ?? 'Medical Supplier',
+                    'company_name' => $product->client->company_name ?? null,
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'unit' => $product->unit ? [
+                    'id' => $product->unit->id,
+                    'name' => $language === 'ar' ? ($product->unit->title_ar ?? $product->unit->title_en) : ($product->unit->title_en ?? $product->unit->title_ar)
+                ] : null,
+                'country' => $product->country ? [
+                    'id' => $product->country->id,
+                    'name' => $language === 'ar' ? ($product->country->title_ar ?? $product->country->title_en) : ($product->country->title_en ?? $product->country->title_ar)
+                ] : null,
+                'brand' => $product->brand ? [
+                    'id' => $product->brand->id,
+                    'name' => $language === 'ar' ? ($product->brand->title_ar ?? $product->brand->title_en) : ($product->brand->title_en ?? $product->brand->title_ar)
+                ] : null,
+                'warranty' => $product->warranty ? [
+                    'id' => $product->warranty->id,
+                    'name' => $language === 'ar' ? ($product->warranty->title_ar ?? $product->warranty->title_en) : ($product->warranty->title_en ?? $product->warranty->title_ar)
+                ] : null,
+                'return_time' => $product->returnTime ? [
+                    'id' => $product->returnTime->id,
+                    'name' => $language === 'ar' ? ($product->returnTime->title_ar ?? $product->returnTime->title_en) : ($product->returnTime->title_en ?? $product->returnTime->title_ar)
+                ] : null,
+                'delivery_time' => $product->deliveryTime ? [
+                    'id' => $product->deliveryTime->id,
+                    'name' => $language === 'ar' ? ($product->deliveryTime->title_ar ?? $product->deliveryTime->title_en) : ($product->deliveryTime->title_en ?? $product->deliveryTime->title_ar)
+                ] : null,
                 'specifications' => [
                     'condition' => $product->condition ?? 'new',
-                    'brand' => $product->brand ?? 'Generic',
-                    'model' => $product->model ?? null,
-                    'warranty' => $product->warranty ?? null
+                    'brand_id' => $product->brand_id,
+                    'country_id' => $product->country_id,
+                    'unit_id' => $product->unit_id,
+                    'warranty_id' => $product->warranty_id,
+                    'min_order_quantity_id' => $product->min_order_quantity_id,
+                    'return_time_id' => $product->return_time_id,
+                    'delivery_time_id' => $product->delivery_time_id,
+                    'alert_quantity' => $product->alert_quantity,
+                    'commission' => $productDetail->commission ?? null,
+                    'commission_type' => $productDetail->commission_type ?? null
                 ],
                 'created_at' => $product->created_at->toISOString(),
                 'updated_at' => $product->updated_at->toISOString()
