@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    /**
+    /**s
      * Get products with filtering and pagination
      * 
      * @param Request $request
@@ -124,7 +124,7 @@ class ProductController extends Controller
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $item->image ? url('storage/products/' . $item->image) : ($item->product->image ? url('storage/products/' . $item->product->image) : null),
+                'image' => $item->image  ? url('storage/products/' . $item->image) : ($item->product->image ? url('storage/products/' . $item->product->image) : null),
                 'images' => $item->image ? [url('storage/products/' . $item->image)] : ($item->product->image ? [url('storage/products/' . $item->product->image)] : []),
                 'condition' => $item->condition ?? 'new',
                 'stock_quantity' => $item->in_stock_quantity ?? 0,
@@ -282,13 +282,12 @@ class ProductController extends Controller
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $product->image ? url('storage/products/' . $product->image) : ($product->product->image ? url('storage/products/' . $product->product->image) : null),
-                'images' => $product->image ? [url('storage/products/' . $product->image)] : ($product->product->image ? [url('storage/products/' . $product->product->image)] : []),
+                'image' => $product->image ? url('storage/products/' . $product->image) : null,
+                'images' => $product->image ? [url('storage/products/' . $product->image)] : [],
                 'condition' => $product->condition ?? 'new',
                 'stock_quantity' => $product->in_stock_quantity ?? 0,
                 'availability' => $product->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $product->status == 1 ? 'active' : 'inactive',
-                'view_status' => $product->view_status ?? 'public',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -303,20 +302,14 @@ class ProductController extends Controller
                 'supplier' => [
                     'id' => $product->client->id ?? null,
                     'name' => $product->client->name ?? 'Medical Supplier',
-                    'company_name' => $product->client->company_name ?? null,
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
                 'specifications' => [
                     'condition' => $product->condition ?? 'new',
-                    'brand_id' => $product->brand_id,
-                    'country_id' => $product->country_id,
-                    'unit_id' => $product->unit_id,
-                    'warranty_id' => $product->warranty_id,
-                    'min_order_quantity_id' => $product->min_order_quantity_id,
-                    'return_time_id' => $product->return_time_id,
-                    'delivery_time_id' => $product->delivery_time_id,
-                    'alert_quantity' => $product->alert_quantity
+                    'brand' => $product->brand ?? 'Generic',
+                    'model' => $product->model ?? null,
+                    'warranty' => $product->warranty ?? null
                 ],
                 'created_at' => $product->created_at->toISOString(),
                 'updated_at' => $product->updated_at->toISOString()
