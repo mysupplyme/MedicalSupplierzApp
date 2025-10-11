@@ -43,7 +43,16 @@ class CategoryController extends Controller
     public function getSpecialties($categoryId = null)
     {
         $query = Category::where('category_id', $categoryId ?: 3021); // Default to conference id
-        $specialties = $query->get();
+        $specialties = $query->get()->map(function($category) {
+            $baseUrl = 'https://medicalsupplierz.app/storage/image/';
+            $timestamp = '?v=' . strtotime($category->updated_at);
+            
+            $category->image_path = $category->image ? $baseUrl . $category->image . $timestamp : null;
+            $category->cover_image_path = $category->cover_image ? $baseUrl . $category->cover_image . $timestamp : null;
+            $category->icon_image_path = $category->icon_image ? $baseUrl . $category->icon_image . $timestamp : null;
+            
+            return $category;
+        });
         
         return response()->json([
             'success' => true,
