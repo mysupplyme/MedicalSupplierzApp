@@ -58,7 +58,8 @@ class ProductController extends Controller
         $query = ProductSupplier::with([
                 'product.categories',
                 'product.client',
-                'client'
+                'client',
+                'productDetailsByType'
             ])
             ->active()
             ->whereHas('product', function($q) {
@@ -111,6 +112,8 @@ class ProductController extends Controller
             $description = $language === 'ar' ? ($item->product->description_ar ?? $item->product->description_en) : ($item->product->description_en ?? $item->product->description_ar);
             $shortDescription = $language === 'ar' ? ($item->product->short_description_ar ?? $item->product->short_description_en) : ($item->product->short_description_en ?? $item->product->short_description_ar);
             
+            $productDetail = $item->productDetailsByType;
+            
             return [
                 'id' => $item->id,
                 'product_id' => $item->product_id,
@@ -118,19 +121,24 @@ class ProductController extends Controller
                 'title' => $title,
                 'description' => $description,
                 'short_description' => $shortDescription,
+                'sku' => $productDetail->sku ?? null,
+                'barcode' => $productDetail->barcode ?? null,
                 'price' => [
-                    'original' => (float) $item->price,
-                    'discounted' => (float) $item->price,
+                    'original' => (float) ($productDetail->price ?? $item->price),
+                    'discounted' => (float) ($productDetail->price ?? $item->price),
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
                 'image' => $item->image  ? url('storage/products/' . $item->image) : ($item->product->image ? url('storage/products/' . $item->product->image) : null),
                 'images' => $item->image ? [url('storage/products/' . $item->image)] : ($item->product->image ? [url('storage/products/' . $item->product->image)] : []),
                 'condition' => $item->condition ?? 'new',
-                'stock_quantity' => $item->in_stock_quantity ?? 0,
-                'availability' => $item->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+                'stock_quantity' => $productDetail->quantity ?? $item->in_stock_quantity ?? 0,
+                'pieces_per_unit' => $productDetail->pieces_number ?? null,
+                'weight' => $productDetail->weight ?? null,
+                'availability' => ($productDetail->quantity ?? $item->in_stock_quantity ?? 0) > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $item->status == 1 ? 'active' : 'inactive',
                 'view_status' => $item->view_status ?? 'public',
+                'add_type' => $productDetail->add_type ?? 'cart',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -149,6 +157,18 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'product_details_by_type' => $productDetail ? [
+                    'id' => $productDetail->id,
+                    'sku' => $productDetail->sku,
+                    'barcode' => $productDetail->barcode,
+                    'price' => $productDetail->price,
+                    'quantity' => $productDetail->quantity,
+                    'pieces_number' => $productDetail->pieces_number,
+                    'weight' => $productDetail->weight,
+                    'add_type' => $productDetail->add_type,
+                    'commission' => $productDetail->commission,
+                    'commission_type' => $productDetail->commission_type
+                ] : null,
                 'specifications' => [
                     'condition' => $item->condition ?? 'new',
                     'brand_id' => $item->brand_id,
@@ -244,7 +264,8 @@ class ProductController extends Controller
             $product = ProductSupplier::with([
                 'product.categories',
                 'product.client',
-                'client'
+                'client',
+                'productDetailsByType'
             ])
             ->leftJoin('product_supplier_offers', 'product_suppliers.id', '=', 'product_supplier_offers.product_supplier_id')
             ->select('product_suppliers.*', 
@@ -269,6 +290,8 @@ class ProductController extends Controller
             $description = $language === 'ar' ? ($product->product->description_ar ?? $product->product->description_en) : ($product->product->description_en ?? $product->product->description_ar);
             $shortDescription = $language === 'ar' ? ($product->product->short_description_ar ?? $product->product->short_description_en) : ($product->product->short_description_en ?? $product->product->short_description_ar);
             
+            $productDetail = $product->productDetailsByType;
+            
             $productData = [
                 'id' => $product->id,
                 'product_id' => $product->product_id,
@@ -276,18 +299,24 @@ class ProductController extends Controller
                 'title' => $title,
                 'description' => $description,
                 'short_description' => $shortDescription,
+                'sku' => $productDetail->sku ?? null,
+                'barcode' => $productDetail->barcode ?? null,
                 'price' => [
-                    'original' => (float) $product->price,
-                    'discounted' => (float) $product->price,
+                    'original' => (float) ($productDetail->price ?? $product->price),
+                    'discounted' => (float) ($productDetail->price ?? $product->price),
                     'currency' => 'USD',
                     'currency_symbol' => '$'
                 ],
-                'image' => $product->image ? url('storage/products/' . $product->image) : null,
-                'images' => $product->image ? [url('storage/products/' . $product->image)] : [],
+                'image' => $product->image ? url('storage/products/' . $product->image) : ($product->product->image ? url('storage/products/' . $product->product->image) : null),
+                'images' => $product->image ? [url('storage/products/' . $product->image)] : ($product->product->image ? [url('storage/products/' . $product->product->image)] : []),
                 'condition' => $product->condition ?? 'new',
-                'stock_quantity' => $product->in_stock_quantity ?? 0,
-                'availability' => $product->in_stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+                'stock_quantity' => $productDetail->quantity ?? $product->in_stock_quantity ?? 0,
+                'pieces_per_unit' => $productDetail->pieces_number ?? null,
+                'weight' => $productDetail->weight ?? null,
+                'availability' => ($productDetail->quantity ?? $product->in_stock_quantity ?? 0) > 0 ? 'in_stock' : 'out_of_stock',
                 'status' => $product->status == 1 ? 'active' : 'inactive',
+                'view_status' => $product->view_status ?? 'public',
+                'add_type' => $productDetail->add_type ?? 'cart',
                 'rating' => [
                     'average' => round(rand(35, 50) / 10, 1),
                     'count' => rand(5, 100)
@@ -302,14 +331,32 @@ class ProductController extends Controller
                 'supplier' => [
                     'id' => $product->client->id ?? null,
                     'name' => $product->client->name ?? 'Medical Supplier',
+                    'company_name' => $product->client->company_name ?? null,
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'product_details_by_type' => $productDetail ? [
+                    'id' => $productDetail->id,
+                    'sku' => $productDetail->sku,
+                    'barcode' => $productDetail->barcode,
+                    'price' => $productDetail->price,
+                    'quantity' => $productDetail->quantity,
+                    'pieces_number' => $productDetail->pieces_number,
+                    'weight' => $productDetail->weight,
+                    'add_type' => $productDetail->add_type,
+                    'commission' => $productDetail->commission,
+                    'commission_type' => $productDetail->commission_type
+                ] : null,
                 'specifications' => [
                     'condition' => $product->condition ?? 'new',
-                    'brand' => $product->brand ?? 'Generic',
-                    'model' => $product->model ?? null,
-                    'warranty' => $product->warranty ?? null
+                    'brand_id' => $product->brand_id,
+                    'country_id' => $product->country_id,
+                    'unit_id' => $product->unit_id,
+                    'warranty_id' => $product->warranty_id,
+                    'min_order_quantity_id' => $product->min_order_quantity_id,
+                    'return_time_id' => $product->return_time_id,
+                    'delivery_time_id' => $product->delivery_time_id,
+                    'alert_quantity' => $product->alert_quantity
                 ],
                 'created_at' => $product->created_at->toISOString(),
                 'updated_at' => $product->updated_at->toISOString()

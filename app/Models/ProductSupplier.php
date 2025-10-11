@@ -29,4 +29,14 @@ class ProductSupplier extends Model
     {
         return $query->where('status', 1);
     }
+    
+    public function productDetails()
+    {
+        return $this->hasMany(ProductSupplierB2b::class, 'product_supplier_id');
+    }
+    
+    public function productDetailsByType()
+    {
+        return $this->hasOne(ProductSupplierB2b::class, 'product_supplier_id')->where('type', 'b2b');
+    }
 }
