@@ -32,11 +32,11 @@ class ProductSupplier extends Model
     
     public function productDetails()
     {
-        return $this->hasMany(ProductSupplierB2b::class, 'product_supplier_id');
+        return $this->hasMany('App\Models\ProductSupplierB2b', 'product_supplier_id');
     }
     
     public function productDetailsByType()
     {
-        return $this->hasOne(ProductSupplierB2b::class, 'product_supplier_id')->where('type', 'b2b');
+        return $this->hasOne('App\Models\ProductSupplierB2b', 'product_supplier_id')->where('type', 'b2b');
     }
 }
