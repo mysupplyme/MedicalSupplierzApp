@@ -168,11 +168,12 @@ class AuthController extends Controller
             'mobile_number' => 'nullable|string|max:20',
             'country_code' => 'nullable|exists:countries,id',
             'workplace' => 'nullable|string|max:255',
-            'specialty_id' => 'nullable|exists:specialties,id',
-            'sub_specialty_id' => 'nullable|exists:sub_specialties,id',
+            'specialty_id' => 'nullable|exists:categories,id',
+            'sub_specialty_id' => 'nullable|exists:categories,id',
             'residency' => 'nullable|exists:countries,id',
             'nationality' => 'nullable|exists:countries,id',
             'email' => 'nullable|email|max:255|unique:clients,email,' . $client->id,
+            'register_number' => 'nullable|string|max:100',
             'company_name_en' => 'nullable|string|max:255',
             'company_name_ar' => 'nullable|string|max:255',
             'profile_percentage' => 'nullable|integer|min:0|max:100',
@@ -184,7 +185,7 @@ class AuthController extends Controller
         $updateData = array_filter($request->only([
             'first_name', 'last_name', 'job_title', 'mobile_number', 'workplace',
             'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
-            'company_name_en', 'company_name_ar', 'profile_percentage'
+            'register_number', 'company_name_en', 'company_name_ar', 'profile_percentage'
         ]));
         
         // Handle phone number with country code
