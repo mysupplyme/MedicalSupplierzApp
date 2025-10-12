@@ -78,7 +78,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
-            'country_id' => $countryId, // Store country ID
             'country_code' => $countryCodeString, // Store country ISO code
             'job_title' => $request->job_title,
             'workplace' => $request->workplace,
