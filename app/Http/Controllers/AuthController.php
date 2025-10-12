@@ -48,9 +48,9 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:clients',
             'password' => 'required|string|min:6',
             'mobile_number' => 'required|string|max:20',
-            'country_code' => 'required|exists:countries,id',
-            'country_id' => 'nullable|exists:countries,id',
-            'phone_prefix' => 'nullable|string|max:10',
+            'country_id' => 'required|exists:countries,id',
+            'country_code' => 'required|string|max:5',
+            'phone_prefix' => 'required|string|max:10',
             'job_title' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'required|exists:categories,id',
@@ -62,13 +62,8 @@ class AuthController extends Controller
         $firstName = $request->first_name;
         $lastName = $request->last_name;
         
-        // Get country details - use provided values or derive from country_code
-        $countryId = $request->country_id ?? $request->country_code;
-        $country = Country::find($request->country_code);
-        $phonePrefix = $request->phone_prefix ?? ($country ? $country->phone_prefix : '');
-        $countryCodeString = $country ? $country->iso : $request->country_code;
-        
-        $fullMobileNumber = $phonePrefix . $request->mobile_number;
+        // Use provided parameters directly from request
+        $fullMobileNumber = $request->phone_prefix . $request->mobile_number;
         
         $client = Client::create([
             'uuid' => \Illuminate\Support\Str::uuid(),
@@ -78,7 +73,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
-            'country_code' => $countryCodeString, // Store country ISO code
+            'country_code' => $request->country_code, // Store country ISO code
             'job_title' => $request->job_title,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
@@ -92,9 +87,9 @@ class AuthController extends Controller
 
         // Add country details to response for debugging
         $response = $client->toArray();
-        $response['country_id'] = $countryId; // Country ID (derived or provided)
-        $response['country_code'] = $countryCodeString; // Country ISO code (derived)
-        $response['phone_prefix'] = $phonePrefix; // Phone prefix (derived or provided)
+        $response['country_id'] = $request->country_id; // Country ID from request
+        $response['country_code'] = $request->country_code; // Country ISO code from request
+        $response['phone_prefix'] = $request->phone_prefix; // Phone prefix from request
         
         return $this->success($response, 'Doctor registered successfully');
     }
