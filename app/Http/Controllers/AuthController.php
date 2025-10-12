@@ -48,7 +48,8 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:clients',
             'password' => 'required|string|min:6',
             'mobile_number' => 'required|string|max:20',
-            'country_code' => 'required|exists:countries,id',
+            'country_id' => 'required|exists:countries,id',
+            'country_code' => 'required|string|max:10',
             'job_title' => 'nullable|string|max:150',
             'workplace' => 'nullable|string',
             'specialty_id' => 'required|exists:categories,id',
@@ -60,10 +61,8 @@ class AuthController extends Controller
         $firstName = $request->first_name;
         $lastName = $request->last_name;
         
-        // Get country data
-        $country = Country::find($request->country_code);
-        $phonePrefix = $country ? $country->phone_prefix : '';
-        $fullMobileNumber = '+' . ltrim($phonePrefix, '+') . $request->mobile_number;
+        // Use provided country_code as phone prefix
+        $fullMobileNumber = $request->country_code . $request->mobile_number;
         
         $client = Client::create([
             'uuid' => \Illuminate\Support\Str::uuid(),
@@ -73,8 +72,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
-            'country_id' => $request->country_code, // Store country ID
-            'country_code' => $phonePrefix, // Store phone prefix
+            'country_id' => $request->country_id, // Store country ID
+            'country_code' => $request->country_code, // Store phone prefix
             'job_title' => $request->job_title,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
