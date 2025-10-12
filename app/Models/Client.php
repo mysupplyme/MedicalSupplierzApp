@@ -9,7 +9,7 @@ class Client extends Model
 {
     protected $fillable = [
         'uuid', 'type', 'first_name', 'last_name', 'email', 'password', 
-        'mobile_number', 'country_code', 'job_title', 'workplace', 
+        'mobile_number', 'country_code', 'country_id', 'job_title', 'workplace', 
         'specialty_id', 'sub_specialty_id', 'nationality', 'residency', 
         'buyer_type', 'is_buyer', 'status', 'reset_token', 'reset_expired_at'
     ];
@@ -45,5 +45,10 @@ class Client extends Model
     public function clientSetting()
     {
         return $this->hasOne(ClientSetting::class);
+    }
+    
+    public function businessInfo()
+    {
+        return $this->hasOne(ClientBusinessInfo::class);
     }
 }

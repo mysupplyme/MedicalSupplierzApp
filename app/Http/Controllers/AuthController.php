@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\ClientBusinessInfo;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,6 @@ class AuthController extends Controller
         // Get country data
         $country = Country::find($request->country_code);
         $phonePrefix = $country ? $country->phone_prefix : '';
-        $countryCode = $country ? '+' . ltrim($country->phone_prefix, '+') : null;
         $fullMobileNumber = '+' . ltrim($phonePrefix, '+') . $request->mobile_number;
         
         $client = Client::create([
@@ -73,7 +73,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile_number' => $fullMobileNumber,
-            'country_code' => $countryCode, // Use +phone_prefix from countries table
+            'country_id' => $request->country_code, // Store country ID
+            'country_code' => $phonePrefix, // Store phone prefix
             'job_title' => $request->job_title,
             'workplace' => $request->workplace,
             'specialty_id' => $request->specialty_id,
@@ -181,11 +182,11 @@ class AuthController extends Controller
             'language' => 'nullable|string|in:en,ar'
         ]);
 
-        // Update client data
+        // Update client data (excluding register_number as it goes to business_info)
         $updateData = array_filter($request->only([
             'first_name', 'last_name', 'job_title', 'mobile_number', 'workplace',
             'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
-            'register_number', 'company_name_en', 'company_name_ar', 'profile_percentage'
+            'company_name_en', 'company_name_ar', 'profile_percentage'
         ]));
         
         // Handle phone number with country code
@@ -198,6 +199,14 @@ class AuthController extends Controller
         
         try {
             $client->update($updateData);
+            
+            // Update client business info (register_number)
+            if ($request->has('register_number')) {
+                $client->businessInfo()->updateOrCreate(
+                    ['client_id' => $client->id],
+                    ['reg_number' => $request->register_number]
+                );
+            }
             
             // Update client settings (country, currency, language)
             if ($request->hasAny(['country_code', 'currency_id', 'language'])) {
@@ -212,16 +221,21 @@ class AuthController extends Controller
             }
             
             $client->refresh();
-            $client->load('countryCode', 'clientSetting');
+            $client->load('countryCode', 'clientSetting', 'businessInfo');
             
             // Format response similar to newapi
             $response = $client->toArray();
             $clientSetting = $client->clientSetting;
+            $businessInfo = $client->businessInfo;
             
             if ($clientSetting) {
                 $response['country_id'] = $clientSetting->country_id;
                 $response['currency_id'] = $clientSetting->currency_id;
                 $response['language'] = $clientSetting->lang ?? 'en';
+            }
+            
+            if ($businessInfo) {
+                $response['register_number'] = $businessInfo->reg_number;
             }
             
             return response()->json([
