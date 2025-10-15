@@ -165,9 +165,8 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $client = $request->get('auth_user');
-        
         $request->validate([
+            'id' => 'required|exists:clients,id',
             'first_name' => 'nullable|string|min:2|max:50',
             'last_name' => 'nullable|string|min:2|max:50',
             'job_title' => 'nullable|string|min:2|max:150',
@@ -178,7 +177,7 @@ class AuthController extends Controller
             'sub_specialty_id' => 'nullable|exists:categories,id',
             'residency' => 'nullable|exists:countries,id',
             'nationality' => 'nullable|exists:countries,id',
-            'email' => 'nullable|email|max:255|unique:clients,email,' . $client->id,
+            'email' => 'nullable|email|max:255|unique:clients,email,' . $request->id,
             'register_number' => 'nullable|string|max:100',
             'company_name_en' => 'nullable|string|max:255',
             'company_name_ar' => 'nullable|string|max:255',
@@ -186,6 +185,8 @@ class AuthController extends Controller
             'currency_id' => 'nullable|exists:currencies,id',
             'language' => 'nullable|string|in:en,ar'
         ]);
+        
+        $client = Client::findOrFail($request->id);
 
         // Update client data (excluding register_number as it goes to business_info)
         $updateData = array_filter($request->only([
