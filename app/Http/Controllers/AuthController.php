@@ -181,11 +181,9 @@ class AuthController extends Controller
         ]);
     }
     
-    public function getProfileById(Request $request)
+    public function getProfileById($id)
     {
-        $request->validate(['id' => 'required|exists:clients,id']);
-        
-        $client = Client::findOrFail($request->id);
+        $client = Client::findOrFail($id);
         $client->load(['clientSetting']);
         
         $response = $client->toArray();
@@ -216,10 +214,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateProfileById(Request $request)
+    public function updateProfileById(Request $request, $id)
     {
         $request->validate([
-            'id' => 'required|exists:clients,id',
             'first_name' => 'nullable|string|min:2|max:50',
             'last_name' => 'nullable|string|min:2|max:50',
             'job_title' => 'nullable|string|min:2|max:150',
@@ -230,7 +227,7 @@ class AuthController extends Controller
             'sub_specialty_id' => 'nullable|exists:categories,id',
             'residency' => 'nullable|exists:countries,id',
             'nationality' => 'nullable|exists:countries,id',
-            'email' => 'nullable|email|max:255|unique:clients,email,' . $request->id,
+            'email' => 'nullable|email|max:255|unique:clients,email,' . $id,
             'register_number' => 'nullable|string|max:100',
             'company_name_en' => 'nullable|string|max:255',
             'company_name_ar' => 'nullable|string|max:255',
@@ -239,7 +236,7 @@ class AuthController extends Controller
             'language' => 'nullable|string|in:en,ar'
         ]);
         
-        $client = Client::findOrFail($request->id);
+        $client = Client::findOrFail($id);
 
         // Update client data (excluding register_number as it goes to business_info)
         $updateData = array_filter($request->only([
