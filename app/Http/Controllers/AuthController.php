@@ -151,11 +151,64 @@ class AuthController extends Controller
     public function getProfile(Request $request)
     {
         $client = $request->get('auth_user');
-        $client->load('countryCode');
+        $client->load(['clientSetting']);
         
-        // Add currency_id from country relationship
         $response = $client->toArray();
-        $response['currency_id'] = $client->countryCode->currency_id ?? null;
+        
+        // Set currency_id - priority: clientSetting > residency country > default (1)
+        $currencyId = null;
+        if ($client->clientSetting && $client->clientSetting->currency_id) {
+            $currencyId = $client->clientSetting->currency_id;
+        } elseif ($client->residency) {
+            $residencyCountry = Country::find($client->residency);
+            $currencyId = $residencyCountry->currency_id ?? 1;
+        } else {
+            $currencyId = 1; // Default USD
+        }
+        $response['currency_id'] = $currencyId;
+        
+        // Set country_code from residency country or default
+        if ($client->residency) {
+            $residencyCountry = Country::find($client->residency);
+            $response['country_code'] = $residencyCountry->iso ?? 'US';
+        } else {
+            $response['country_code'] = 'US'; // Default
+        }
+        
+        return response()->json([
+            'success' => true,
+            'data' => $response
+        ]);
+    }
+    
+    public function getProfileById(Request $request)
+    {
+        $request->validate(['id' => 'required|exists:clients,id']);
+        
+        $client = Client::findOrFail($request->id);
+        $client->load(['clientSetting']);
+        
+        $response = $client->toArray();
+        
+        // Set currency_id - priority: clientSetting > residency country > default (1)
+        $currencyId = null;
+        if ($client->clientSetting && $client->clientSetting->currency_id) {
+            $currencyId = $client->clientSetting->currency_id;
+        } elseif ($client->residency) {
+            $residencyCountry = Country::find($client->residency);
+            $currencyId = $residencyCountry->currency_id ?? 1;
+        } else {
+            $currencyId = 1; // Default USD
+        }
+        $response['currency_id'] = $currencyId;
+        
+        // Set country_code from residency country or default
+        if ($client->residency) {
+            $residencyCountry = Country::find($client->residency);
+            $response['country_code'] = $residencyCountry->iso ?? 'US';
+        } else {
+            $response['country_code'] = 'US'; // Default
+        }
         
         return response()->json([
             'success' => true,
@@ -163,7 +216,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfileById(Request $request)
     {
         $request->validate([
             'id' => 'required|exists:clients,id',

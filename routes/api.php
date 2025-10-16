@@ -60,6 +60,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+// Profile routes with ID (no auth required)
+Route::get('/profile/{id}', [AuthController::class, 'getProfileById']);
+Route::put('/profile/{id}', [AuthController::class, 'updateProfileById']);
+
 // Admin authentication
 Route::post('/admin/login', [\App\Http\Controllers\AdminAuthController::class, 'login']);
 
