@@ -49,6 +49,6 @@ class Client extends Model
     
     public function businessInfo()
     {
-        return $this->hasOne(ClientBusinessInfo::class);
+        return $this->hasOne(ClientBusinessInfo::class, 'client_id');
     }
 }

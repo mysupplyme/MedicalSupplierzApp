@@ -65,8 +65,10 @@ class AuthController extends Controller
         // Use provided parameters directly from request
         $fullMobileNumber = $request->phone_prefix . $request->mobile_number;
         
+        $uuid = \Illuminate\Support\Str::uuid();
+        
         $client = Client::create([
-            'uuid' => \Illuminate\Support\Str::uuid(),
+            'uuid' => $uuid,
             'type' => 'buyer',
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -83,6 +85,14 @@ class AuthController extends Controller
             'buyer_type' => 'doctor',
             'is_buyer' => 1,
             'status' => 1,
+        ]);
+        
+        // Create business info record immediately
+        ClientBusinessInfo::create([
+            'client_id' => $client->id,
+            'uuid' => $uuid,
+            'business_type' => $request->business_type ?? 'subscription',
+            'reg_number' => null
         ]);
 
         // Add country details to response for debugging
