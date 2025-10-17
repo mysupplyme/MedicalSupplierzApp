@@ -184,7 +184,7 @@ class AuthController extends Controller
     public function getProfileById($id)
     {
         $client = Client::findOrFail($id);
-        $client->load(['clientSetting']);
+        $client->load(['clientSetting', 'businessInfo']);
         
         $response = $client->toArray();
         
@@ -206,6 +206,13 @@ class AuthController extends Controller
             $response['country_code'] = $residencyCountry->iso ?? 'US';
         } else {
             $response['country_code'] = 'US'; // Default
+        }
+        
+        // Add register_number from businessInfo
+        if ($client->businessInfo) {
+            $response['register_number'] = $client->businessInfo->reg_number;
+        } else {
+            $response['register_number'] = null;
         }
         
         return response()->json([
