@@ -275,7 +275,7 @@ class AuthController extends Controller
             
             // Update client business info (register_number)
             if ($request->has('register_number')) {
-                $client->businessInfo()->updateOrCreate(
+                ClientBusinessInfo::updateOrCreate(
                     ['client_id' => $client->id],
                     ['reg_number' => $request->register_number]
                 );
