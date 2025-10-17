@@ -275,10 +275,17 @@ class AuthController extends Controller
             
             // Update client business info (register_number)
             if ($request->has('register_number')) {
-                ClientBusinessInfo::updateOrCreate(
-                    ['client_id' => $client->id],
-                    ['reg_number' => $request->register_number]
-                );
+                $businessInfo = ClientBusinessInfo::where('client_id', $client->id)->first();
+                if ($businessInfo) {
+                    $businessInfo->update(['reg_number' => $request->register_number]);
+                } else {
+                    ClientBusinessInfo::create([
+                        'client_id' => $client->id,
+                        'uuid' => $client->uuid,
+                        'business_type' => 'subscription',
+                        'reg_number' => $request->register_number
+                    ]);
+                }
             }
             
             // Update client settings (country, currency, language)
