@@ -91,7 +91,7 @@ class WhatsAppController extends Controller
         // Test API connection
         $testPayload = [
             'messaging_product' => 'whatsapp',
-            'to' => '96599758685', // Your test number with country code
+            'to' => '99758685', // Your test number
             'type' => 'text',
             'text' => ['body' => 'Test message from API']
         ];
@@ -135,7 +135,7 @@ class WhatsAppController extends Controller
                 break;
             case 'SUP_SALES':
                 $this->logHandoffRequest($from, 'supplier_sales');
-                $this->sendText($from, "🗓 You're in good hands. A specialist will contact you shortly.\n\n📞 For immediate assistance, contact our sales team:\nWhatsApp: +965 94089218\nDirect: +965 94089218\n\nPlease share: company name, country, email, and a brief goal.");
+                $this->sendText($from, "🗓 You're in good hands. A specialist will join shortly.\nPlease share: company name, country, email, and a brief goal.");
                 break;
             case 'BUY_SIGNUP':
                 $this->sendText($from, "✅ Create your free buyer account: https://medicalsupplierz.com/b2b-register\nInvite your procurement team inside your dashboard.");
@@ -151,6 +151,9 @@ class WhatsAppController extends Controller
                 break;
             case 'CME_BY_SPEC':
                 $this->sendSpecialtiesList($from);
+                break;
+            case 'CME_MONTH':
+                $this->sendText($from, "📅 This month's highlights: https://medicalsupplierz.com/events\nPrefer push updates? Reply \"Notify Monthly\".");
                 break;
         }
     }
@@ -388,7 +391,8 @@ class WhatsAppController extends Controller
                 'action' => [
                     'buttons' => [
                         ['type' => 'reply', 'reply' => ['id' => 'CME_SUBSCRIBE', 'title' => 'Subscribe Now']],
-                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find by Specialty']]
+                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find by Specialty']],
+                        ['type' => 'reply', 'reply' => ['id' => 'CME_MONTH', 'title' => 'This Month']]
                     ]
                 ]
             ]
