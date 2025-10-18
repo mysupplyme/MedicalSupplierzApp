@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\WhatsAppMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -62,12 +61,11 @@ class WhatsAppController extends Controller
                 'has_interactive' => isset($message['interactive'])
             ]);
             
-            // Store message in database
-            WhatsAppMessage::create([
+            // Log message for tracking
+            Log::info('Message received and processed', [
                 'from_number' => $from,
                 'message_text' => $message['text']['body'] ?? 'Interactive message',
-                'message_type' => $message['type'] ?? 'unknown',
-                'webhook_data' => $message
+                'message_type' => $message['type'] ?? 'unknown'
             ]);
             
             if (isset($message['interactive'])) {
