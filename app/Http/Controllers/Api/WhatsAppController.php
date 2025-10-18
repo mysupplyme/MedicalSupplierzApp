@@ -91,7 +91,7 @@ class WhatsAppController extends Controller
         // Test API connection
         $testPayload = [
             'messaging_product' => 'whatsapp',
-            'to' => '99758685', // Your test number
+            'to' => '96599758685', // Your test number with country code
             'type' => 'text',
             'text' => ['body' => 'Test message from API']
         ];
