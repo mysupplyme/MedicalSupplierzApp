@@ -31,14 +31,26 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // Validate request parameters
+        // Validate request parameters - expanded to match newapi version
         $validator = Validator::make($request->all(), [
             'page' => 'integer|min:1',
             'limit' => 'integer|min:1|max:50',
             'count' => 'integer|min:1|max:50', // Legacy support
             'category_id' => 'integer|exists:categories,id',
             'search' => 'string|max:255',
-            'sort_price' => 'in:asc,desc'
+            'keyword' => 'string|max:255', // Alternative to search
+            'sort_price' => 'in:asc,desc',
+            'price_type' => 'string|in:b2b,b2c,both',
+            'brand_id' => 'integer|exists:brands,id',
+            'country_id' => 'integer|exists:origin_countries,id',
+            'unit_id' => 'integer|exists:units,id',
+            'weight' => 'numeric|min:0',
+            'min_price' => 'numeric|min:0',
+            'max_price' => 'numeric|min:0',
+            'condition' => 'string|in:new,used,refurbished',
+            'client_id' => 'integer|exists:clients,id',
+            'without_id' => 'integer|exists:product_suppliers,id',
+            'form' => 'string|max:50'
         ]);
 
         if ($validator->fails()) {
@@ -48,12 +60,15 @@ class ProductController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
+        
         // Get headers for localization and currency
         $language = $request->header('Accept-Language', 'en');
         $countryId = $request->header('Country-Id', 1);
         $currencyId = $request->header('Currency-Id', 1);
         $guestId = $request->header('Guest-Id');
         $platform = $request->header('platform', 'web');
+        $token = $request->header('Authorization');
+        $userAgent = $request->header('User-Agent');
 
         $query = ProductSupplier::with([
                 'product.categories',
@@ -73,16 +88,68 @@ class ProductController extends Controller
             });
         }
 
-        // Search functionality
-        if ($request->has('search') && $request->search) {
-            $searchTerm = '%' . $request->search . '%';
-            $query->whereHas('product', function($q) use ($searchTerm) {
-                $q->where('title_en', 'LIKE', $searchTerm)
-                  ->orWhere('title_ar', 'LIKE', $searchTerm)
-                  ->orWhere('description_en', 'LIKE', $searchTerm)
-                  ->orWhere('description_ar', 'LIKE', $searchTerm)
-                  ->orWhere('short_description_en', 'LIKE', $searchTerm)
-                  ->orWhere('short_description_ar', 'LIKE', $searchTerm);
+        // Filter by brand
+        if ($request->has('brand_id') && $request->brand_id) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        // Filter by country
+        if ($request->has('country_id') && $request->country_id) {
+            $query->where('country_id', $request->country_id);
+        }
+
+        // Filter by condition
+        if ($request->has('condition') && $request->condition) {
+            $query->where('condition', $request->condition);
+        }
+
+        // Filter by client/supplier
+        if ($request->has('client_id') && $request->client_id) {
+            $query->where('client_id', $request->client_id);
+        }
+
+        // Exclude specific product
+        if ($request->has('without_id') && $request->without_id) {
+            $query->where('product_suppliers.id', '!=', $request->without_id);
+        }
+
+        // Search functionality - support both 'search' and 'keyword'
+        $searchTerm = $request->search ?? $request->keyword;
+        if ($searchTerm) {
+            $searchPattern = '%' . $searchTerm . '%';
+            $query->whereHas('product', function($q) use ($searchPattern) {
+                $q->where('title_en', 'LIKE', $searchPattern)
+                  ->orWhere('title_ar', 'LIKE', $searchPattern)
+                  ->orWhere('description_en', 'LIKE', $searchPattern)
+                  ->orWhere('description_ar', 'LIKE', $searchPattern)
+                  ->orWhere('short_description_en', 'LIKE', $searchPattern)
+                  ->orWhere('short_description_ar', 'LIKE', $searchPattern);
+            });
+        }
+
+        // Filter by unit (from product details)
+        if ($request->has('unit_id') && $request->unit_id) {
+            $query->whereHas('productDetailsByType', function($q) use ($request) {
+                $q->where('unit_id', $request->unit_id);
+            });
+        }
+
+        // Filter by weight
+        if ($request->has('weight') && $request->weight) {
+            $query->whereHas('productDetailsByType', function($q) use ($request) {
+                $q->where('weight', $request->weight);
+            });
+        }
+
+        // Filter by price range
+        if ($request->has('min_price') && $request->min_price) {
+            $query->whereHas('productDetailsByType', function($q) use ($request) {
+                $q->where('price', '>=', $request->min_price);
+            });
+        }
+        if ($request->has('max_price') && $request->max_price) {
+            $query->whereHas('productDetailsByType', function($q) use ($request) {
+                $q->where('price', '<=', $request->max_price);
             });
         }
 
@@ -202,7 +269,19 @@ class ProductController extends Controller
                 'filters' => [
                     'category_id' => $request->get('category_id'),
                     'search' => $request->get('search'),
+                    'keyword' => $request->get('keyword'),
                     'sort_price' => $request->get('sort_price'),
+                    'brand_id' => $request->get('brand_id'),
+                    'country_id' => $request->get('country_id'),
+                    'unit_id' => $request->get('unit_id'),
+                    'weight' => $request->get('weight'),
+                    'min_price' => $request->get('min_price'),
+                    'max_price' => $request->get('max_price'),
+                    'condition' => $request->get('condition'),
+                    'client_id' => $request->get('client_id'),
+                    'without_id' => $request->get('without_id'),
+                    'price_type' => $request->get('price_type'),
+                    'form' => $request->get('form'),
                     'limit' => $count,
                     'page' => $page
                 ]
@@ -213,8 +292,11 @@ class ProductController extends Controller
                 'currency_id' => $currencyId,
                 'platform' => $platform,
                 'guest_id' => $guestId,
+                'user_agent' => $userAgent,
+                'has_auth' => !empty($token),
                 'timestamp' => now()->toISOString(),
-                'api_version' => 'v1'
+                'api_version' => 'v1',
+                'request_id' => uniqid('req_')
             ]
         ], 200, [
             'Content-Type' => 'application/json',
@@ -258,6 +340,8 @@ class ProductController extends Controller
         $currencyId = $request->header('Currency-Id', 1);
         $guestId = $request->header('Guest-Id');
         $platform = $request->header('platform', 'web');
+        $token = $request->header('Authorization');
+        $userAgent = $request->header('User-Agent');
 
         try {
             // Find product with all related data
@@ -372,8 +456,11 @@ class ProductController extends Controller
                     'currency_id' => $currencyId,
                     'platform' => $platform,
                     'guest_id' => $guestId,
+                    'user_agent' => $userAgent,
+                    'has_auth' => !empty($token),
                     'timestamp' => now()->toISOString(),
-                    'api_version' => 'v1'
+                    'api_version' => 'v1',
+                    'request_id' => uniqid('req_')
                 ]
             ], 200, [
                 'Content-Type' => 'application/json',
