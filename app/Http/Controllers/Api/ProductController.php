@@ -74,7 +74,11 @@ class ProductController extends Controller
                 'product.categories',
                 'product.client',
                 'client',
-                'productDetailsByType'
+                'productDetailsByType',
+                'warranty',
+                'country',
+                'productDetailsByType.returnTime',
+                'productDetailsByType.deliveryTime'
             ])
             ->active()
             ->whereHas('product', function($q) {
@@ -224,6 +228,22 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'warranty' => $item->warranty ? [
+                    'id' => $item->warranty->id,
+                    'title' => $item->warranty->title ?? null
+                ] : null,
+                'country' => $item->country ? [
+                    'id' => $item->country->id,
+                    'title' => $item->country->title ?? null
+                ] : null,
+                'return_time' => $productDetail && $productDetail->returnTime ? [
+                    'id' => $productDetail->returnTime->id,
+                    'title' => $productDetail->returnTime->title ?? null
+                ] : null,
+                'delivery_time' => $productDetail && $productDetail->deliveryTime ? [
+                    'id' => $productDetail->deliveryTime->id,
+                    'title' => $productDetail->deliveryTime->title ?? null
+                ] : null,
                 'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
@@ -349,7 +369,11 @@ class ProductController extends Controller
                 'product.categories',
                 'product.client',
                 'client',
-                'productDetailsByType'
+                'productDetailsByType',
+                'warranty',
+                'country',
+                'productDetailsByType.returnTime',
+                'productDetailsByType.deliveryTime'
             ])
             ->leftJoin('product_supplier_offers', 'product_suppliers.id', '=', 'product_supplier_offers.product_supplier_id')
             ->select('product_suppliers.*', 
@@ -419,6 +443,22 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
+                'warranty' => $product->warranty ? [
+                    'id' => $product->warranty->id,
+                    'title' => $product->warranty->title ?? null
+                ] : null,
+                'country' => $product->country ? [
+                    'id' => $product->country->id,
+                    'title' => $product->country->title ?? null
+                ] : null,
+                'return_time' => $productDetail && $productDetail->returnTime ? [
+                    'id' => $productDetail->returnTime->id,
+                    'title' => $productDetail->returnTime->title ?? null
+                ] : null,
+                'delivery_time' => $productDetail && $productDetail->deliveryTime ? [
+                    'id' => $productDetail->deliveryTime->id,
+                    'title' => $productDetail->deliveryTime->title ?? null
+                ] : null,
                 'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
