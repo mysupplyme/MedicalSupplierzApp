@@ -232,12 +232,6 @@ class ProductController extends Controller
                 ] : null,
                 'country' => $item->country ? [
                     'id' => $item->country->id,
-                    'title' => $item->country->title ?? null
-                ] : null,
-                ] : null,
-                ] : null,
-                'product_details_by_type' => $productDetail ? [
-                    'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
                     'barcode' => $productDetail->barcode,
                     'price' => $productDetail->price,
@@ -438,12 +432,6 @@ class ProductController extends Controller
                     'title' => $product->warranty->title ?? null
                 ] : null,
                 'country' => $product->country ? [
-                    'id' => $product->country->id,
-                    'title' => $product->country->title ?? null
-                ] : null,
-                ] : null,
-                ] : null,
-                'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
                     'barcode' => $productDetail->barcode,
