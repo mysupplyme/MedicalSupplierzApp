@@ -74,9 +74,7 @@ class ProductController extends Controller
                 'product.categories',
                 'product.client',
                 'client',
-                'productDetailsByType',
-                'warranty',
-                'country'
+                'productDetailsByType'
             ])
             ->active()
             ->whereHas('product', function($q) {
@@ -226,12 +224,8 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
-                'warranty' => $item->warranty ? [
-                    'id' => $item->warranty->id,
-                    'title' => $item->warranty->title ?? null
-                ] : null,
-                'country' => $item->country ? [
-                    'id' => $item->country->id,
+                'product_details_by_type' => $productDetail ? [
+                    'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
                     'barcode' => $productDetail->barcode,
                     'price' => $productDetail->price,
@@ -355,9 +349,7 @@ class ProductController extends Controller
                 'product.categories',
                 'product.client',
                 'client',
-                'productDetailsByType',
-                'warranty',
-                'country'
+                'productDetailsByType'
             ])
             ->leftJoin('product_supplier_offers', 'product_suppliers.id', '=', 'product_supplier_offers.product_supplier_id')
             ->select('product_suppliers.*', 
@@ -427,11 +419,7 @@ class ProductController extends Controller
                     'verified' => true,
                     'rating' => round(rand(40, 50) / 10, 1)
                 ],
-                'warranty' => $product->warranty ? [
-                    'id' => $product->warranty->id,
-                    'title' => $product->warranty->title ?? null
-                ] : null,
-                'country' => $product->country ? [
+                'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
                     'sku' => $productDetail->sku,
                     'barcode' => $productDetail->barcode,
