@@ -236,13 +236,13 @@ class ProductController extends Controller
                     'id' => $item->country->id,
                     'title' => $item->country->title ?? null
                 ] : null,
-                'return_time' => $productDetail && $productDetail->returnTime ? [
-                    'id' => $productDetail->returnTime->id,
-                    'title' => $productDetail->returnTime->title ?? null
+                'return_time' => $productDetail && $productDetail->return_time ? [
+                    'id' => $productDetail->return_time->id,
+                    'title' => $productDetail->return_time->title ?? null
                 ] : null,
-                'delivery_time' => $productDetail && $productDetail->deliveryTime ? [
-                    'id' => $productDetail->deliveryTime->id,
-                    'title' => $productDetail->deliveryTime->title ?? null
+                'delivery_time' => $productDetail && $productDetail->delivery_time ? [
+                    'id' => $productDetail->delivery_time->id,
+                    'title' => $productDetail->delivery_time->title ?? null
                 ] : null,
                 'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
@@ -451,13 +451,13 @@ class ProductController extends Controller
                     'id' => $product->country->id,
                     'title' => $product->country->title ?? null
                 ] : null,
-                'return_time' => $productDetail && $productDetail->returnTime ? [
-                    'id' => $productDetail->returnTime->id,
-                    'title' => $productDetail->returnTime->title ?? null
+                'return_time' => $productDetail && $productDetail->return_time ? [
+                    'id' => $productDetail->return_time->id,
+                    'title' => $productDetail->return_time->title ?? null
                 ] : null,
-                'delivery_time' => $productDetail && $productDetail->deliveryTime ? [
-                    'id' => $productDetail->deliveryTime->id,
-                    'title' => $productDetail->deliveryTime->title ?? null
+                'delivery_time' => $productDetail && $productDetail->delivery_time ? [
+                    'id' => $productDetail->delivery_time->id,
+                    'title' => $productDetail->delivery_time->title ?? null
                 ] : null,
                 'product_details_by_type' => $productDetail ? [
                     'id' => $productDetail->id,
