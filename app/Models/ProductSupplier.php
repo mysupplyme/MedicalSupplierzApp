@@ -39,4 +39,9 @@ class ProductSupplier extends Model
     {
         return $this->hasOne('App\Models\ProductSupplierB2b', 'product_supplier_id')->where('type', 'b2b');
     }
+    
+    public function warranty()
+    {
+        return $this->belongsTo('App\Models\Warranty', 'warranty_id');
+    }
 }
