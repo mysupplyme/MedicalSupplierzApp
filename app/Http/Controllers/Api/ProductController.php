@@ -502,45 +502,4 @@ class ProductController extends Controller
             'timestamp' => now()->toISOString()
         ]);
     }
-    
-    public function show($id)
-    {
-        $language = request()->header('Accept-Language', 'en');
-        
-        $item = ProductSupplier::with([
-            'client:id,company_name_en,company_name_ar',
-            'product:id,title_en,title_ar,image',
-            'productDetailsByType',
-            'productDetailsByType.unit:id,title_en,title_ar'
-        ])->find($id);
-        
-        if (!$item) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product not found'
-            ], 404);
-        }
-        
-        $title = $language === 'ar' ? ($item->product->title_ar ?? $item->product->title_en) : ($item->product->title_en ?? $item->product->title_ar);
-        
-        $response = [
-            'id' => $item->id,
-            'product_id' => $item->product_id,
-            'name' => $title,
-            'title' => $title,
-            'image' => $item->image ? 'https://api.medicalsupplierz.com/storage/product_images/' . $item->image : null,
-            'supplier' => [
-                'id' => $item->client->id ?? null,
-                'name' => $item->client->company_name_en ?? 'Medical Supplier'
-            ],
-            'details' => $item->productDetailsByType,
-            'created_at' => $item->created_at->toISOString(),
-            'updated_at' => $item->updated_at->toISOString()
-        ];
-        
-        return response()->json([
-            'success' => true,
-            'data' => $response
-        ]);
-    }
 }
