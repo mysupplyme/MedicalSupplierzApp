@@ -437,19 +437,19 @@ class ProductController extends Controller
                 ] : null,
                 'warranty' => $product->warranty ? [
                     'id' => $product->warranty->id,
-                    'title' => $language === 'ar' ? ($product->warranty->title_ar ?? $product->warranty->title_en) : ($product->warranty->title_en ?? $product->warranty->title_ar)
+                    'title' => $language === 'ar' ? ($product->warranty->title_ar ?? $product->warranty->title_en ?? null) : ($product->warranty->title_en ?? $product->warranty->title_ar ?? null)
                 ] : null,
                 'country' => $product->country ? [
                     'id' => $product->country->id,
-                    'title' => $language === 'ar' ? ($product->country->title_ar ?? $product->country->title_en) : ($product->country->title_en ?? $product->country->title_ar)
+                    'title' => $language === 'ar' ? ($product->country->title_ar ?? $product->country->title_en ?? null) : ($product->country->title_en ?? $product->country->title_ar ?? null)
                 ] : null,
                 'delivery_time' => $product->deliveryTime ? [
                     'id' => $product->deliveryTime->id,
-                    'title' => $language === 'ar' ? ($product->deliveryTime->title_ar ?? $product->deliveryTime->title_en) : ($product->deliveryTime->title_en ?? $product->deliveryTime->title_ar)
+                    'title' => $language === 'ar' ? ($product->deliveryTime->title_ar ?? $product->deliveryTime->title_en ?? null) : ($product->deliveryTime->title_en ?? $product->deliveryTime->title_ar ?? null)
                 ] : null,
                 'return_time' => $product->returnTime ? [
                     'id' => $product->returnTime->id,
-                    'title' => $language === 'ar' ? ($product->returnTime->title_ar ?? $product->returnTime->title_en) : ($product->returnTime->title_en ?? $product->returnTime->title_ar)
+                    'title' => $language === 'ar' ? ($product->returnTime->title_ar ?? $product->returnTime->title_en ?? null) : ($product->returnTime->title_en ?? $product->returnTime->title_ar ?? null)
                 ] : null,
                 'specifications' => [
                     'condition' => $product->condition ?? 'new',
