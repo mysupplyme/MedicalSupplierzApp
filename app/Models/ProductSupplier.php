@@ -44,4 +44,19 @@ class ProductSupplier extends Model
     {
         return $this->belongsTo('App\Models\Warranty', 'warranty_id');
     }
+    
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country', 'country_id');
+    }
+    
+    public function deliveryTime()
+    {
+        return $this->belongsTo('App\Models\DeliveryTime', 'delivery_time_id');
+    }
+    
+    public function returnTime()
+    {
+        return $this->belongsTo('App\Models\ReturnTime', 'return_time_id');
+    }
 }
