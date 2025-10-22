@@ -389,8 +389,7 @@ class WhatsAppController extends Controller
                 'action' => [
                     'buttons' => [
                         ['type' => 'reply', 'reply' => ['id' => 'CME_SUBSCRIBE', 'title' => 'Subscribe Now']],
-                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find by Specialty']],
-                        ['type' => 'reply', 'reply' => ['id' => 'CME_MONTH', 'title' => 'This Month']]
+                        ['type' => 'reply', 'reply' => ['id' => 'CME_BY_SPEC', 'title' => 'Find by Specialty']]
                     ]
                 ]
             ]
