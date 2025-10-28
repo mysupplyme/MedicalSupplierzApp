@@ -95,6 +95,16 @@ class AuthController extends Controller
             'reg_number' => null
         ]);
 
+        // Send welcome email
+        try {
+            Mail::send('emails.welcome', ['client' => $client], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Welcome to Medical Supplierz - Account Created Successfully');
+            });
+        } catch (\Exception $e) {
+            \Log::error('Welcome email failed: ' . $e->getMessage());
+        }
+
         // Add country details to response for debugging
         $response = $client->toArray();
         $response['country_id'] = $request->country_id; // Country ID from request
