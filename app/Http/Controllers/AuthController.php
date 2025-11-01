@@ -108,12 +108,6 @@ class AuthController extends Controller
         $client->save();
         
         try {
-            \Log::info('Sending activation email', [
-                'email' => $client->email,
-                'activation_code' => $client->email_activation_code,
-                'template' => 'emails.activation'
-            ]);
-            
             Mail::send('emails.activation', [
                 'client' => $client,
                 'activation_code' => $client->email_activation_code
@@ -121,8 +115,6 @@ class AuthController extends Controller
                 $message->to($client->email)
                         ->subject('Activate Your Medical Supplierz Account');
             });
-            
-            \Log::info('Activation email sent successfully');
         } catch (\Exception $e) {
             \Log::error('Activation email failed: ' . $e->getMessage());
         }
@@ -255,6 +247,283 @@ class AuthController extends Controller
             $response['register_number'] = $client->businessInfo->reg_number;
         } else {
             $response['register_number'] = null;
+        }
+        
+        return response()->json([
+            'success' => true,
+            'data' => $response
+        ]);
+    }
+
+    public function updateProfileById(Request $request, $id)
+    {
+        $request->validate([
+            'first_name' => 'nullable|string|min:2|max:50',
+            'last_name' => 'nullable|string|min:2|max:50',
+            'job_title' => 'nullable|string|min:2|max:150',
+            'mobile_number' => 'nullable|string|max:20',
+            'country_code' => 'nullable|exists:countries,id',
+            'workplace' => 'nullable|string|max:255',
+            'specialty_id' => 'nullable|exists:categories,id',
+            'sub_specialty_id' => 'nullable|exists:categories,id',
+            'residency' => 'nullable|exists:countries,id',
+            'nationality' => 'nullable|exists:countries,id',
+            'email' => 'nullable|email|max:255|unique:clients,email,' . $id,
+            'register_number' => 'nullable|string|max:100',
+            'company_name_en' => 'nullable|string|max:255',
+            'company_name_ar' => 'nullable|string|max:255',
+            'profile_percentage' => 'nullable|integer|min:0|max:100',
+            'currency_id' => 'nullable|exists:currencies,id',
+            'language' => 'nullable|string|in:en,ar'
+        ]);
+        
+        $client = Client::findOrFail($id);
+
+        // Update client data (excluding register_number as it goes to business_info)
+        $updateData = array_filter($request->only([
+            'first_name', 'last_name', 'job_title', 'mobile_number', 'workplace',
+            'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
+            'company_name_en', 'company_name_ar', 'profile_percentage'
+        ]));
+        
+        // Handle phone number with country code
+        if ($request->has('mobile_number') && $request->has('country_code')) {
+            $country = Country::find($request->country_code);
+            if ($country) {
+                $updateData['mobile_number'] = $country->phone_prefix . ltrim($request->mobile_number, '+');
+            }
+        }
+        
+        try {
+            $client->update($updateData);
+            
+            // Update client business info (register_number)
+            if ($request->has('register_number')) {
+                $businessInfo = ClientBusinessInfo::where('client_id', $client->id)->first();
+                if ($businessInfo) {
+                    $businessInfo->update(['reg_number' => $request->register_number]);
+                } else {
+                    ClientBusinessInfo::create([
+                        'client_id' => $client->id,
+                        'uuid' => $client->uuid,
+                        'business_type' => 'subscription',
+                        'reg_number' => $request->register_number
+                    ]);
+                }
+            }
+            
+            // Update client settings (country, currency, language)
+            if ($request->hasAny(['country_code', 'currency_id', 'language'])) {
+                $client->clientSetting()->updateOrCreate(
+                    ['client_id' => $client->id],
+                    array_filter([
+                        'country_id' => $request->country_code,
+                        'currency_id' => $request->currency_id,
+                        'lang' => $request->language ?? 'en'
+                    ])
+                );
+            }
+            
+            $client->refresh();
+            $client->load('countryCode', 'clientSetting', 'businessInfo');
+            
+            // Format response similar to newapi
+            $response = $client->toArray();
+            $clientSetting = $client->clientSetting;
+            $businessInfo = $client->businessInfo;
+            
+            if ($clientSetting) {
+                $response['country_id'] = $clientSetting->country_id;
+                $response['currency_id'] = $clientSetting->currency_id;
+                $response['language'] = $clientSetting->lang ?? 'en';
+            }
+            
+            if ($businessInfo) {
+                $response['register_number'] = $businessInfo->reg_number;
+            }
+            
+            return response()->json([
+                'code' => 200,
+                'message' => 'Profile updated successfully',
+                'data' => $response
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Failed to update profile',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:6',
+        ]);
+
+        $client = $request->get('auth_user');
+
+        if (!Hash::check($request->current_password, $client->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect'
+            ], 400);
+        }
+
+        $client->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password changed successfully'
+        ]);
+    }
+    
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        // Debug: Check if client exists with email
+        $client = Client::where('email', $request->email)->first();
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email not found'
+            ], 400);
+        }
+
+        // Debug: Check token and expiry separately
+        if ($client->reset_token !== $request->token) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid reset token'
+            ], 400);
+        }
+
+        if (!$client->reset_expired_at || $client->reset_expired_at <= now()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Reset token has expired'
+            ], 400);
+        }
+
+        $client->update([
+            'password' => Hash::make($request->password),
+            'reset_token' => null,
+            'reset_expired_at' => null
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password reset successfully. You can now login with your new password.'
+        ]);
+    }
+
+    public function activateAccount(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'activation_code' => 'required|string|size:6'
+        ]);
+
+        $client = Client::where('email', $request->email)
+                       ->where('email_activation_code', $request->activation_code)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid activation code or email'
+            ], 400);
+        }
+
+        if ($client->isEmailVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account is already activated'
+            ], 400);
+        }
+
+        $client->markEmailAsVerified();
+
+        // Send welcome email after activation
+        try {
+            Mail::send('emails.welcome', ['client' => $client], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Welcome to Medical Supplierz - Account Activated');
+            });
+        } catch (\Exception $e) {
+            \Log::error('Welcome email failed: ' . $e->getMessage());
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Account activated successfully! You can now login.',
+            'data' => [
+                'email_verified' => true,
+                'verified_at' => $client->email_verified_at
+            ]
+        ]);
+    }
+
+    public function resendActivation(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $client = Client::where('email', $request->email)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email not found'
+            ], 404);
+        }
+
+        if ($client->isEmailVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account is already activated'
+            ], 400);
+        }
+
+        // Generate new activation code
+        $client->email_activation_code = random_int(100000, 999999);
+        $client->save();
+
+        try {
+            Mail::send('emails.activation', [
+                'client' => $client,
+                'activation_code' => $client->email_activation_code
+            ], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Activate Your Medical Supplierz Account');
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Activation code sent to your email'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Resend activation email failed: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send activation email'
+            ], 500);
+        }
+    }number'] = null;
         }
         
         return response()->json([
