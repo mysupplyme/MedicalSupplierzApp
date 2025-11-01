@@ -74,6 +74,40 @@ POST /reset-password
 }
 ```
 
+### Activate Account
+```http
+POST /activate-account
+```
+**Body:**
+```json
+{
+  "email": "doctor@example.com",
+  "activation_code": "123456"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Account activated successfully! You can now login.",
+  "data": {
+    "email_verified": true,
+    "verified_at": "2025-01-15T10:30:00.000000Z"
+  }
+}
+```
+
+### Resend Activation Code
+```http
+POST /resend-activation
+```
+**Body:**
+```json
+{
+  "email": "doctor@example.com"
+}
+```
+
 ## 👤 Profile Management
 
 ### Get Profile

@@ -57,6 +57,8 @@ Route::prefix('lists')->group(function () {
 // Authentication routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/activate-account', [AuthController::class, 'activateAccount']);
+Route::post('/resend-activation', [AuthController::class, 'resendActivation']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 

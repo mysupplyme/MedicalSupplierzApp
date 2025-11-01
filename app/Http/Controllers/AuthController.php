@@ -34,6 +34,14 @@ class AuthController extends Controller
             return $this->error('Invalid credentials', 401);
         }
 
+        if (!$client->isEmailVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please activate your account first. Check your email for activation code.',
+                'requires_activation' => true
+            ], 403);
+        }
+
         return $this->success([
             'user' => $client,
             'token' => 'simple-token-' . $client->id
@@ -95,14 +103,28 @@ class AuthController extends Controller
             'reg_number' => null
         ]);
 
-        // Send welcome email
+        // Generate activation code and send activation email
+        $client->email_activation_code = random_int(100000, 999999);
+        $client->save();
+        
         try {
-            Mail::send('emails.welcome', ['client' => $client], function ($message) use ($client) {
+            \Log::info('Sending activation email', [
+                'email' => $client->email,
+                'activation_code' => $client->email_activation_code,
+                'template' => 'emails.activation'
+            ]);
+            
+            Mail::send('emails.activation', [
+                'client' => $client,
+                'activation_code' => $client->email_activation_code
+            ], function ($message) use ($client) {
                 $message->to($client->email)
-                        ->subject('Welcome to Medical Supplierz - Account Created Successfully');
+                        ->subject('Activate Your Medical Supplierz Account');
             });
+            
+            \Log::info('Activation email sent successfully');
         } catch (\Exception $e) {
-            \Log::error('Welcome email failed: ' . $e->getMessage());
+            \Log::error('Activation email failed: ' . $e->getMessage());
         }
 
         // Add country details to response for debugging
@@ -411,5 +433,103 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Password reset successfully. You can now login with your new password.'
         ]);
+    }
+
+    public function activateAccount(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'activation_code' => 'required|string|size:6'
+        ]);
+
+        $client = Client::where('email', $request->email)
+                       ->where('email_activation_code', $request->activation_code)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid activation code or email'
+            ], 400);
+        }
+
+        if ($client->isEmailVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account is already activated'
+            ], 400);
+        }
+
+        $client->markEmailAsVerified();
+
+        // Send welcome email after activation
+        try {
+            Mail::send('emails.welcome', ['client' => $client], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Welcome to Medical Supplierz - Account Activated');
+            });
+        } catch (\Exception $e) {
+            \Log::error('Welcome email failed: ' . $e->getMessage());
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Account activated successfully! You can now login.',
+            'data' => [
+                'email_verified' => true,
+                'verified_at' => $client->email_verified_at
+            ]
+        ]);
+    }
+
+    public function resendActivation(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $client = Client::where('email', $request->email)
+                       ->where('type', 'buyer')
+                       ->first();
+
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email not found'
+            ], 404);
+        }
+
+        if ($client->isEmailVerified()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account is already activated'
+            ], 400);
+        }
+
+        // Generate new activation code
+        $client->email_activation_code = random_int(100000, 999999);
+        $client->save();
+
+        try {
+            Mail::send('emails.activation', [
+                'client' => $client,
+                'activation_code' => $client->email_activation_code
+            ], function ($message) use ($client) {
+                $message->to($client->email)
+                        ->subject('Activate Your Medical Supplierz Account');
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Activation code sent to your email'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Resend activation email failed: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send activation email'
+            ], 500);
+        }
     }
 }
