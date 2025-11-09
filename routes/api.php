@@ -113,6 +113,17 @@ Route::prefix('admin')->group(function () {
     Route::delete('/packages/{id}', [SubscriptionPackageController::class, 'destroy']);
 });
 
+// Test routes (no auth required for testing)
+Route::prefix('test')->group(function () {
+    Route::post('/create-user', [\App\Http\Controllers\Api\TestController::class, 'createTestUser']);
+    Route::post('/create-plans', [\App\Http\Controllers\Api\TestController::class, 'createTestPlans']);
+    Route::post('/simulate-apple-webhook', [\App\Http\Controllers\Api\TestController::class, 'simulateAppleWebhook']);
+    Route::post('/generate-jwt', [\App\Http\Controllers\Api\TestController::class, 'generateTestJWT']);
+    Route::post('/generate-receipt', [\App\Http\Controllers\Api\TestController::class, 'generateTestReceipt']);
+    Route::post('/reset-data', [\App\Http\Controllers\Api\TestController::class, 'resetTestData']);
+    Route::get('/status', [\App\Http\Controllers\Api\TestController::class, 'getTestStatus']);
+});
+
 // Protected routes
 Route::middleware(['simple.auth'])->group(function () {
     // User management
@@ -131,10 +142,11 @@ Route::middleware(['simple.auth'])->group(function () {
     
     // Subscriptions
     Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+    Route::post('/validate-ios-purchase', [SubscriptionController::class, 'validateIOSPurchase']);
     
     // In-App Purchases
     Route::get('/subscription-plans', [InAppPurchaseController::class, 'getPlans']);
-    Route::post('/verify-ios-purchase', [InAppPurchaseController::class, 'verifyIosPurchase']);
+    Route::post('/verify-ios-purchase', [SubscriptionController::class, 'validateIOSPurchase']);
     Route::post('/verify-android-purchase', [InAppPurchaseController::class, 'verifyAndroidPurchase']);
     Route::get('/my-subscriptions', [InAppPurchaseController::class, 'getMySubscriptions']);
     Route::get('/subscription-status', [InAppPurchaseController::class, 'checkSubscriptionStatus']);
