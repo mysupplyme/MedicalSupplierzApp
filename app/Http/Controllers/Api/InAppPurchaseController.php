@@ -112,23 +112,36 @@ class InAppPurchaseController extends Controller
         // Verify purchase with Google Play (simplified)
         $isValid = $this->verifyGooglePlayPurchase($request->purchase_token);
         
-        if (!$isValid) {
+        if (!$isValid && !$testMode) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid purchase token'
             ], 400);
         }
 
+        // Verify purchase with Google Play
+        $verificationResult = $this->verifyGooglePlayPurchase($request->purchase_token, $subscription->android_plan_id);
+        
+        if ($verificationResult['status'] !== 'success') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Purchase verification failed: ' . ($verificationResult['message'] ?? 'Unknown error')
+            ], 400);
+        }
+        
         // Create subscription record
         $clientSubscription = ClientSubscription::create([
             'client_id' => $client->id,
             'subscription_id' => $subscription->id,
             'status' => 'active',
+            'payment_status' => 'paid',
             'start_at' => now()->toDateString(),
             'end_at' => $subscription->type === 'year' ? now()->addYears($subscription->period)->toDateString() : now()->addMonths($subscription->period)->toDateString(),
             'platform' => 'android',
-            'transaction_id' => $request->order_id,
-            'receipt' => $request->purchase_token
+            'transaction_id' => $verificationResult['transaction_id'] ?? $request->order_id,
+            'receipt' => $request->purchase_token,
+            'product_id' => $subscription->android_plan_id,
+            'response' => json_encode($verificationResult)
         ]);
 
         return response()->json([
@@ -338,37 +351,38 @@ class InAppPurchaseController extends Controller
         return null;
     }
 
-    // Google Play purchase verification
+    // Google Play purchase verification (similar to newapi)
     private function verifyGooglePlayPurchase($purchaseToken, $productId = null)
     {
-        $packageName = env('GOOGLE_PLAY_PACKAGE_NAME'); // Add to .env
-        $serviceAccountKey = env('GOOGLE_SERVICE_ACCOUNT_KEY'); // JSON key file path
-        
-        // Get access token
-        $accessToken = $this->getGoogleAccessToken($serviceAccountKey);
-        
-        $url = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/{$packageName}/purchases/subscriptions/{$productId}/tokens/{$purchaseToken}";
-        
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $accessToken,
-            'Content-Type: application/json'
-        ]);
-        
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        
-        return $httpCode === 200;
-    }
-    
-    private function getGoogleAccessToken($serviceAccountKey)
-    {
-        // Implement JWT token generation for Google Service Account
-        // This is simplified - use Google Client Library in production
-        return 'mock_access_token';
+        try {
+            $client = new \Google\Client();
+            $client->setAuthConfig(env('GOOGLE_SERVICE_ACCOUNT_KEY')); // Path to service account JSON
+            $client->addScope(\Google\Service\AndroidPublisher::ANDROIDPUBLISHER);
+            
+            $androidPublisher = new \Google\Service\AndroidPublisher($client);
+            
+            $purchase = $androidPublisher->purchases_subscriptions->get(
+                env('GOOGLE_PLAY_PACKAGE_NAME'), // Package name from .env
+                $productId ?? 'premium_subscription', // Product ID
+                $purchaseToken
+            );
+            
+            // Check if payment state is valid (1 = purchased)
+            if ($purchase->getPaymentState() === 1) {
+                return [
+                    'status' => 'success',
+                    'transaction_id' => $purchase->getOrderId(),
+                    'expiry_date' => date('Y-m-d H:i:s', $purchase->getExpiryTimeMillis() / 1000),
+                    'payment_state' => $purchase->getPaymentState()
+                ];
+            }
+            
+            return ['status' => 'error', 'message' => 'Invalid payment state'];
+            
+        } catch (\Exception $e) {
+            \Log::error('Google Play verification failed', ['error' => $e->getMessage()]);
+            return ['status' => 'error', 'message' => $e->getMessage()];
+        }
     }
 }
 
