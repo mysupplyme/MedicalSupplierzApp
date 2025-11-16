@@ -35,6 +35,18 @@ Route::post('/admin/logout', function () {
     return redirect('/admin/login');
 })->name('admin.logout');
 
+Route::get('/admin/doctors-management', function () {
+    return view('admin.doctors-management');
+})->name('admin.doctors.management');
+
+Route::get('/admin/subscriptions-management', function () {
+    return view('admin.subscriptions-management');
+})->name('admin.subscriptions.management');
+
+Route::get('/admin/subscription-packages', function () {
+    return view('admin.subscription-packages');
+})->name('admin.packages.management');
+
 // Test IAP page
 Route::get('/test-iap', function () {
     return view('test-iap');
