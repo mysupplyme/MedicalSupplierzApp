@@ -31,12 +31,9 @@ class AdminAuthController extends Controller
             ], 401);
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'user' => $user,
-                'token' => 'admin-token-' . $user->id
-            ]
-        ]);
+        // Store user in session for web login
+        session(['admin_user' => $user]);
+        
+        return redirect()->route('admin.dashboard')->with('success', 'Login successful');
     }
 }

@@ -25,6 +25,12 @@ Route::get('/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
 
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+
+Route::post('/admin/logout', function () {
+    return redirect('/admin/login');
+})->name('admin.logout');
+
 // Test IAP page
 Route::get('/test-iap', function () {
     return view('test-iap');
