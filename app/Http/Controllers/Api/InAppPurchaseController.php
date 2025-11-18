@@ -8,6 +8,13 @@ use App\Models\ClientSubscription;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+// Helper function for Apple JWT
+if (!function_exists('base64url_encode')) {
+    function base64url_encode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+}
+
 class InAppPurchaseController extends Controller
 {
     // Get available subscription plans
@@ -100,33 +107,52 @@ class InAppPurchaseController extends Controller
     // Verify and activate Android purchase
     public function verifyAndroidPurchase(Request $request)
     {
-        $request->validate([
-            'subscription_id' => 'required|exists:bussiness_subscriptions,id',
-            'purchase_token' => 'required|string',
-            'order_id' => 'required|string'
-        ]);
+        try {
+            $request->validate([
+                'subscription_id' => 'required|exists:bussiness_subscriptions,id',
+                'purchase_token' => 'required|string',
+                'order_id' => 'required|string'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Android Purchase Validation Error', $e->errors());
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 400);
+        }
 
         $client = $request->get('auth_user');
         $subscription = BusinessSubscription::find($request->subscription_id);
 
-        // Verify purchase with Google Play (simplified)
-        $isValid = $this->verifyGooglePlayPurchase($request->purchase_token);
+        // Skip Google Play verification in test mode
+        $testMode = $request->header('x-test-mode') === 'true';
         
-        if (!$isValid && !$testMode) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid purchase token'
-            ], 400);
-        }
-
-        // Verify purchase with Google Play
-        $verificationResult = $this->verifyGooglePlayPurchase($request->purchase_token, $subscription->android_plan_id);
+        // Debug logging
+        \Log::info('Android Purchase Debug', [
+            'test_mode' => $testMode,
+            'order_id' => $request->order_id,
+            'product_id' => $subscription->android_plan_id,
+            'headers' => $request->headers->all()
+        ]);
         
-        if ($verificationResult['status'] !== 'success') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Purchase verification failed: ' . ($verificationResult['message'] ?? 'Unknown error')
-            ], 400);
+        if ($testMode) {
+            $verificationResult = [
+                'status' => 'success',
+                'transaction_id' => $request->order_id,
+                'payment_state' => 1,
+                'test_mode' => true
+            ];
+        } else {
+            // Verify purchase with Google Play
+            $verificationResult = $this->verifyGooglePlayPurchase($request->purchase_token, $subscription->android_plan_id);
+            
+            if ($verificationResult['status'] !== 'success') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Purchase verification failed: ' . ($verificationResult['message'] ?? 'Unknown error')
+                ], 400);
+            }
         }
         
         // Create subscription record
@@ -351,37 +377,93 @@ class InAppPurchaseController extends Controller
         return null;
     }
 
-    // Google Play purchase verification (similar to newapi)
-    private function verifyGooglePlayPurchase($purchaseToken, $productId = null)
+    // Google Play purchase verification
+    private function verifyGooglePlayPurchase($purchaseToken, $productId)
     {
         try {
+            // Check if Google service account key exists
+            $serviceAccountPath = env('GOOGLE_SERVICE_ACCOUNT_KEY');
+            if (!file_exists($serviceAccountPath)) {
+                \Log::error('Google service account key not found', ['path' => $serviceAccountPath]);
+                return ['status' => 'error', 'message' => 'Service account key not found'];
+            }
+
             $client = new \Google\Client();
-            $client->setAuthConfig(env('GOOGLE_SERVICE_ACCOUNT_KEY')); // Path to service account JSON
+            $client->setAuthConfig($serviceAccountPath);
             $client->addScope(\Google\Service\AndroidPublisher::ANDROIDPUBLISHER);
             
             $androidPublisher = new \Google\Service\AndroidPublisher($client);
+            $packageName = env('GOOGLE_PLAY_PACKAGE_NAME');
             
-            $purchase = $androidPublisher->purchases_subscriptions->get(
-                env('GOOGLE_PLAY_PACKAGE_NAME'), // Package name from .env
-                $productId ?? 'premium_subscription', // Product ID
-                $purchaseToken
-            );
-            
-            // Check if payment state is valid (1 = purchased)
-            if ($purchase->getPaymentState() === 1) {
-                return [
-                    'status' => 'success',
-                    'transaction_id' => $purchase->getOrderId(),
-                    'expiry_date' => date('Y-m-d H:i:s', $purchase->getExpiryTimeMillis() / 1000),
-                    'payment_state' => $purchase->getPaymentState()
-                ];
+            // Try subscription verification first
+            try {
+                $purchase = $androidPublisher->purchases_subscriptions->get(
+                    $packageName,
+                    $productId,
+                    $purchaseToken
+                );
+                
+                // Check payment state: 0=pending, 1=purchased, 2=free_trial, 3=pending_deferred
+                $paymentState = $purchase->getPaymentState();
+                if (in_array($paymentState, [1, 2])) { // purchased or free trial
+                    return [
+                        'status' => 'success',
+                        'transaction_id' => $purchase->getOrderId(),
+                        'expiry_date' => $purchase->getExpiryTimeMillis() ? date('Y-m-d H:i:s', $purchase->getExpiryTimeMillis() / 1000) : null,
+                        'payment_state' => $paymentState,
+                        'auto_renewing' => $purchase->getAutoRenewing(),
+                        'type' => 'subscription'
+                    ];
+                }
+                
+                return ['status' => 'error', 'message' => 'Invalid subscription payment state: ' . $paymentState];
+                
+            } catch (\Google\Service\Exception $e) {
+                // If subscription fails, try one-time product
+                if ($e->getCode() === 404) {
+                    try {
+                        $purchase = $androidPublisher->purchases_products->get(
+                            $packageName,
+                            $productId,
+                            $purchaseToken
+                        );
+                        
+                        // Check purchase state: 0=purchased, 1=canceled
+                        if ($purchase->getPurchaseState() === 0) {
+                            return [
+                                'status' => 'success',
+                                'transaction_id' => $purchase->getOrderId(),
+                                'purchase_time' => date('Y-m-d H:i:s', $purchase->getPurchaseTimeMillis() / 1000),
+                                'purchase_state' => $purchase->getPurchaseState(),
+                                'type' => 'product'
+                            ];
+                        }
+                        
+                        return ['status' => 'error', 'message' => 'Product purchase canceled or invalid'];
+                        
+                    } catch (\Google\Service\Exception $productException) {
+                        \Log::error('Google Play product verification failed', [
+                            'error' => $productException->getMessage(),
+                            'code' => $productException->getCode()
+                        ]);
+                        return ['status' => 'error', 'message' => 'Purchase not found: ' . $productException->getMessage()];
+                    }
+                } else {
+                    throw $e; // Re-throw if not a 404
+                }
             }
             
-            return ['status' => 'error', 'message' => 'Invalid payment state'];
+        } catch (\Google\Service\Exception $e) {
+            \Log::error('Google Play API error', [
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'errors' => $e->getErrors()
+            ]);
+            return ['status' => 'error', 'message' => 'Google Play API error: ' . $e->getMessage()];
             
         } catch (\Exception $e) {
             \Log::error('Google Play verification failed', ['error' => $e->getMessage()]);
-            return ['status' => 'error', 'message' => $e->getMessage()];
+            return ['status' => 'error', 'message' => 'Verification failed: ' . $e->getMessage()];
         }
     }
 }
