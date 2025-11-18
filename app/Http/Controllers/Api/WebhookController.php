@@ -130,6 +130,16 @@ class WebhookController extends Controller
         }
     }
     
+    private function handleGoogleInitialPurchase($notification)
+    {
+        $purchaseToken = $notification['purchaseToken'] ?? '';
+        
+        $subscription = ClientSubscription::where('receipt', $purchaseToken)->first();
+        if ($subscription) {
+            $subscription->update(['status' => 'active']);
+        }
+    }
+    
     private function verifyAppleWebhookV2(Request $request)
     {
         $certUrl = $request->header('x-apple-cert-url');
