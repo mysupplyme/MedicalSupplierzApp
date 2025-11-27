@@ -415,4 +415,101 @@ class AuthController extends Controller
             'message' => 'Password changed successfully'
         ]);
     }
+
+    public function updateProfileById(Request $request, $id)
+    {
+        $request->validate([
+            'first_name' => 'nullable|string|min:2|max:50',
+            'last_name' => 'nullable|string|min:2|max:50',
+            'job_title' => 'nullable|string|min:2|max:150',
+            'mobile_number' => 'nullable|string|max:20',
+            'country_code' => 'nullable|exists:countries,id',
+            'workplace' => 'nullable|string|max:255',
+            'specialty_id' => 'nullable|exists:categories,id',
+            'sub_specialty_id' => 'nullable|exists:categories,id',
+            'residency' => 'nullable|exists:countries,id',
+            'nationality' => 'nullable|exists:countries,id',
+            'email' => 'nullable|email|max:255|unique:clients,email,' . $id,
+            'register_number' => 'nullable|string|max:100',
+            'company_name_en' => 'nullable|string|max:255',
+            'company_name_ar' => 'nullable|string|max:255',
+            'profile_percentage' => 'nullable|integer|min:0|max:100',
+            'currency_id' => 'nullable|exists:currencies,id',
+            'language' => 'nullable|string|in:en,ar'
+        ]);
+        
+        $client = Client::findOrFail($id);
+
+        $updateData = array_filter($request->only([
+            'first_name', 'last_name', 'job_title', 'mobile_number', 'workplace',
+            'specialty_id', 'sub_specialty_id', 'residency', 'nationality', 'email',
+            'company_name_en', 'company_name_ar', 'profile_percentage'
+        ]));
+        
+        if ($request->has('mobile_number') && $request->has('country_code')) {
+            $country = Country::find($request->country_code);
+            if ($country) {
+                $updateData['mobile_number'] = $country->phone_prefix . ltrim($request->mobile_number, '+');
+            }
+        }
+        
+        try {
+            $client->update($updateData);
+            
+            if ($request->has('register_number')) {
+                $businessInfo = ClientBusinessInfo::where('client_id', $client->id)->first();
+                if ($businessInfo) {
+                    $businessInfo->update(['reg_number' => $request->register_number]);
+                } else {
+                    ClientBusinessInfo::create([
+                        'client_id' => $client->id,
+                        'uuid' => $client->uuid,
+                        'business_type' => 'subscription',
+                        'reg_number' => $request->register_number
+                    ]);
+                }
+            }
+            
+            if ($request->hasAny(['country_code', 'currency_id', 'language'])) {
+                $client->clientSetting()->updateOrCreate(
+                    ['client_id' => $client->id],
+                    array_filter([
+                        'country_id' => $request->country_code,
+                        'currency_id' => $request->currency_id,
+                        'lang' => $request->language ?? 'en'
+                    ])
+                );
+            }
+            
+            $client->refresh();
+            $client->load('clientSetting', 'businessInfo');
+            
+            $response = $client->toArray();
+            $clientSetting = $client->clientSetting;
+            $businessInfo = $client->businessInfo;
+            
+            if ($clientSetting) {
+                $response['country_id'] = $clientSetting->country_id;
+                $response['currency_id'] = $clientSetting->currency_id;
+                $response['language'] = $clientSetting->lang ?? 'en';
+            }
+            
+            if ($businessInfo) {
+                $response['register_number'] = $businessInfo->reg_number;
+            }
+            
+            return response()->json([
+                'code' => 200,
+                'message' => 'Profile updated successfully',
+                'data' => $response
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Failed to update profile',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

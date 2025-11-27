@@ -247,6 +247,11 @@ class ProductController extends Controller
                     'delivery_time_id' => $item->delivery_time_id,
                     'alert_quantity' => $item->alert_quantity
                 ],
+                'conference_register_link' => $item->product->conference_register_link,
+                'conference_speakers_trainers' => $item->product->conference_speakers_trainers,
+                'conference_datetime' => $item->product->conference_datetime,
+                'conference_duration' => $item->product->conference_duration,
+                'conference_venue' => $item->product->conference_venue,
                 'created_at' => $item->created_at->toISOString(),
                 'updated_at' => $item->updated_at->toISOString()
             ];
@@ -462,6 +467,11 @@ class ProductController extends Controller
                     'delivery_time_id' => $product->delivery_time_id,
                     'alert_quantity' => $product->alert_quantity
                 ],
+                'conference_register_link' => $product->product->conference_register_link,
+                'conference_speakers_trainers' => $product->product->conference_speakers_trainers,
+                'conference_datetime' => $product->product->conference_datetime,
+                'conference_duration' => $product->product->conference_duration,
+                'conference_venue' => $product->product->conference_venue,
                 'created_at' => $product->created_at->toISOString(),
                 'updated_at' => $product->updated_at->toISOString()
             ];

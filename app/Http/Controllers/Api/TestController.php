@@ -270,10 +270,3 @@ class TestController extends Controller
         ]);
     }
 }
-
-// Helper function for base64url encoding (if not already defined)
-if (!function_exists('base64url_encode')) {
-    function base64url_encode($data) {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
-}
