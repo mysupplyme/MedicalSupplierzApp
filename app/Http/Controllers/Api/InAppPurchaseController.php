@@ -410,23 +410,106 @@ class InAppPurchaseController extends Controller
         return null;
     }
 
-    // Google Play purchase verification (simplified for now)
+    // Google Play purchase verification using REST API
     private function verifyGooglePlayPurchase($purchaseToken, $productId)
     {
-        // For now, return success for testing until Google Client library is properly installed
-        \Log::info('Android purchase verification (mock)', [
-            'purchase_token' => substr($purchaseToken, 0, 20) . '...',
-            'product_id' => $productId
+        $packageName = env('GOOGLE_PLAY_PACKAGE_NAME');
+        $serviceAccountPath = env('GOOGLE_SERVICE_ACCOUNT_KEY');
+        
+        if (!file_exists($serviceAccountPath)) {
+            throw new \Exception('Google service account key file not found');
+        }
+        
+        // Get access token
+        $accessToken = $this->getGoogleAccessToken($serviceAccountPath);
+        
+        // Call Google Play API
+        $url = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/{$packageName}/purchases/subscriptions/{$productId}/tokens/{$purchaseToken}";
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json'
         ]);
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($httpCode !== 200) {
+            \Log::error('Google Play API error', ['code' => $httpCode, 'response' => $response]);
+            throw new \Exception('Google Play verification failed: HTTP ' . $httpCode);
+        }
+        
+        $data = json_decode($response, true);
+        
+        if (!$data) {
+            throw new \Exception('Invalid response from Google Play API');
+        }
+        
+        // Check if subscription is valid
+        if ($data['paymentState'] != 1) {
+            throw new \Exception('Subscription payment not confirmed');
+        }
         
         return [
             'status' => 'success',
-            'transaction_id' => 'mock_order_' . time(),
-            'expiry_date' => date('Y-m-d H:i:s', time() + (30 * 24 * 60 * 60)),
-            'payment_state' => 1,
-            'type' => 'subscription',
-            'mock' => true
+            'transaction_id' => $data['orderId'] ?? 'unknown',
+            'expiry_date' => isset($data['expiryTimeMillis']) ? date('Y-m-d H:i:s', $data['expiryTimeMillis'] / 1000) : null,
+            'payment_state' => $data['paymentState'],
+            'auto_renewing' => $data['autoRenewing'] ?? false,
+            'start_time' => isset($data['startTimeMillis']) ? date('Y-m-d H:i:s', $data['startTimeMillis'] / 1000) : null
         ];
+    }
+    
+    private function getGoogleAccessToken($serviceAccountPath)
+    {
+        $serviceAccount = json_decode(file_get_contents($serviceAccountPath), true);
+        
+        $header = [
+            'alg' => 'RS256',
+            'typ' => 'JWT'
+        ];
+        
+        $payload = [
+            'iss' => $serviceAccount['client_email'],
+            'scope' => 'https://www.googleapis.com/auth/androidpublisher',
+            'aud' => 'https://oauth2.googleapis.com/token',
+            'iat' => time(),
+            'exp' => time() + 3600
+        ];
+        
+        $headerEncoded = base64url_encode(json_encode($header));
+        $payloadEncoded = base64url_encode(json_encode($payload));
+        
+        $signature = '';
+        openssl_sign($headerEncoded . '.' . $payloadEncoded, $signature, $serviceAccount['private_key'], OPENSSL_ALGO_SHA256);
+        $signatureEncoded = base64url_encode($signature);
+        
+        $jwt = $headerEncoded . '.' . $payloadEncoded . '.' . $signatureEncoded;
+        
+        // Exchange JWT for access token
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/token');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'assertion' => $jwt
+        ]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        $data = json_decode($response, true);
+        
+        if (!isset($data['access_token'])) {
+            throw new \Exception('Failed to get Google access token');
+        }
+        
+        return $data['access_token'];
     }
 }
 
