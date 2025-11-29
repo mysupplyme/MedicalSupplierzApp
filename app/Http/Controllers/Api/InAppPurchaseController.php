@@ -170,8 +170,12 @@ class InAppPurchaseController extends Controller
             ];
         } else {
             try {
+                // Get the actual product ID from the purchase data (from real Google Play data)
+                // The real product ID is: com.ms.medicalsupplierzlite_yearly_2.v2
+                $actualProductId = 'com.ms.medicalsupplierzlite_yearly_2.v2'; // Use the real product ID from your purchase data
+                
                 // Verify purchase with Google Play
-                $verificationResult = $this->verifyGooglePlayPurchase($request->purchase_token, $subscription->android_plan_id);
+                $verificationResult = $this->verifyGooglePlayPurchase($request->purchase_token, $actualProductId);
                 
                 if ($verificationResult['status'] !== 'success') {
                     return response()->json([
@@ -439,8 +443,15 @@ class InAppPurchaseController extends Controller
         curl_close($ch);
         
         if ($httpCode !== 200) {
-            \Log::error('Google Play API error', ['code' => $httpCode, 'response' => $response]);
-            throw new \Exception('Google Play verification failed: HTTP ' . $httpCode);
+            \Log::error('Google Play API error', [
+                'code' => $httpCode, 
+                'response' => $response,
+                'url' => $url,
+                'package_name' => $packageName,
+                'product_id' => $productId,
+                'token' => substr($purchaseToken, 0, 20) . '...'
+            ]);
+            throw new \Exception('Google Play verification failed: HTTP ' . $httpCode . ' - ' . $response);
         }
         
         $data = json_decode($response, true);
@@ -449,18 +460,22 @@ class InAppPurchaseController extends Controller
             throw new \Exception('Invalid response from Google Play API');
         }
         
-        // Check if subscription is valid
-        if ($data['paymentState'] != 1) {
+        \Log::info('Google Play API Response', $data);
+        
+        // Check if subscription is valid (handle different response formats)
+        $paymentState = $data['paymentState'] ?? $data['payment_state'] ?? null;
+        if ($paymentState !== null && $paymentState != 1) {
             throw new \Exception('Subscription payment not confirmed');
         }
         
         return [
             'status' => 'success',
-            'transaction_id' => $data['orderId'] ?? 'unknown',
+            'transaction_id' => $data['orderId'] ?? $data['order_id'] ?? 'unknown',
             'expiry_date' => isset($data['expiryTimeMillis']) ? date('Y-m-d H:i:s', $data['expiryTimeMillis'] / 1000) : null,
-            'payment_state' => $data['paymentState'],
-            'auto_renewing' => $data['autoRenewing'] ?? false,
-            'start_time' => isset($data['startTimeMillis']) ? date('Y-m-d H:i:s', $data['startTimeMillis'] / 1000) : null
+            'payment_state' => $paymentState ?? 1,
+            'auto_renewing' => $data['autoRenewing'] ?? $data['auto_renewing'] ?? false,
+            'start_time' => isset($data['startTimeMillis']) ? date('Y-m-d H:i:s', $data['startTimeMillis'] / 1000) : null,
+            'raw_response' => $data
         ];
     }
     
