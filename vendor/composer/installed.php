@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2cb828827763ffa32d257fab679ddbf98a2bb4d8',
+        'reference' => 'b573782b607425f1cac7aee81048353cacb51dc4',
         'name' => 'laravel/events-ecommerce-admin',
         'dev' => true,
     ),
@@ -412,7 +412,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2cb828827763ffa32d257fab679ddbf98a2bb4d8',
+            'reference' => 'b573782b607425f1cac7aee81048353cacb51dc4',
             'dev_requirement' => false,
         ),
         'laravel/framework' => array(

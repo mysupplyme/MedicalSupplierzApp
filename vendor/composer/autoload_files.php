@@ -30,6 +30,7 @@ return array(
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
     'e39a8b23c42d4e1452234d762b03835a' => $vendorDir . '/ramsey/uuid/src/functions.php',
     '8825ede83f2f289127722d4e842cf7e8' => $vendorDir . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+    '1f87db08236948d07391152dccb70f04' => $vendorDir . '/google/apiclient-services/autoload.php',
     '265b4faa2b3a9766332744949e83bf97' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/helpers.php',
     'c7a3c339e7e14b60e06a2d7fcce9476b' => $vendorDir . '/laravel/framework/src/Illuminate/Events/functions.php',
     'f57d353b41eb2e234b26064d63d8c5dd' => $vendorDir . '/laravel/framework/src/Illuminate/Filesystem/functions.php',
@@ -37,7 +38,6 @@ return array(
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     '320163ac6b93aebe3dc25b60a0533d56' => $vendorDir . '/spatie/laravel-ignition/src/helpers.php',
     'b6b991a57620e2fb6b2f66f03fe9ddc2' => $vendorDir . '/symfony/string/Resources/functions.php',
-    '1f87db08236948d07391152dccb70f04' => $vendorDir . '/google/apiclient-services/autoload.php',
-    'a1cfe24d14977df6878b9bf804af2d1c' => $vendorDir . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
+    'a1cfe24d14977df6878b9bf804af2d1c' => $vendorDir . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
 );
