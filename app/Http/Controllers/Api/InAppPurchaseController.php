@@ -107,6 +107,11 @@ class InAppPurchaseController extends Controller
     // Verify and activate Android purchase
     public function verifyAndroidPurchase(Request $request)
     {
+        \Log::info('Android Purchase Request', [
+            'headers' => $request->headers->all(),
+            'data' => $request->all()
+        ]);
+        
         try {
             $request->validate([
                 'subscription_id' => 'required|exists:bussiness_subscriptions,id',
