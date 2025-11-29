@@ -124,6 +124,26 @@ class InAppPurchaseController extends Controller
 
         $client = $request->get('auth_user');
         $subscription = BusinessSubscription::find($request->subscription_id);
+        
+        // Check if user already has an active subscription
+        $existingSubscription = ClientSubscription::where('client_id', $client->id)
+            ->where('status', 'active')
+            ->where('end_at', '>', now()->toDateString())
+            ->first();
+            
+        if ($existingSubscription) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User already has an active subscription',
+                'data' => [
+                    'existing_subscription' => [
+                        'id' => $existingSubscription->id,
+                        'expires_at' => $existingSubscription->end_at,
+                        'days_remaining' => now()->diffInDays($existingSubscription->end_at)
+                    ]
+                ]
+            ], 409);
+        }
 
         // Skip Google Play verification in test mode
         $testMode = $request->header('x-test-mode') === 'true';
