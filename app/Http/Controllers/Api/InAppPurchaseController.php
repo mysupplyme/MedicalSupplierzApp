@@ -462,7 +462,17 @@ class InAppPurchaseController extends Controller
         
         \Log::info('Google Play API Response', $data);
         
-        // Check if subscription is valid (handle different response formats)
+        // Check if subscription is cancelled
+        if (isset($data['cancelReason'])) {
+            throw new \Exception('Subscription was cancelled by user');
+        }
+        
+        // Check if subscription is expired
+        if (isset($data['expiryTimeMillis']) && $data['expiryTimeMillis'] < (time() * 1000)) {
+            throw new \Exception('Subscription has expired');
+        }
+        
+        // Check payment state if available
         $paymentState = $data['paymentState'] ?? $data['payment_state'] ?? null;
         if ($paymentState !== null && $paymentState != 1) {
             throw new \Exception('Subscription payment not confirmed');
